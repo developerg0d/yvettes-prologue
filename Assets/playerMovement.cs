@@ -7,11 +7,11 @@ public class playerMovement : MonoBehaviour
     [SerializeField]
     private float horizontalSpeed;
     [SerializeField]
-    private float dashSpeed = 150F;
+    private float dashSpeed = 10;
     private Animator playerAnimator;
 
     [SerializeField]
-    private GameObject playerBottom;
+    private Transform playerSprite;
 
     private bool moving;
 
@@ -76,7 +76,7 @@ public class playerMovement : MonoBehaviour
 
     void updatePlayerDirection(float horizontalMovement)
     {
-        playerBottom.transform.localScale =
-            horizontalMovement >= 0 ? new Vector2(-1, 1) : new Vector2(1, 1);
+        playerSprite.localScale =
+            horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
     }
 }
