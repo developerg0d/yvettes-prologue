@@ -121,13 +121,6 @@ public class PlayerMovement : MonoBehaviour
         playerSprite.localScale =
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
     }
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Ground")
-        {
-            grounded = false;
-        }
-    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -147,9 +140,28 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.collider.tag == "ScalingWall")
+        {
+            Debug.Log("Test");
+            rb.gravityScale = 0.7f;
+            playerAnimator.SetBool("isScalingWall", true);
+        }
+
+        if (col.otherCollider.tag == "Ground")
         {
             grounded = true;
+        }
+    }
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.otherCollider.tag == "Ground")
+        {
+            grounded = false;
+        }
+        if (col.collider.tag == "ScalingWall")
+        {
+            rb.gravityScale = 1.0f;
+            playerAnimator.SetBool("isScalingWall", false);
         }
     }
 }

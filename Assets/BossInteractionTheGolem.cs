@@ -14,9 +14,12 @@ public class BossInteractionTheGolem : MonoBehaviour
     }
     public void golemHandHit()
     {
-        bossStats.currentHp -= 100;
+        bossStats.currentHp -= 50;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
-
-        Debug.Log("ow");
+    }
+    public void golemHeadHit()
+    {
+        bossStats.currentHp -= 200;
+        uxInteraction.updateBossHpBar(bossStats.currentHp);
     }
 }

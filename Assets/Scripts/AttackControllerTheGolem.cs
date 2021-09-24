@@ -31,6 +31,8 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private GameObject player;
 
+    private bool playerRidingHand = false;
+
     public UxInteraction uxInteraction;
 
     void Start()
@@ -39,8 +41,8 @@ public class AttackControllerTheGolem : MonoBehaviour
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-        StartCoroutine("fistSlam");
-        StartCoroutine("followPlayer");
+        //  StartCoroutine("fistSlam");
+        //StartCoroutine("followPlayer");
     }
 
     IEnumerator followPlayer()
