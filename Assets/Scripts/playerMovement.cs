@@ -7,7 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float horizontalSpeed;
     [SerializeField]
-    private float dashSpeed = 10;
+    private float dashSpeed = 50f;
+    [SerializeField]
+    private float jumpPower = 30f;
     private Animator playerAnimator;
 
     [SerializeField]
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool moving;
 
+    private bool grounded;
     private Rigidbody2D rb;
 
     private bool canTurn;
@@ -48,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
             dashPlayer(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            jump();
+        }
+
     }
 
     void FixedUpdate()
@@ -71,6 +79,10 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
     }
 
+    void jump()
+    {
+        rb.AddForce(jumpPower * Vector2.up, ForceMode2D.Impulse);
+    }
 
     void movePlayerHorizontally(float horizontalMovement)
     {
@@ -92,6 +104,21 @@ public class PlayerMovement : MonoBehaviour
 
         playerSprite.localScale =
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
+    }
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            grounded = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            grounded = true;
+        }
     }
 
 }

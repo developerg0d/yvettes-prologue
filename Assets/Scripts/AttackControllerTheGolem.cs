@@ -39,8 +39,8 @@ public class AttackControllerTheGolem : MonoBehaviour
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-        StartCoroutine("fistSlam");
-        StartCoroutine("followPlayer");
+        // StartCoroutine("fistSlam");
+        // StartCoroutine("followPlayer");
     }
 
     IEnumerator followPlayer()
