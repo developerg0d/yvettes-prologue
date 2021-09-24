@@ -865,7 +865,7 @@ GameObject:
   - component: {fileID: 608582759}
   m_Layer: 0
   m_Name: sword
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1715,6 +1715,7 @@ GameObject:
   - component: {fileID: 978148115}
   - component: {fileID: 978148116}
   - component: {fileID: 978148117}
+  - component: {fileID: 978148118}
   m_Layer: 0
   m_Name: rightHand
   m_TagString: Untagged
@@ -1809,6 +1810,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &978148118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978148114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1082388124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,6 +1834,7 @@ GameObject:
   - component: {fileID: 1082388126}
   - component: {fileID: 1082388128}
   - component: {fileID: 1082388127}
+  - component: {fileID: 1082388129}
   m_Layer: 0
   m_Name: leftHand
   m_TagString: Untagged
@@ -1941,6 +1955,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13, y: 0.13}
   m_EdgeRadius: 0
+--- !u!114 &1082388129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082388124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1161261808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,6 +2069,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1390091564}
   - component: {fileID: 1390091565}
+  - component: {fileID: 1390091566}
+  - component: {fileID: 1390091567}
+  - component: {fileID: 1390091568}
   m_Layer: 0
   m_Name: boss
   m_TagString: Untagged
@@ -2084,6 +2113,54 @@ MonoBehaviour:
   slammingForce: 100
   handFollowSpeed: 2
   handRaiseSpeed: 5
+--- !u!114 &1390091566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390091563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a34fcdb13e7369478735db03b8758e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canTakeDamage: 0
+--- !u!50 &1390091567
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390091563}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!114 &1390091568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390091563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a9a2993177754cb35a6f1cd3a3f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHp: 0
+  maxHp: 1000
 --- !u!1 &1447635414
 GameObject:
   m_ObjectHideFlags: 0
