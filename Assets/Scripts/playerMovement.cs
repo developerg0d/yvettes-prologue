@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float horizontalSpeed;
@@ -13,12 +13,20 @@ public class playerMovement : MonoBehaviour
     [SerializeField]
     private Transform playerSprite;
 
+    [SerializeField]
+    private Transform bottomPlayerSprite;
+
+    private PlayerAttackScript playerAttackScript;
+
     private bool moving;
 
     private Rigidbody2D rb;
 
+    private bool canTurn;
+
     void Start()
     {
+        playerAttackScript = GetComponent<PlayerAttackScript>();
         playerAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -76,7 +84,13 @@ public class playerMovement : MonoBehaviour
 
     void updatePlayerDirection(float horizontalMovement)
     {
+        if (playerAttackScript.playerAction)
+        {
+            return;
+        }
+
         playerSprite.localScale =
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
     }
+
 }
