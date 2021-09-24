@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
     void updatePlayerDirection(float horizontalMovement)
     {
-        if (playerAttackScript.playerAction)
+        if (playerAttackScript.playerAction | playerAttackScript.isStabbing | playerAttackScript.isDefending)
         {
             return;
         }

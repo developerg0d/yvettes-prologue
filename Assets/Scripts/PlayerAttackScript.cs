@@ -22,6 +22,22 @@ public class PlayerAttackScript : MonoBehaviour
             playerAction = true;
             isStabbing = true;
             animator.SetBool("swordPulledBack", true);
+            StopCoroutine("playerActionWaitTimer");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            playerAction = true;
+            isDefending = true;
+            animator.SetBool("isDefending", true);
+            StopCoroutine("playerActionWaitTimer");
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            isDefending = false;
+            StartCoroutine("playerActionWaitTimer");
+            animator.SetBool("isDefending", false);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -35,6 +51,10 @@ public class PlayerAttackScript : MonoBehaviour
     IEnumerator playerActionWaitTimer()
     {
         yield return new WaitForSeconds(1f);
+        if (isDefending | isStabbing)
+        {
+            StopCoroutine("playerActionWaitTimer");
+        }
         playerAction = false;
     }
 }
