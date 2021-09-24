@@ -11,6 +11,9 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     [SerializeField]
     private float slammingForce;
+
+    [SerializeField]
+    private float handFollowSpeed;
     [SerializeField]
     private float handRaiseSpeed;
 
@@ -20,33 +23,41 @@ public class AttackControllerTheGolem : MonoBehaviour
     private Vector3 initialHandPosition;
 
     private bool slammingHand;
+
+    private bool canFollow = true;
+
+    private GameObject player;
+
+
+
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
         StartCoroutine("fistSlam");
+        StartCoroutine("followPlayer");
     }
-    void Update()
+
+    IEnumerator followPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        while (enabled)
         {
-            if (slammingHand)
+            if (canFollow)
             {
-                slammingHand = false;
-                StopCoroutine("fistSlam");
+                float step = handFollowSpeed * Time.deltaTime;
+                leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(player.transform.position.x, leftHand.transform.position.y), step);
             }
-            else
-            {
-                slammingHand = true;
-                StartCoroutine("fistSlam");
-            }
+            yield return null;
         }
     }
     IEnumerator fistSlam()
     {
         slamHand();
-        yield return new WaitForSeconds(0f);
+        canFollow = false;
+        yield return new WaitForSeconds(5f);
+        initialHandPosition.x = leftHand.transform.position.x;
         StartCoroutine("raiseHand");
     }
 
@@ -58,7 +69,8 @@ public class AttackControllerTheGolem : MonoBehaviour
             leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, initialHandPosition, step);
             if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
             {
-                yield return new WaitForSeconds(1f);
+                canFollow = true;
+                yield return new WaitForSeconds(2.5f);
                 StartCoroutine("fistSlam");
                 StopCoroutine("raiseHand");
             }

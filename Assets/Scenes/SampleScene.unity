@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 70601906}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2030,6 +2030,7 @@ MonoBehaviour:
   leftHand: {fileID: 1082388124}
   rightHand: {fileID: 978148114}
   slammingForce: 100
+  handFollowSpeed: 2
   handRaiseSpeed: 5
 --- !u!1 &1447635414
 GameObject:
