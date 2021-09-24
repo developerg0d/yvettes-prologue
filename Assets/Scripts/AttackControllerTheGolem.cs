@@ -5,6 +5,9 @@ using UnityEngine;
 public class AttackControllerTheGolem : MonoBehaviour
 {
     [SerializeField]
+    private float indicatorTimeout = 0.5F;
+
+    [SerializeField]
     private GameObject leftHand;
     [SerializeField]
     private GameObject rightHand;
@@ -28,14 +31,16 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private GameObject player;
 
+    public UxInteraction uxInteraction;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-        // StartCoroutine("fistSlam");
-        // StartCoroutine("followPlayer");
+        StartCoroutine("fistSlam");
+        StartCoroutine("followPlayer");
     }
 
     IEnumerator followPlayer()
@@ -77,7 +82,9 @@ public class AttackControllerTheGolem : MonoBehaviour
             if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
             {
                 canFollowPlayer = true;
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitForSeconds(2f);
+                uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position);
+                yield return new WaitForSeconds(indicatorTimeout);
                 StopCoroutine("raiseHand");
                 StartCoroutine("fistSlam");
             }

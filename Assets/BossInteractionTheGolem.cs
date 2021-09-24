@@ -14,7 +14,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     }
     public void golemHandHit()
     {
-        bossStats.currentHp -= 1;
+        bossStats.currentHp -= 100;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
 
         Debug.Log("ow");
