@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float horizontalSpeed;
     [SerializeField]
+    private float climbingSpeed;
+    [SerializeField]
     private float dashSpeed = 50f;
     [SerializeField]
     private float jumpPower = 30f;
@@ -26,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool canTurn;
+
+    [SerializeField] private bool canClimb;
 
     void Start()
     {
@@ -55,12 +59,16 @@ public class PlayerMovement : MonoBehaviour
         {
             jump();
         }
-
     }
 
     void FixedUpdate()
     {
         float horizontalMovement = Input.GetAxis("HorizontalMoving");
+        float verticalMovement = Input.GetAxis("VerticalMoving");
+        if (canClimb && verticalMovement != 0)
+        {
+            climb(verticalMovement);
+        }
         if (horizontalMovement != 0)
         {
             movePlayerHorizontally(horizontalMovement);
@@ -84,6 +92,14 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(jumpPower * Vector2.up, ForceMode2D.Impulse);
     }
 
+
+    void climb(float verticalMovement)
+    {
+        Vector2 verticalDirection =
+            verticalMovement <= 0 ? Vector2.down : Vector2.up;
+        transform
+            .Translate(verticalDirection * Time.deltaTime * climbingSpeed);
+    }
     void movePlayerHorizontally(float horizontalMovement)
     {
         float currentHorizontalSpeed = playerAttackScript.isStabbing == true | playerAttackScript.isDefending == true ? horizontalSpeed / 2 : horizontalSpeed;
@@ -113,12 +129,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Ladder")
+        {
+            rb.gravityScale = 0;
+            canClimb = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Ladder")
+        {
+            rb.gravityScale = 1;
+            canClimb = false;
+        }
+    }
+    void OnCollisionStay2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground")
         {
             grounded = true;
         }
     }
-
 }
