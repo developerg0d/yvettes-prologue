@@ -20,11 +20,13 @@ public class PlayerAttackScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAction = true;
+            isStabbing = true;
             animator.SetBool("swordPulledBack", true);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            isStabbing = false;
             StartCoroutine("playerActionWaitTimer");
             animator.SetBool("swordPulledBack", false);
         }

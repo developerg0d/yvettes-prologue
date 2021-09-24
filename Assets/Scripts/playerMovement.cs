@@ -74,12 +74,13 @@ public class PlayerMovement : MonoBehaviour
 
     void movePlayerHorizontally(float horizontalMovement)
     {
+        float currentHorizontalSpeed = playerAttackScript.isStabbing == true | playerAttackScript.isDefending == true ? horizontalSpeed / 2 : horizontalSpeed;
         updatePlayerDirection(horizontalMovement);
 
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
         transform
-            .Translate(horizontalDirection * Time.deltaTime * horizontalSpeed);
+            .Translate(horizontalDirection * Time.deltaTime * currentHorizontalSpeed);
     }
 
     void updatePlayerDirection(float horizontalMovement)
