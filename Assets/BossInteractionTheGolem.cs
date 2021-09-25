@@ -36,7 +36,6 @@ public class BossInteractionTheGolem : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-
         if (col.gameObject.tag == "Player" && col.otherCollider.tag == "ScalingWall" && !attackControllerTheGolem.returningToOriginalPosition)
         {
             attackControllerTheGolem.startReturning();

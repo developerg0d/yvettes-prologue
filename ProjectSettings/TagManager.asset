@@ -9,6 +9,7 @@ TagManager:
   - Ladder
   - ScalingWall
   - GolemHand
+  - GolemHead
   layers:
   - Default
   - TransparentFX

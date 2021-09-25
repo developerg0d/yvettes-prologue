@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private bool canClimb;
 
+    public AttackControllerTheGolem attackControllerTheGolem;
+
     void Start()
     {
         playerAttackScript = GetComponent<PlayerAttackScript>();
@@ -145,8 +147,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.collider.tag == "ScalingWall")
         {
-            Debug.Log("Test");
-            rb.gravityScale = 0.3f;
+            rb.gravityScale = 0.7f;
             playerAnimator.SetBool("isScalingWall", true);
         }
 
@@ -159,11 +160,15 @@ public class PlayerMovement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
 
+        if (col.gameObject.tag == "Ground" && attackControllerTheGolem.returningToOriginalPosition)
+        {
+            attackControllerTheGolem.returningToOriginalPosition = false;
+            attackControllerTheGolem.startBattle();
+        }
 
         if (col.collider.tag == "GolemHand")
         {
-            col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = true;
-            transform.SetParent(col.gameObject.transform);
+            attackControllerTheGolem.playerRidingHand = true;
         }
     }
 
@@ -172,8 +177,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.collider.tag == "GolemHand")
         {
-            col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = false;
-            transform.SetParent(world.transform);
+            attackControllerTheGolem.playerRidingHand = false;
         }
         if (col.gameObject.layer == 0)
         {

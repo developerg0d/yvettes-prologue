@@ -34,6 +34,12 @@ public class InteractionGolemHead : MonoBehaviour
             golemHeadRecoil(col.gameObject);
             mainInteractionScript.golemHeadHit();
         }
+
+        if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition)
+        {
+            attackControllerTheGolem.startReturning();
+        }
+
     }
 
     void golemHeadRecoil(GameObject colider)
