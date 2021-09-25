@@ -34,6 +34,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool slammingHand;
 
+    private bool hasFallenOver;
     private bool raisingHand;
 
     public bool canFollowPlayer = true;
@@ -64,9 +65,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool shockWaveSpawned;
 
-    // IEnumerator raiseHandCoroutine;
-    // IEnumerator spinHandCoroutine;
-    // IEnumerator returnToOriginalPositionCoroutine;
+
     private Rigidbody2D rb;
 
     void Start()
@@ -103,10 +102,17 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
         startedAttacking = true;
-        StartCoroutine("bouncingAttack");
+        fallingOver();
+        //  StartCoroutine("bouncingAttack");
         // StartCoroutine("startFistSlam");
     }
 
+    void fallingOver()
+    {
+        hasFallenOver = true;
+        enableHandHolds();
+        StartCoroutine("fallover");
+    }
 
     Vector3 getOffsetPlayerPosition()
     {
@@ -254,7 +260,6 @@ public class AttackControllerTheGolem : MonoBehaviour
         {
             jumping = false;
             rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
-            // rb.AddForce(Vector2.left * golemJumpForwardsForce, ForceMode2D.Impulse);
         }
     }
 
@@ -270,7 +275,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned)
+        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned && !hasFallenOver)
         {
             shockWaveSpawned = true;
             spawnShockWaves();
@@ -282,5 +287,26 @@ public class AttackControllerTheGolem : MonoBehaviour
         GameObject shock = Instantiate(shockWave) as GameObject;
         shock.transform.position = shockWaveSpawnLocation.position;
         shock.GetComponent<Rigidbody2D>().AddForce(Vector2.left * shockWaveForce, ForceMode2D.Impulse);
+    }
+
+    public void beenParried()
+    {
+        StopCoroutine("bouncingAttack");
+    }
+
+
+    IEnumerator fallover()
+    {
+        while (enabled)
+        {
+            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
+            Quaternion targetRotation = Quaternion.Euler(direction);
+            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
+            if (transform.rotation.eulerAngles.z == -90)
+            {
+                StopCoroutine("fallover");
+            }
+            yield return null;
+        }
     }
 }
