@@ -51,7 +51,18 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public bool jumping;
 
+    bool startedAttacking;
+
     private float spinTimer = 0f;
+
+    [SerializeField]
+    private float shockWaveForce;
+
+    public Transform shockWaveSpawnLocation;
+
+    public GameObject shockWave;
+
+    private bool shockWaveSpawned;
 
     // IEnumerator raiseHandCoroutine;
     // IEnumerator spinHandCoroutine;
@@ -91,6 +102,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     {
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
+        startedAttacking = true;
         StartCoroutine("bouncingAttack");
         // StartCoroutine("startFistSlam");
     }
@@ -251,7 +263,24 @@ public class AttackControllerTheGolem : MonoBehaviour
         while (enabled)
         {
             jumping = true;
+            shockWaveSpawned = false;
             yield return new WaitForSeconds(7f);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned)
+        {
+            shockWaveSpawned = true;
+            spawnShockWaves();
+        }
+    }
+
+    void spawnShockWaves()
+    {
+        GameObject shock = Instantiate(shockWave) as GameObject;
+        shock.transform.position = shockWaveSpawnLocation.position;
+        shock.GetComponent<Rigidbody2D>().AddForce(Vector2.left * shockWaveForce, ForceMode2D.Impulse);
     }
 }
