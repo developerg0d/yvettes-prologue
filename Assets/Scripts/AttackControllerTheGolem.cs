@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class AttackControllerTheGolem : MonoBehaviour
 {
+
+    [SerializeField]
+    private float golemJumpUpForce;
+    [SerializeField]
+    private float golemJumpForwardsForce;
+
     [SerializeField]
     private float indicatorTimeout = 0.5F;
 
@@ -43,12 +49,14 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public bool useOffset;
 
+    public bool jumping;
+
     private float spinTimer = 0f;
 
     // IEnumerator raiseHandCoroutine;
     // IEnumerator spinHandCoroutine;
     // IEnumerator returnToOriginalPositionCoroutine;
-
+    private Rigidbody2D rb;
 
     void Start()
     {
@@ -59,6 +67,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void AssignVariables()
     {
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
@@ -82,7 +91,8 @@ public class AttackControllerTheGolem : MonoBehaviour
     {
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
-        StartCoroutine("startFistSlam");
+        StartCoroutine("bouncingAttack");
+        // StartCoroutine("startFistSlam");
     }
 
 
@@ -223,6 +233,25 @@ public class AttackControllerTheGolem : MonoBehaviour
         foreach (var ladder in ladders)
         {
             ladder.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (jumping)
+        {
+            jumping = false;
+            rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
+            // rb.AddForce(Vector2.left * golemJumpForwardsForce, ForceMode2D.Impulse);
+        }
+    }
+
+    IEnumerator bouncingAttack()
+    {
+        while (enabled)
+        {
+            jumping = true;
+            yield return new WaitForSeconds(7f);
         }
     }
 }
