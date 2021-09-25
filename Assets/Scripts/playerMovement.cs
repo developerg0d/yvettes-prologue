@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canTurn;
 
+    public GameObject world;
+
     [SerializeField] private bool canClimb;
 
     void Start()
@@ -89,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
     void jump()
     {
+        rb.bodyType = RigidbodyType2D.Dynamic;
         rb.AddForce(jumpPower * Vector2.up, ForceMode2D.Impulse);
     }
 
@@ -143,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         if (col.collider.tag == "ScalingWall")
         {
             Debug.Log("Test");
-            rb.gravityScale = 0.7f;
+            rb.gravityScale = 0.3f;
             playerAnimator.SetBool("isScalingWall", true);
         }
 
@@ -152,8 +155,22 @@ public class PlayerMovement : MonoBehaviour
             grounded = true;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.collider.tag == "GolemHand")
+        {
+            transform.SetParent(col.gameObject.transform);
+        }
+    }
+
     void OnCollisionExit2D(Collision2D col)
     {
+
+        if (col.collider.tag == "GolemHand")
+        {
+            transform.SetParent(world.transform);
+        }
         if (col.otherCollider.tag == "Ground")
         {
             grounded = false;

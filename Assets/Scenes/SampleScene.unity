@@ -171,7 +171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.42, y: 35.34, z: 0}
+  m_LocalPosition: {x: -17.63, y: -3.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47211f3c3e3e33541882284cd0e5ea96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilForce: 55
+  recoilForce: 50
 --- !u!61 &193540031
 BoxCollider2D:
   m_ObjectHideFlags: 0

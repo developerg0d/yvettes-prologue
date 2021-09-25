@@ -27,6 +27,8 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool slammingHand;
 
+    private bool raisingHand;
+
     private bool canFollowPlayer = true;
 
     private GameObject player;
@@ -41,8 +43,8 @@ public class AttackControllerTheGolem : MonoBehaviour
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-        //  StartCoroutine("fistSlam");
-        //StartCoroutine("followPlayer");
+        StartCoroutine("fistSlam");
+        StartCoroutine("followPlayer");
     }
 
     IEnumerator followPlayer()
@@ -64,8 +66,9 @@ public class AttackControllerTheGolem : MonoBehaviour
     }
     IEnumerator fistSlam()
     {
-        slamHand();
+        raisingHand = false;
         canFollowPlayer = false;
+        slamHand();
         yield return new WaitForSeconds(5f);
         initialHandPosition.x = leftHand.transform.position.x;
         StartCoroutine("raiseHand");
@@ -76,17 +79,27 @@ public class AttackControllerTheGolem : MonoBehaviour
         leftHandRb.AddForce(Vector2.down * slammingForce, ForceMode2D.Impulse);
     }
 
+    void Update()
+    {
+        if (raisingHand)
+        {
+            moveHandToInitialSlamPosition();
+        }
+    }
+
     IEnumerator raiseHand()
     {
         while (enabled)
         {
-            moveHandToInitialSlamPosition();
+            raisingHand = true;
+            // moveHandToInitialSlamPosition();
             if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
             {
                 canFollowPlayer = true;
                 yield return new WaitForSeconds(2f);
                 uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position);
                 yield return new WaitForSeconds(indicatorTimeout);
+
                 StopCoroutine("raiseHand");
                 StartCoroutine("fistSlam");
             }
