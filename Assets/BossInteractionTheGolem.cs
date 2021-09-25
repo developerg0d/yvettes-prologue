@@ -7,9 +7,12 @@ public class BossInteractionTheGolem : MonoBehaviour
     public bool canTakeDamage = true;
     public UxInteraction uxInteraction;
 
+    private AttackControllerTheGolem attackControllerTheGolem;
+
     private BossStats bossStats;
     void Start()
     {
+        attackControllerTheGolem = GetComponent<AttackControllerTheGolem>();
         bossStats = GetComponent<BossStats>();
     }
     public void golemHandHit()
@@ -21,5 +24,23 @@ public class BossInteractionTheGolem : MonoBehaviour
     {
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
+    }
+    void OnCollisionExit2D(Collision2D col)
+    {
+
+        if (col.gameObject.tag == "Player" && col.collider.tag == "ScalingWall")
+        {
+            // attackControllerTheGolem.canFollowPlayer = true;
+        }
+
+    }
+    void OnCollisionEnter2D(Collision2D col)
+    {
+
+        if (col.gameObject.tag == "Player" && col.otherCollider.tag == "ScalingWall" && !attackControllerTheGolem.returningToOriginalPosition)
+        {
+            attackControllerTheGolem.startReturning();
+        }
+
     }
 }

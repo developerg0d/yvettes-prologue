@@ -7,13 +7,28 @@ public class InteractionGolemHead : MonoBehaviour
 
     [SerializeField] int recoilForce = 65;
     private BossInteractionTheGolem mainInteractionScript;
+
+    private AttackControllerTheGolem attackControllerTheGolem;
     void Start()
     {
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
+        attackControllerTheGolem = GetComponentInParent<AttackControllerTheGolem>();
     }
 
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            attackControllerTheGolem.useOffset = false;
+        }
+    }
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.tag == "Player")
+        {
+            attackControllerTheGolem.useOffset = true;
+        }
+
         if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
         {
             golemHeadRecoil(col.gameObject);

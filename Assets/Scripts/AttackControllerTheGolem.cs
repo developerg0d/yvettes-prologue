@@ -29,7 +29,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool raisingHand;
 
-    private bool canFollowPlayer = true;
+    public bool canFollowPlayer = true;
 
     private GameObject player;
 
@@ -38,6 +38,9 @@ public class AttackControllerTheGolem : MonoBehaviour
     public UxInteraction uxInteraction;
 
     public Vector3 offset;
+    public bool returningToOriginalPosition;
+
+    public bool useOffset;
 
     private float spinTimer = 0f;
     void Start()
@@ -60,12 +63,11 @@ public class AttackControllerTheGolem : MonoBehaviour
     {
         float step = handFollowSpeed * Time.deltaTime;
         Vector3 offsetPlayerPosition = getOffsetPlayerPosition();
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(offsetPlayerPosition.x, leftHand.transform.position.y), step);
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(useOffset == true ? offsetPlayerPosition.x : player.transform.position.x, leftHand.transform.position.y), step);
     }
 
     void moveHandToInitialSlamPosition()
     {
-        Vector3 offsetPlayerPosition = getOffsetPlayerPosition();
         float step = handRaiseSpeed * Time.deltaTime;
         leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(leftHand.transform.position.x, initialHandPosition.y, 0), step);
     }
@@ -123,6 +125,33 @@ public class AttackControllerTheGolem : MonoBehaviour
         }
     }
 
+    public void startReturning()
+    {
+        StopAllCoroutines();
+        canFollowPlayer = false;
+        raisingHand = false;
+        returningToOriginalPosition = true;
+        Debug.Log("um");
+        StartCoroutine("returnToOriginalPosition");
+    }
+
+    IEnumerator returnToOriginalPosition()
+    {
+        while (enabled)
+        {
+            float step = handFollowSpeed * Time.deltaTime;
+            leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, initialHandPosition, step);
+
+            if (leftHand.transform.position.x == initialHandPosition.x && leftHand.transform.position.y == initialHandPosition.y)
+            {
+                returningToOriginalPosition = false;
+                yield return new WaitForSeconds(2f);
+                StartCoroutine("startFistSlam");
+                StopCoroutine("returnToOriginalPosition");
+            }
+            yield return null;
+        }
+    }
 
     IEnumerator raiseHand()
     {

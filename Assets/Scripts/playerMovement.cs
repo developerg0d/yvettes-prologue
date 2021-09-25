@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("isScalingWall", true);
         }
 
-        if (col.otherCollider.tag == "Ground")
+        if (col.gameObject.layer == 0)
         {
             grounded = true;
         }
@@ -158,6 +158,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+
+
         if (col.collider.tag == "GolemHand")
         {
             col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = true;
@@ -173,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
             col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = false;
             transform.SetParent(world.transform);
         }
-        if (col.otherCollider.tag == "Ground")
+        if (col.gameObject.layer == 0)
         {
             grounded = false;
         }
