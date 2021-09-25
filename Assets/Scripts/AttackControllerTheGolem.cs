@@ -33,36 +33,49 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private GameObject player;
 
-    private bool playerRidingHand = false;
+    public bool playerRidingHand = false;
 
     public UxInteraction uxInteraction;
 
+    public Vector3 offset;
+
+    private float spinTimer = 0f;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         initialHandPosition = leftHand.transform.position;
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-        StartCoroutine("fistSlam");
-        StartCoroutine("followPlayer");
+        StartCoroutine("battleStart");
     }
 
-    IEnumerator followPlayer()
+    IEnumerator battleStart()
     {
-        while (enabled)
-        {
-            if (canFollowPlayer)
-            {
-                moveHandToPlayer();
-            }
-            yield return null;
-        }
+        canFollowPlayer = true;
+        yield return new WaitForSeconds(3F);
+        StartCoroutine("startFistSlam");
     }
+
     void moveHandToPlayer()
     {
         float step = handFollowSpeed * Time.deltaTime;
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(player.transform.position.x, leftHand.transform.position.y), step);
+        Vector3 offsetPlayerPosition = getOffsetPlayerPosition();
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(offsetPlayerPosition.x, leftHand.transform.position.y), step);
+    }
 
+    void moveHandToInitialSlamPosition()
+    {
+        Vector3 offsetPlayerPosition = getOffsetPlayerPosition();
+        float step = handRaiseSpeed * Time.deltaTime;
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(leftHand.transform.position.x, initialHandPosition.y, 0), step);
+    }
+
+    Vector3 getOffsetPlayerPosition()
+    {
+        Vector3 offSetPlayerPosition = player.transform.position;
+        offSetPlayerPosition.x += offset.x;
+        offSetPlayerPosition.y += offset.y;
+        return offSetPlayerPosition;
     }
     IEnumerator fistSlam()
     {
@@ -71,12 +84,31 @@ public class AttackControllerTheGolem : MonoBehaviour
         slamHand();
         yield return new WaitForSeconds(5f);
         initialHandPosition.x = leftHand.transform.position.x;
+        disableHandHolds();
         StartCoroutine("raiseHand");
+    }
+
+    void disableHandHolds()
+    {
+        GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
+        foreach (var ladder in ladders)
+        {
+            ladder.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+    void enableHandHolds()
+    {
+        GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
+        foreach (var ladder in ladders)
+        {
+            ladder.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     void slamHand()
     {
         leftHandRb.AddForce(Vector2.down * slammingForce, ForceMode2D.Impulse);
+        enableHandHolds();
     }
 
     void Update()
@@ -85,32 +117,64 @@ public class AttackControllerTheGolem : MonoBehaviour
         {
             moveHandToInitialSlamPosition();
         }
+        if (canFollowPlayer)
+        {
+            moveHandToPlayer();
+        }
     }
+
 
     IEnumerator raiseHand()
     {
         while (enabled)
         {
-            raisingHand = true;
-            // moveHandToInitialSlamPosition();
-            if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
+            if (!playerRidingHand)
             {
                 canFollowPlayer = true;
-                yield return new WaitForSeconds(2f);
-                uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position);
-                yield return new WaitForSeconds(indicatorTimeout);
-
-                StopCoroutine("raiseHand");
-                StartCoroutine("fistSlam");
             }
-            yield return new WaitForSeconds(0f);
+            raisingHand = true;
+            if (leftHand.transform.position.y == initialHandPosition.y)
+            {
+                raisingHand = false;
+                yield return new WaitForSeconds(2f);
+                StopCoroutine("raiseHand");
+                if (playerRidingHand)
+                {
+                    StartCoroutine("spinHand");
+                }
+                else
+                {
+                    canFollowPlayer = true;
+                    StartCoroutine("startFistSlam");
+                }
+            }
+            yield return null;
+        }
+    }
+    IEnumerator spinHand()
+    {
+        while (enabled)
+        {
+            spinTimer += Time.deltaTime;
+            leftHand.transform.Rotate(0, 0, 250 * Time.deltaTime);
+            if (spinTimer >= 2)
+            {
+                leftHand.transform.eulerAngles = new Vector3(0, 0, 0);
+
+                StartCoroutine("startFistSlam");
+                spinTimer = 0;
+                StopCoroutine("spinHand");
+            }
+            yield return null;
         }
     }
 
-    void moveHandToInitialSlamPosition()
+    IEnumerator startFistSlam()
     {
-        float step = handRaiseSpeed * Time.deltaTime;
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, initialHandPosition, step);
+        uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position);
+        yield return new WaitForSeconds(indicatorTimeout);
+        StartCoroutine("fistSlam");
     }
+
 
 }

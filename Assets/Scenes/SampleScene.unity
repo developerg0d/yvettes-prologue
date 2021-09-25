@@ -171,12 +171,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.63, y: -3.91, z: 0}
+  m_LocalPosition: {x: -7.4, y: -3.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
   m_Father: {fileID: 1161261809}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &70601906
 BoxCollider2D:
@@ -222,6 +222,7 @@ MonoBehaviour:
   jumpPower: 30
   playerSprite: {fileID: 2129234868}
   bottomPlayerSprite: {fileID: 1447635415}
+  world: {fileID: 1161261808}
   canClimb: 0
 --- !u!50 &70601908
 Rigidbody2D:
@@ -907,7 +908,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556858437}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1202,7 +1203,7 @@ Transform:
   m_LocalScale: {x: 1.8335, y: 1.8335, z: 1.8335}
   m_Children: []
   m_Father: {fileID: 1161261809}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &673874791
 BoxCollider2D:
@@ -1545,7 +1546,7 @@ Transform:
   m_LocalScale: {x: 1.8335, y: 1.8335, z: 1.8335}
   m_Children: []
   m_Father: {fileID: 1161261809}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &819683338
 BoxCollider2D:
@@ -2153,7 +2154,7 @@ GameObject:
   - component: {fileID: 1082388129}
   m_Layer: 0
   m_Name: leftHand
-  m_TagString: Untagged
+  m_TagString: GolemHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2166,7 +2167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082388124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.85, y: 30, z: 0}
+  m_LocalPosition: {x: -6.85, y: 32.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1694016703}
@@ -2260,10 +2261,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 70601905}
   - {fileID: 1528072108}
   - {fileID: 819683337}
   - {fileID: 673874790}
+  - {fileID: 70601905}
   - {fileID: 1390091564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2579,9 +2580,11 @@ MonoBehaviour:
   leftHand: {fileID: 1082388124}
   rightHand: {fileID: 978148114}
   slammingForce: 21000
-  handFollowSpeed: 2
-  handRaiseSpeed: 5
+  handFollowSpeed: 3
+  handRaiseSpeed: 6
+  playerRidingHand: 0
   uxInteraction: {fileID: 1529668537}
+  offset: {x: -5, y: 0, z: 0}
 --- !u!114 &1390091566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2670,7 +2673,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419332459}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -2958,7 +2961,7 @@ Transform:
   - {fileID: 827560085}
   - {fileID: 852165717}
   m_Father: {fileID: 1161261809}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1529668536
 GameObject:

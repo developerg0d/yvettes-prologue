@@ -160,6 +160,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.collider.tag == "GolemHand")
         {
+            col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = true;
             transform.SetParent(col.gameObject.transform);
         }
     }
@@ -169,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.collider.tag == "GolemHand")
         {
+            col.gameObject.GetComponentInParent<AttackControllerTheGolem>().playerRidingHand = false;
             transform.SetParent(world.transform);
         }
         if (col.otherCollider.tag == "Ground")
