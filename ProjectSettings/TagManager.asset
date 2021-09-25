@@ -10,6 +10,7 @@ TagManager:
   - ScalingWall
   - GolemHand
   - GolemHead
+  - Golem
   layers:
   - Default
   - TransparentFX

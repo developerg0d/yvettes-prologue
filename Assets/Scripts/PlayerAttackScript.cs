@@ -6,6 +6,8 @@ public class PlayerAttackScript : MonoBehaviour
 {
     public bool isStabbing = false;
     public bool isDefending = false;
+
+    public bool isParrying = false;
     private Animator animator;
 
     public bool playerAction;
@@ -46,6 +48,14 @@ public class PlayerAttackScript : MonoBehaviour
             StartCoroutine("playerActionWaitTimer");
             animator.SetBool("swordPulledBack", false);
         }
+    }
+
+    public void parryAttack()
+    {
+        isDefending = false;
+        StartCoroutine("playerActionWaitTimer");
+        animator.SetBool("isDefending", false);
+        animator.SetTrigger("isRiposting");
     }
 
     IEnumerator playerActionWaitTimer()
