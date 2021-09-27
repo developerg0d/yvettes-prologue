@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool moving;
 
-    private bool grounded;
+    public bool grounded;
     private Rigidbody2D rb;
 
     private bool canTurn;
@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject world;
 
     [SerializeField] private bool canClimb;
+
+    private bool upThrustReady;
 
     public AttackControllerTheGolem attackControllerTheGolem;
 
@@ -49,6 +51,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !grounded && upThrustReady)
+        {
+            upThrustReady = false;
+            playerAnimator.SetBool("upthrust", true);
+            swordUpThrust();
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            playerAnimator.SetBool("upthrust", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -91,9 +103,14 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
     }
 
+
+    void swordUpThrust()
+    {
+        rb.velocity = Vector2.zero;
+        jump();
+    }
     void jump()
     {
-        rb.bodyType = RigidbodyType2D.Dynamic;
         rb.AddForce(jumpPower * Vector2.up, ForceMode2D.Impulse);
     }
 
@@ -153,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.gameObject.layer == 0)
         {
+            upThrustReady = true;
             grounded = true;
         }
     }

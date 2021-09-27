@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractionGolemHead : MonoBehaviour
 {
 
+    public bool isKnockedDown = false;
     [SerializeField] int recoilForce = 65;
     private BossInteractionTheGolem mainInteractionScript;
 
@@ -17,36 +18,58 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (!isKnockedDown)
         {
-            attackControllerTheGolem.useOffset = false;
+            if (col.gameObject.tag == "Player")
+            {
+                attackControllerTheGolem.useOffset = false;
+            }
         }
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (!isKnockedDown)
         {
-            attackControllerTheGolem.useOffset = true;
-        }
 
-        if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
-        {
-            golemHeadRecoil(col.gameObject);
-            mainInteractionScript.golemHeadHit();
-        }
+            if (col.gameObject.tag == "Player")
+            {
+                attackControllerTheGolem.useOffset = true;
+            }
 
-        if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition)
+            if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
+            {
+                golemHeadRecoil(col.gameObject);
+                mainInteractionScript.golemHeadHit();
+            }
+
+            if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition)
+            {
+                attackControllerTheGolem.startReturning();
+            }
+        }
+        else
         {
-            attackControllerTheGolem.startReturning();
+            if (col.collider.tag == "Sword" && col.otherCollider.tag == "GolemHead")
+            {
+                golemDownThrustHeadRecoil(col.gameObject);
+            }
+
         }
 
     }
-
     void golemHeadRecoil(GameObject colider)
     {
         Rigidbody2D rb = colider.GetComponent<Rigidbody2D>();
 
         rb.AddForce(Vector2.left * recoilForce, ForceMode2D.Impulse);
         rb.AddForce(Vector2.up * (recoilForce / 2), ForceMode2D.Impulse);
+    }
+
+    void golemDownThrustHeadRecoil(GameObject colider)
+    {
+        Rigidbody2D rb = colider.GetComponent<Rigidbody2D>();
+
+        rb.AddForce(Vector2.left * recoilForce * 4, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * recoilForce * 3, ForceMode2D.Impulse);
     }
 }

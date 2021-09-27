@@ -37,6 +37,8 @@ public class AttackControllerTheGolem : MonoBehaviour
     private bool hasFallenOver;
     private bool raisingHand;
 
+    [SerializeField]
+    private GameObject head;
     public bool canFollowPlayer = true;
 
     private GameObject player;
@@ -102,7 +104,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
         startedAttacking = true;
-        fallingOver();
+        //    fallingOver();
         //  StartCoroutine("bouncingAttack");
         // StartCoroutine("startFistSlam");
     }
@@ -302,8 +304,10 @@ public class AttackControllerTheGolem : MonoBehaviour
             Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
             Quaternion targetRotation = Quaternion.Euler(direction);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-            if (transform.rotation.eulerAngles.z == -90)
+            if (Mathf.RoundToInt(transform.eulerAngles.z) == 270)
             {
+                head.SetActive(true);
+                head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
                 StopCoroutine("fallover");
             }
             yield return null;

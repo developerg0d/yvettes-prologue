@@ -10,16 +10,33 @@ public class PlayerAttackScript : MonoBehaviour
     public bool isParrying = false;
     private Animator animator;
 
+    private PlayerMovement playerMovement;
+
     public bool playerAction;
+
+    private Rigidbody2D rb;
+
+    [SerializeField]
+    private float swordDownThrustPower = 50f;
 
     void Start()
     {
+        playerMovement = GetComponent<PlayerMovement>();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.S))
+        {
+            playerAction = true;
+            rb.AddForce(Vector2.down * swordDownThrustPower, ForceMode2D.Impulse);
+            StopCoroutine("playerActionWaitTimer");
+            animator.SetBool("downThrust", true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && playerMovement.grounded)
         {
             playerAction = true;
             isStabbing = true;
@@ -27,7 +44,7 @@ public class PlayerAttackScript : MonoBehaviour
             StopCoroutine("playerActionWaitTimer");
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded)
         {
             playerAction = true;
             isDefending = true;
@@ -35,7 +52,7 @@ public class PlayerAttackScript : MonoBehaviour
             StopCoroutine("playerActionWaitTimer");
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1))
+        if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded)
         {
             isDefending = false;
             StartCoroutine("playerActionWaitTimer");
@@ -46,6 +63,7 @@ public class PlayerAttackScript : MonoBehaviour
         {
             isStabbing = false;
             StartCoroutine("playerActionWaitTimer");
+            animator.SetBool("downThrust", false);
             animator.SetBool("swordPulledBack", false);
         }
     }
