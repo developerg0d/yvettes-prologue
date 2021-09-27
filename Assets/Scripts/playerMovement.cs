@@ -103,7 +103,6 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
     }
 
-
     void swordUpThrust()
     {
         rb.velocity = Vector2.zero;
@@ -113,7 +112,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.AddForce(jumpPower * Vector2.up, ForceMode2D.Impulse);
     }
-
 
     void climb(float verticalMovement)
     {
@@ -177,16 +175,17 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-
-        if (col.gameObject.tag == "Ground" && attackControllerTheGolem.returningToOriginalPosition)
+        if (attackControllerTheGolem.firstStage)
         {
-            attackControllerTheGolem.returningToOriginalPosition = false;
-            attackControllerTheGolem.startBattle();
-        }
-
-        if (col.collider.tag == "GolemHand")
-        {
-            attackControllerTheGolem.playerRidingHand = true;
+            if (col.gameObject.tag == "Ground" && attackControllerTheGolem.returningToOriginalPosition)
+            {
+                attackControllerTheGolem.returningToOriginalPosition = false;
+                attackControllerTheGolem.startBattle();
+            }
+            if (col.collider.tag == "GolemHand")
+            {
+                attackControllerTheGolem.playerRidingHand = true;
+            }
         }
     }
 

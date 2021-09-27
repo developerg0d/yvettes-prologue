@@ -72,31 +72,29 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public GameObject lazerCannon;
 
+    public bool firstStage;
+    public bool secondStage;
     public bool finalStage;
 
     public GameObject lazerBall;
 
     private int finalStageCounter;
+
+    private BossInteractionTheGolem bossInteractionTheGolem;
+
     void Start()
     {
         AssignVariables();
-        AssignCoroutines();
         startBattle();
     }
 
     void AssignVariables()
     {
+        bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
         rightHandRb = rightHand.GetComponent<Rigidbody2D>();
-    }
-
-    void AssignCoroutines()
-    {
-        // raiseHandCoroutine = raiseHand();
-        // spinHandCoroutine = spinHand();
-        // returnToOriginalPositionCoroutine = returnToOriginalPosition();
     }
 
     public void startBattle()
@@ -111,11 +109,8 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = true;
         yield return new WaitForSeconds(2F);
         startedAttacking = true;
-        finalStage = true;
-        StartCoroutine("commenceLazerFire");
-        //StartCoroutine("bouncingAttack");
-        //    fallingOver();
-        // StartCoroutine("startFistSlam");
+        firstStage = true;
+        StartCoroutine("startFistSlam");
     }
 
     void fallingOver()
@@ -135,13 +130,16 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void Update()
     {
-        if (raisingHand)
+        if (firstStage)
         {
-            moveHandToInitialSlamPosition();
-        }
-        if (canFollowPlayer && !playerRidingHand)
-        {
-            moveHandToPlayer();
+            if (raisingHand)
+            {
+                moveHandToInitialSlamPosition();
+            }
+            if (canFollowPlayer && !playerRidingHand)
+            {
+                moveHandToPlayer();
+            }
         }
     }
 
@@ -158,6 +156,10 @@ public class AttackControllerTheGolem : MonoBehaviour
     }
     public void startReturning()
     {
+        if (!firstStage)
+        {
+            return;
+        }
         StopCoroutine("fistSlam");
         StopCoroutine("raiseHand");
 
@@ -248,7 +250,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         leftHandRb.AddForce(Vector2.down * slammingForce, ForceMode2D.Impulse);
         enableHandHolds();
     }
-    void disableHandHolds()
+    public void disableHandHolds()
     {
         GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
         foreach (var ladder in ladders)
@@ -256,7 +258,7 @@ public class AttackControllerTheGolem : MonoBehaviour
             ladder.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
-    void enableHandHolds()
+    public void enableHandHolds()
     {
         GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
         foreach (var ladder in ladders)
@@ -274,6 +276,22 @@ public class AttackControllerTheGolem : MonoBehaviour
         }
     }
 
+    public void startSecondStage()
+    {
+        StopCoroutine("startFistSlam");
+        StopCoroutine("raiseHand");
+        StopCoroutine("fistSlam");
+        StartCoroutine("secondStageCoroutine");
+    }
+
+    IEnumerator secondStageCoroutine()
+    {
+        firstStage = false;
+        yield return new WaitForSeconds(2f);
+        secondStage = true;
+        StartCoroutine("bouncingAttack");
+    }
+
     IEnumerator bouncingAttack()
     {
         while (enabled)
@@ -286,7 +304,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned && !hasFallenOver)
+        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned && !hasFallenOver && secondStage)
         {
             shockWaveSpawned = true;
             spawnShockWaves();
@@ -303,9 +321,10 @@ public class AttackControllerTheGolem : MonoBehaviour
     public void beenParried()
     {
         StopCoroutine("bouncingAttack");
+        enableHandHolds();
+
         StartCoroutine("fallOverBackwards");
     }
-
 
     IEnumerator fallOverBackwards()
     {
@@ -326,6 +345,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public void getUp()
     {
+        disableHandHolds();
         StartCoroutine("getUpCoroutine");
     }
 
@@ -339,9 +359,7 @@ public class AttackControllerTheGolem : MonoBehaviour
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 0.8f);
             if (Mathf.RoundToInt(transform.eulerAngles.z) == 00)
             {
-                // head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
                 yield return new WaitForSeconds(2f);
-                // StartCoroutine("bouncingAttack");
                 golemHead2.SetActive(true);
                 StartCoroutine("fallOverForwards");
                 StopCoroutine("getUpCoroutine");
@@ -359,6 +377,9 @@ public class AttackControllerTheGolem : MonoBehaviour
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
             if (Mathf.RoundToInt(transform.eulerAngles.z) == 90)
             {
+                StartCoroutine("commenceLazerFire");
+                finalStage = true;
+                secondStage = false;
                 StopCoroutine("fallOverForwards");
             }
             yield return null;
@@ -396,9 +417,9 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public void finalStageHeadStrike()
     {
-        if (finalStageCounter == 0)
+        if (bossInteractionTheGolem.finalStageCounter == 0)
         {
-            finalStageCounter++;
+            bossInteractionTheGolem.finalStageCounter++;
             StartCoroutine("commenceLazerFire");
             return;
         }

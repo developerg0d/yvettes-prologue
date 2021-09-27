@@ -5,6 +5,26 @@ using UnityEngine;
 public class shockwaveInteraction : MonoBehaviour
 {
     public bool beenParried;
+
+    private float timer;
+    void Start()
+    {
+        StartCoroutine("destroyOverTime");
+    }
+
+    IEnumerator destroyOverTime()
+    {
+        while (enabled)
+        {
+            timer += Time.deltaTime;
+            if (timer > 5)
+            {
+                StopCoroutine("destroyOverTime");
+                Destroy(this.gameObject);
+            }
+            yield return null;
+        }
+    }
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Player")

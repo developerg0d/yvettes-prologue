@@ -17,28 +17,8 @@ public class InteractionGolemHead : MonoBehaviour
         attackControllerTheGolem = GetComponentInParent<AttackControllerTheGolem>();
     }
 
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.otherCollider.tag != "GolemHead")
-        {
-            return;
-        }
-        if (!isKnockedDown)
-        {
-            if (col.gameObject.tag == "Player")
-            {
-                attackControllerTheGolem.useOffset = false;
-            }
-        }
-    }
-
-
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.otherCollider.tag != "GolemHead")
-        {
-            return;
-        }
         if (attackControllerTheGolem.finalStage)
         {
             if (col.collider.tag == "Sword")
@@ -49,17 +29,12 @@ public class InteractionGolemHead : MonoBehaviour
             return;
         }
 
-        if (!isKnockedDown)
+        if (attackControllerTheGolem.firstStage == true)
         {
-            if (col.gameObject.tag == "Player")
-            {
-                attackControllerTheGolem.useOffset = true;
-            }
-
             if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
             {
                 golemHeadRecoil(col.gameObject);
-                mainInteractionScript.golemHeadHit();
+                mainInteractionScript.firstStageGolemHeadHit();
             }
 
             if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition)
@@ -72,7 +47,6 @@ public class InteractionGolemHead : MonoBehaviour
             if (col.collider.tag == "Sword")
             {
                 golemDownThrustHeadRecoil(col.gameObject);
-                mainInteractionScript.golemHeadHit();
                 attackControllerTheGolem.getUp();
             }
 

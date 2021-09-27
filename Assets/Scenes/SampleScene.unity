@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &51026447
 Transform:
   m_ObjectHideFlags: 0
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 193540032}
   m_Layer: 0
   m_Name: head
-  m_TagString: Untagged
+  m_TagString: GolemHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -779,7 +779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &256456656
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1592,7 +1592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578418772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.021, y: 0.475, z: 0}
+  m_LocalPosition: {x: 0.0387, y: 0.5332, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 51026447}
@@ -1805,7 +1805,7 @@ GameObject:
   - component: {fileID: 618592709}
   - component: {fileID: 618592708}
   m_Layer: 0
-  m_Name: leftFootRender
+  m_Name: rightFootRenderer
   m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1891,7 +1891,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: 98d2d4178b0aee944bbda6728a6fc698, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1914,7 +1914,7 @@ GameObject:
   - component: {fileID: 649476402}
   - component: {fileID: 649476403}
   m_Layer: 0
-  m_Name: climbingHolds (1)
+  m_Name: climbingHolds
   m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2250,7 +2250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &817758540
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2994,7 +2994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &978148115
 Transform:
   m_ObjectHideFlags: 0
@@ -3003,7 +3003,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978148114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.85, y: 29.02, z: 0}
+  m_LocalPosition: {x: 23.4, y: 32, z: 0}
   m_LocalScale: {x: 40, y: 40, z: 40}
   m_Children: []
   m_Father: {fileID: 1390091564}
@@ -3110,7 +3110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1044430151
 Transform:
   m_ObjectHideFlags: 0
@@ -3226,7 +3226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1082388125
 Transform:
   m_ObjectHideFlags: 0
@@ -3235,7 +3235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082388124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.2, y: 32.26, z: 0}
+  m_LocalPosition: {x: -6.1, y: 31.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1694016703}
@@ -3495,7 +3495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1262942949
 Transform:
   m_ObjectHideFlags: 0
@@ -3621,8 +3621,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390091563}
-  m_LocalRotation: {x: 0, y: 0, z: 0.70772356, w: 0.7064895}
-  m_LocalPosition: {x: 43.1, y: -2, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1750518535}
@@ -3633,7 +3633,7 @@ Transform:
   - {fileID: 860262664}
   m_Father: {fileID: 1161261809}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1390091565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3667,6 +3667,7 @@ MonoBehaviour:
   shockWave: {fileID: 3172001976807127278, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
   golemHead2: {fileID: 256456655}
   lazerCannon: {fileID: 578418772}
+  finalStage: 0
   lazerBall: {fileID: 3245001825711691369, guid: 2635e441a7b3c1441aacbba55faa5205, type: 3}
 --- !u!114 &1390091566
 MonoBehaviour:
@@ -3682,6 +3683,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canTakeDamage: 1
   uxInteraction: {fileID: 1529668537}
+  firstStageCounter: 0
+  finalStageCounter: 0
+  leftHand: {fileID: 1082388124}
+  rightHand: {fileID: 978148114}
+  leftFootCollider: {fileID: 1857267217}
+  rightFootCollider: {fileID: 618592708}
 --- !u!50 &1390091567
 Rigidbody2D:
   serializedVersion: 4
@@ -3697,12 +3704,12 @@ Rigidbody2D:
   m_Mass: 1200
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &1390091568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3729,7 +3736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47211f3c3e3e33541882284cd0e5ea96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isKnockedDown: 1
+  isKnockedDown: 0
   recoilForce: 30
 --- !u!1 &1419332459
 GameObject:
@@ -4182,7 +4189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1527136217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4782,6 +4789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1703443279}
   - component: {fileID: 1703443280}
+  - component: {fileID: 1703443281}
   m_Layer: 0
   m_Name: spot (1)
   m_TagString: GolemHead
@@ -4855,6 +4863,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1703443281
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703443278}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1750518534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5213,7 +5247,7 @@ GameObject:
   - component: {fileID: 1857267218}
   - component: {fileID: 1857267217}
   m_Layer: 0
-  m_Name: leftFootRender
+  m_Name: leftFootRenderer
   m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5243,7 +5277,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5299,7 +5333,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: 98d2d4178b0aee944bbda6728a6fc698, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5427,11 +5461,11 @@ GameObject:
   - component: {fileID: 1919449934}
   m_Layer: 0
   m_Name: headPlatform
-  m_TagString: Untagged
+  m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1919449933
 Transform:
   m_ObjectHideFlags: 0
@@ -5539,7 +5573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2021207194}
   m_Layer: 0
-  m_Name: leftFoot (1)
+  m_Name: rightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5553,7 +5587,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021207193}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.13, y: 0, z: 0}
+  m_LocalPosition: {x: 15.13, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 649476402}
@@ -5617,7 +5651,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143119285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.1, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1857267216}
