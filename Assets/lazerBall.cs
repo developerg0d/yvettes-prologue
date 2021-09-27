@@ -29,23 +29,21 @@ public class lazerBall : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (col)
+        if (col.gameObject.tag == "Player")
         {
-            if (col.gameObject.tag == "Player")
+            if (col.gameObject.GetComponent<PlayerAttackScript>().isParrying)
             {
-                if (col.gameObject.GetComponent<PlayerAttackScript>().isParrying)
-                {
-                    lazerBallSpeed = -lazerBallSpeed;
-                    beenParried = true;
-                    return;
-                }
+                lazerBallSpeed = -lazerBallSpeed;
+                beenParried = true;
+                return;
             }
-            if (col.gameObject.tag == "Ground")
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
+        }
+        if (col.gameObject.tag == "Ground")
+        {
+            Destroy(this.gameObject);
         }
     }
 }

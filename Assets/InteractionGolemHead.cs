@@ -39,6 +39,16 @@ public class InteractionGolemHead : MonoBehaviour
         {
             return;
         }
+        if (attackControllerTheGolem.finalStage)
+        {
+            if (col.collider.tag == "Sword")
+            {
+                golemFinalStageRecoil(col.gameObject);
+                attackControllerTheGolem.finalStageHeadStrike();
+            }
+            return;
+        }
+
         if (!isKnockedDown)
         {
             if (col.gameObject.tag == "Player")
@@ -69,19 +79,28 @@ public class InteractionGolemHead : MonoBehaviour
         }
 
     }
-    void golemHeadRecoil(GameObject colider)
+    void golemHeadRecoil(GameObject collider)
     {
-        Rigidbody2D rb = colider.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
 
         rb.AddForce(Vector2.left * recoilForce, ForceMode2D.Impulse);
         rb.AddForce(Vector2.up * (recoilForce / 2), ForceMode2D.Impulse);
     }
 
-    void golemDownThrustHeadRecoil(GameObject colider)
+    void golemDownThrustHeadRecoil(GameObject collider)
     {
-        Rigidbody2D rb = colider.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
 
         rb.AddForce(Vector2.left * recoilForce * 4, ForceMode2D.Impulse);
         rb.AddForce(Vector2.up * recoilForce * 3, ForceMode2D.Impulse);
+    }
+
+    void golemFinalStageRecoil(GameObject collider)
+    {
+
+        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
+
+        rb.AddForce(Vector2.left * (recoilForce * 3.5f), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.down * (recoilForce * 2), ForceMode2D.Impulse);
     }
 }

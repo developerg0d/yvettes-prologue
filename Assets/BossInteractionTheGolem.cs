@@ -25,26 +25,14 @@ public class BossInteractionTheGolem : MonoBehaviour
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
     }
-    void OnCollisionExit2D(Collision2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
-
-        if (col.gameObject.tag == "Player" && col.collider.tag == "ScalingWall")
-        {
-            // attackControllerTheGolem.canFollowPlayer = true;
-        }
-
-    }
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "LazerBall" && col.GetComponent<lazerBall>().beenParried)
+        if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
         {
             Debug.Log("parried");
             attackControllerTheGolem.lazerBallParry();
             Destroy(col.gameObject);
         }
-    }
-    void OnCollisionEnter2D(Collision2D col)
-    {
         if (col.gameObject.tag == "Player" && col.otherCollider.tag == "ScalingWall" && !attackControllerTheGolem.returningToOriginalPosition)
         {
             attackControllerTheGolem.startReturning();

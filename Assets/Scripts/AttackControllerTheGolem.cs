@@ -72,7 +72,11 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public GameObject lazerCannon;
 
+    public bool finalStage;
+
     public GameObject lazerBall;
+
+    private int finalStageCounter;
     void Start()
     {
         AssignVariables();
@@ -105,9 +109,10 @@ public class AttackControllerTheGolem : MonoBehaviour
     IEnumerator startBattleCoroutine()
     {
         canFollowPlayer = true;
-        yield return new WaitForSeconds(3F);
+        yield return new WaitForSeconds(2F);
         startedAttacking = true;
-        StartCoroutine("lazerEyesTrackPlayer");
+        finalStage = true;
+        StartCoroutine("commenceLazerFire");
         //StartCoroutine("bouncingAttack");
         //    fallingOver();
         // StartCoroutine("startFistSlam");
@@ -345,7 +350,6 @@ public class AttackControllerTheGolem : MonoBehaviour
         }
     }
 
-
     IEnumerator fallOverForwards()
     {
         while (enabled)
@@ -366,6 +370,12 @@ public class AttackControllerTheGolem : MonoBehaviour
         StopCoroutine("lazerEyesTrackPlayer");
     }
 
+    IEnumerator commenceLazerFire()
+    {
+        yield return new WaitForSeconds(2f);
+        StartCoroutine("lazerEyesTrackPlayer");
+    }
+
     IEnumerator lazerEyesTrackPlayer()
     {
         while (enabled)
@@ -382,5 +392,22 @@ public class AttackControllerTheGolem : MonoBehaviour
         GameObject lazerBallInstance = Instantiate(lazerBall, lazerCannon.transform);
         lazerBallInstance.transform.position = lazerCannon.transform.position;
         lazerBallInstance.transform.rotation = lazerCannon.transform.rotation;
+    }
+
+    public void finalStageHeadStrike()
+    {
+        if (finalStageCounter == 0)
+        {
+            finalStageCounter++;
+            StartCoroutine("commenceLazerFire");
+            return;
+        }
+        StartCoroutine("finalPlayerSpecialAttack");
+    }
+
+    IEnumerator finalPlayerSpecialAttack()
+    {
+        yield return new WaitForSeconds(5f);
+        Debug.Log("Player has won");
     }
 }

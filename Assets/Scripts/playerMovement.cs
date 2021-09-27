@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject world;
 
-    [SerializeField] private bool canClimb;
+    public bool canClimb;
 
     private bool upThrustReady;
 

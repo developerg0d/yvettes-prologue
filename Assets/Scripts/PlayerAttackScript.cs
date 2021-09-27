@@ -44,7 +44,7 @@ public class PlayerAttackScript : MonoBehaviour
             StopCoroutine("playerActionWaitTimer");
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
         {
             playerAction = true;
             isDefending = true;
@@ -52,14 +52,14 @@ public class PlayerAttackScript : MonoBehaviour
             StopCoroutine("playerActionWaitTimer");
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded)
+        if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
         {
             isDefending = false;
             StartCoroutine("playerActionWaitTimer");
             animator.SetBool("isDefending", false);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0) && playerMovement.grounded)
         {
             isStabbing = false;
             StartCoroutine("playerActionWaitTimer");
