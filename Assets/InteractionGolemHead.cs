@@ -39,6 +39,11 @@ public class InteractionGolemHead : MonoBehaviour
         }
         if (!isKnockedDown)
         {
+            if (col.gameObject.tag == "LazerBall")
+            {
+                Debug.Log("parried lazer ball");
+            }
+
             if (col.gameObject.tag == "Player")
             {
                 attackControllerTheGolem.useOffset = true;

@@ -67,8 +67,9 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool shockWaveSpawned;
 
-    public GameObject golemScaleDown;
+    public GameObject golemHead2;
     private Rigidbody2D rb;
+
 
     void Start()
     {
@@ -105,7 +106,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         yield return new WaitForSeconds(3F);
         startedAttacking = true;
 
-        StartCoroutine("bouncingAttack");
+        //StartCoroutine("bouncingAttack");
 
         //    fallingOver();
         // StartCoroutine("startFistSlam");
@@ -335,6 +336,7 @@ public class AttackControllerTheGolem : MonoBehaviour
                 // head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
                 yield return new WaitForSeconds(2f);
                 // StartCoroutine("bouncingAttack");
+                golemHead2.SetActive(true);
                 StartCoroutine("fallOverForwards");
                 StopCoroutine("getUpCoroutine");
             }

@@ -12,6 +12,7 @@ TagManager:
   - GolemHead
   - Golem
   - Shockwave
+  - LazerBall
   layers:
   - Default
   - TransparentFX
