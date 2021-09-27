@@ -19,7 +19,7 @@ public class lazerBall : MonoBehaviour
         while (enabled)
         {
             timer += Time.deltaTime;
-            transform.Translate(Vector3.up * lazerBallSpeed * Time.deltaTime);
+            transform.Translate(Vector3.right * lazerBallSpeed * Time.deltaTime);
             if (timer >= 10)
             {
                 StopCoroutine("flying");
@@ -42,7 +42,10 @@ public class lazerBall : MonoBehaviour
                     return;
                 }
             }
-            Destroy(this.gameObject);
+            if (col.gameObject.tag == "Ground")
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

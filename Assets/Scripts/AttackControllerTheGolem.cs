@@ -70,7 +70,9 @@ public class AttackControllerTheGolem : MonoBehaviour
     public GameObject golemHead2;
     private Rigidbody2D rb;
 
+    public GameObject lazerCannon;
 
+    public GameObject lazerBall;
     void Start()
     {
         AssignVariables();
@@ -105,9 +107,8 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
         startedAttacking = true;
-
+        StartCoroutine("lazerEyesTrackPlayer");
         //StartCoroutine("bouncingAttack");
-
         //    fallingOver();
         // StartCoroutine("startFistSlam");
     }
@@ -358,5 +359,28 @@ public class AttackControllerTheGolem : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public void lazerBallParry()
+    {
+        StopCoroutine("lazerEyesTrackPlayer");
+    }
+
+    IEnumerator lazerEyesTrackPlayer()
+    {
+        while (enabled)
+        {
+            lazerCannon.transform.right = player.transform.position - lazerCannon.transform.position;
+            fireLazerBall();
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    void fireLazerBall()
+    {
+        Debug.Log("Fire");
+        GameObject lazerBallInstance = Instantiate(lazerBall, lazerCannon.transform);
+        lazerBallInstance.transform.position = lazerCannon.transform.position;
+        lazerBallInstance.transform.rotation = lazerCannon.transform.rotation;
     }
 }

@@ -34,6 +34,15 @@ public class BossInteractionTheGolem : MonoBehaviour
         }
 
     }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "LazerBall" && col.GetComponent<lazerBall>().beenParried)
+        {
+            Debug.Log("parried");
+            attackControllerTheGolem.lazerBallParry();
+            Destroy(col.gameObject);
+        }
+    }
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Player" && col.otherCollider.tag == "ScalingWall" && !attackControllerTheGolem.returningToOriginalPosition)
