@@ -11,6 +11,7 @@ TagManager:
   - GolemHand
   - GolemHead
   - Golem
+  - Shockwave
   layers:
   - Default
   - TransparentFX

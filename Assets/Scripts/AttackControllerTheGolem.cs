@@ -67,7 +67,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private bool shockWaveSpawned;
 
-
+    public GameObject golemScaleDown;
     private Rigidbody2D rb;
 
     void Start()
@@ -104,8 +104,10 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = true;
         yield return new WaitForSeconds(3F);
         startedAttacking = true;
+
+        StartCoroutine("bouncingAttack");
+
         //    fallingOver();
-        //  StartCoroutine("bouncingAttack");
         // StartCoroutine("startFistSlam");
     }
 
@@ -294,10 +296,11 @@ public class AttackControllerTheGolem : MonoBehaviour
     public void beenParried()
     {
         StopCoroutine("bouncingAttack");
+        StartCoroutine("fallOverBackwards");
     }
 
 
-    IEnumerator fallover()
+    IEnumerator fallOverBackwards()
     {
         while (enabled)
         {
@@ -308,7 +311,48 @@ public class AttackControllerTheGolem : MonoBehaviour
             {
                 head.SetActive(true);
                 head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
-                StopCoroutine("fallover");
+                StopCoroutine("fallOver");
+            }
+            yield return null;
+        }
+    }
+
+    public void getUp()
+    {
+        StartCoroutine("getUpCoroutine");
+    }
+
+    IEnumerator getUpCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+        while (enabled)
+        {
+            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+            Quaternion targetRotation = Quaternion.Euler(direction);
+            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 0.8f);
+            if (Mathf.RoundToInt(transform.eulerAngles.z) == 00)
+            {
+                // head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
+                yield return new WaitForSeconds(2f);
+                // StartCoroutine("bouncingAttack");
+                StartCoroutine("fallOverForwards");
+                StopCoroutine("getUpCoroutine");
+            }
+            yield return null;
+        }
+    }
+
+
+    IEnumerator fallOverForwards()
+    {
+        while (enabled)
+        {
+            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
+            Quaternion targetRotation = Quaternion.Euler(direction);
+            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
+            if (Mathf.RoundToInt(transform.eulerAngles.z) == 90)
+            {
+                StopCoroutine("fallOverForwards");
             }
             yield return null;
         }

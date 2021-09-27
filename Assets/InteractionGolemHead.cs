@@ -10,6 +10,7 @@ public class InteractionGolemHead : MonoBehaviour
     private BossInteractionTheGolem mainInteractionScript;
 
     private AttackControllerTheGolem attackControllerTheGolem;
+
     void Start()
     {
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
@@ -18,6 +19,10 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
+        if (col.otherCollider.tag != "GolemHead")
+        {
+            return;
+        }
         if (!isKnockedDown)
         {
             if (col.gameObject.tag == "Player")
@@ -28,9 +33,12 @@ public class InteractionGolemHead : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.otherCollider.tag != "GolemHead")
+        {
+            return;
+        }
         if (!isKnockedDown)
         {
-
             if (col.gameObject.tag == "Player")
             {
                 attackControllerTheGolem.useOffset = true;
@@ -49,9 +57,11 @@ public class InteractionGolemHead : MonoBehaviour
         }
         else
         {
-            if (col.collider.tag == "Sword" && col.otherCollider.tag == "GolemHead")
+            if (col.collider.tag == "Sword")
             {
                 golemDownThrustHeadRecoil(col.gameObject);
+                mainInteractionScript.golemHeadHit();
+                attackControllerTheGolem.getUp();
             }
 
         }

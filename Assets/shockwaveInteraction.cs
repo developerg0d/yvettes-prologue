@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class shockwaveInteraction : MonoBehaviour
 {
-    bool beenParried;
+    public bool beenParried;
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Player")
@@ -18,7 +18,6 @@ public class shockwaveInteraction : MonoBehaviour
         if (col.gameObject.tag == "Golem" && beenParried)
         {
             Debug.Log("PARRIED");
-            Destroy(this.gameObject);
         }
     }
 

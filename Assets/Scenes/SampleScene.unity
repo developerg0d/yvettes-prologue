@@ -171,7 +171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38.4, y: 13.5, z: 0}
+  m_LocalPosition: {x: -10.2, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -1965,7 +1965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &817758540
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3336,8 +3336,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390091563}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 15.8, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.3, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1750518535}
@@ -3348,7 +3348,7 @@ Transform:
   - {fileID: 860262664}
   m_Father: {fileID: 1161261809}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1390091565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3380,6 +3380,7 @@ MonoBehaviour:
   shockWaveForce: 50
   shockWaveSpawnLocation: {fileID: 800900699}
   shockWave: {fileID: 3172001976807127278, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
+  golemScaleDown: {fileID: 0}
 --- !u!114 &1390091566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3894,7 +3895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1527136217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5139,7 +5140,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021038884}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

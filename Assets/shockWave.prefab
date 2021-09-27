@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 5188337505683183931}
   m_Layer: 0
   m_Name: shockWave
-  m_TagString: Untagged
+  m_TagString: Shockwave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -41,5 +41,14 @@ public class BossInteractionTheGolem : MonoBehaviour
             attackControllerTheGolem.startReturning();
         }
 
+        if (col.gameObject.tag == "Shockwave")
+        {
+            if (col.gameObject.GetComponent<shockwaveInteraction>().beenParried)
+            {
+                Destroy(col.gameObject);
+                attackControllerTheGolem.beenParried();
+            }
+        }
+
     }
 }
