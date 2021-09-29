@@ -81,7 +81,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     private int finalStageCounter;
 
     private BossInteractionTheGolem bossInteractionTheGolem;
-
+    float xOffSet;
     void Start()
     {
         AssignVariables();
@@ -145,9 +145,13 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void moveHandToPlayer()
     {
+        bool tooCloseToBoss = leftHand.GetComponent<InteractionGolemHand>().tooCloseToBoss;
         float step = handFollowSpeed * Time.deltaTime;
-        Vector3 offsetPlayerPosition = getOffsetPlayerPosition();
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(useOffset == true ? offsetPlayerPosition.x : player.transform.position.x, leftHand.transform.position.y), step);
+        if (tooCloseToBoss)
+        {
+            xOffSet += 0.1f;
+        }
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(player.transform.position.x - xOffSet, leftHand.transform.position.y), step);
     }
 
     void moveHandToInitialSlamPosition()
@@ -189,6 +193,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     {
         while (enabled)
         {
+
             if (!playerRidingHand)
             {
                 canFollowPlayer = true;
@@ -241,7 +246,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = false;
         slamHand();
         yield return new WaitForSeconds(5f);
-        disableHandHolds();
+        //     disableHandHolds();
         StartCoroutine("raiseHand");
     }
 

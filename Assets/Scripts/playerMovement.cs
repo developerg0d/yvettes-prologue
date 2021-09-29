@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.collider.tag == "ScalingWall")
         {
-            rb.gravityScale = 0.7f;
+            rb.gravityScale = 0.3f;
             playerAnimator.SetBool("isScalingWall", true);
         }
 

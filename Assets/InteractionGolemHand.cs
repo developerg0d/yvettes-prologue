@@ -7,6 +7,8 @@ public class InteractionGolemHand : MonoBehaviour
 
     private BossInteractionTheGolem mainInteractionScript;
     private Rigidbody2D rb;
+
+    public bool tooCloseToBoss;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,6 +25,22 @@ public class InteractionGolemHand : MonoBehaviour
         if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
         {
             mainInteractionScript.golemHandHit();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "FistAvoid")
+        {
+            tooCloseToBoss = false;
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.tag == "FistAvoid")
+        {
+            tooCloseToBoss = true;
         }
     }
 }

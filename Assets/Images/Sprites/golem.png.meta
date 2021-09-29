@@ -12,6 +12,9 @@ TextureImporter:
       213: 1675933307795714155
     second: golem_golemTop
   - first:
+      213: -46127142086616825
+    second: golem_leftFist
+  - first:
       213: -131787402016522476
     second: golem_leftFoot
   - first:
@@ -62,7 +65,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,11 +75,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,6 +108,42 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -112,12 +151,12 @@ TextureImporter:
       name: golem_golemBottom
       rect:
         serializedVersion: 2
-        x: 711
-        y: 324
+        x: 1
+        y: 394
         width: 301
         height: 187
-      alignment: 9
-      pivot: {x: 0.81395346, y: 4.614973}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -133,12 +172,12 @@ TextureImporter:
       name: golem_golemHead
       rect:
         serializedVersion: 2
-        x: 704
-        y: 220
+        x: 368
+        y: 921
         width: 138
         height: 102
-      alignment: 9
-      pivot: {x: 1.173913, y: 2.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,12 +193,12 @@ TextureImporter:
       name: golem_golemTop
       rect:
         serializedVersion: 2
-        x: 1
-        y: 167
+        x: 2
+        y: 775
         width: 366
         height: 247
-      alignment: 9
-      pivot: {x: 0.7978142, y: 2.1093118}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -172,15 +211,36 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: golem_leftFist
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 348
+        width: 104
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7095c61db9f1c5ff0800000000000000
+      internalID: -46127142086616825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: golem_leftFoot
       rect:
         serializedVersion: 2
-        x: 844
-        y: 223
+        x: 370
+        y: 818
         width: 118
         height: 99
-      alignment: 9
-      pivot: {x: 2.1016948, y: 10.272727}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -196,12 +256,12 @@ TextureImporter:
       name: golem_leftKnee
       rect:
         serializedVersion: 2
-        x: 638
-        y: 126
+        x: 336
+        y: 536
         width: 112
         height: 92
-      alignment: 9
-      pivot: {x: 2.2142856, y: 10.152174}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -217,12 +277,12 @@ TextureImporter:
       name: golem_neck
       rect:
         serializedVersion: 2
-        x: 369
-        y: 162
+        x: 1
+        y: 333
         width: 267
         height: 57
-      alignment: 9
-      pivot: {x: 0.8614232, y: 5.0877194}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -238,12 +298,12 @@ TextureImporter:
       name: golem_ribs
       rect:
         serializedVersion: 2
-        x: 369
-        y: 221
+        x: 1
+        y: 581
         width: 333
         height: 193
-      alignment: 9
-      pivot: {x: 0.8198198, y: 3.6010363}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -259,12 +319,12 @@ TextureImporter:
       name: golem_rightFist
       rect:
         serializedVersion: 2
-        x: 1
-        y: 416
-        width: 708
-        height: 95
-      alignment: 9
-      pivot: {x: 0.6440678, y: 6.6842103}
+        x: 304
+        y: 442
+        width: 105
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -280,12 +340,12 @@ TextureImporter:
       name: golem_rightFoot
       rect:
         serializedVersion: 2
-        x: 844
-        y: 126
+        x: 369
+        y: 723
         width: 117
         height: 95
-      alignment: 9
-      pivot: {x: 0.42735043, y: 10.7263155}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -301,12 +361,12 @@ TextureImporter:
       name: golem_rightKnee
       rect:
         serializedVersion: 2
-        x: 1
-        y: 74
+        x: 336
+        y: 630
         width: 114
         height: 91
-      alignment: 9
-      pivot: {x: 0.4385965, y: 10.296703}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -321,7 +381,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: b9f3b4cc1d61cc247a90298b9d26cbe3
     internalID: 0
     vertices: []
     indices: 
