@@ -19,6 +19,10 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.otherCollider.tag != "GolemHead")
+        {
+            return;
+        }
         if (attackControllerTheGolem.finalStage)
         {
             if (col.collider.tag == "Sword")
@@ -37,7 +41,7 @@ public class InteractionGolemHead : MonoBehaviour
                 mainInteractionScript.firstStageGolemHeadHit();
             }
 
-            if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition)
+            if (col.gameObject.tag == "Player" && !attackControllerTheGolem.returningToOriginalPosition && col.otherCollider.tag == "Golem")
             {
                 attackControllerTheGolem.startReturning();
             }

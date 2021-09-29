@@ -136,10 +136,10 @@ public class AttackControllerTheGolem : MonoBehaviour
             {
                 moveHandToInitialSlamPosition();
             }
-            if (canFollowPlayer && !playerRidingHand)
-            {
-                moveHandToPlayer();
-            }
+            // if (canFollowPlayer && !playerRidingHand)
+            // {
+            //     // moveHandToPlayer();
+            // }
         }
     }
 
@@ -235,7 +235,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     IEnumerator startFistSlam()
     {
-        uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position);
+        uxInteraction.updateGolemFistIndicatorPosition(player.transform.position);
         yield return new WaitForSeconds(indicatorTimeout);
         StartCoroutine("fistSlam");
     }
@@ -252,7 +252,9 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void slamHand()
     {
-        leftHandRb.AddForce(Vector2.down * slammingForce, ForceMode2D.Impulse);
+        Vector3 test = leftHand.transform.right = player.transform.position - leftHand.transform.position;
+        leftHand.transform.eulerAngles = Vector3.zero;
+        leftHandRb.AddForce(test * slammingForce, ForceMode2D.Impulse);
         enableHandHolds();
     }
     public void disableHandHolds()

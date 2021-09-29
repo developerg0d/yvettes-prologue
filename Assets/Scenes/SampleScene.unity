@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 1.5
   climbingSpeed: 1
-  dashSpeed: 35
+  dashSpeed: 45
   jumpPower: 30
   playerSprite: {fileID: 2129234868}
   bottomPlayerSprite: {fileID: 1447635415}
@@ -1161,7 +1161,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450701977}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 8ab68b7a17faf414c929c322e0bc8fe6, type: 2}
   m_IsTrigger: 0
@@ -1244,7 +1244,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7263528054014473256, guid: d305e35cb7f232e48a9f69ca6e0d6fec, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1403,7 +1403,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458106761}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 8ab68b7a17faf414c929c322e0bc8fe6, type: 2}
   m_IsTrigger: 0
@@ -1486,7 +1486,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -131787402016522476, guid: d305e35cb7f232e48a9f69ca6e0d6fec, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2057,7 +2057,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592940526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 8ab68b7a17faf414c929c322e0bc8fe6, type: 2}
   m_IsTrigger: 0
@@ -2137,7 +2137,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -4021599738014996146, guid: d305e35cb7f232e48a9f69ca6e0d6fec, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3558,6 +3558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooCloseToBoss: 0
 --- !u!1 &984281254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,7 +3572,7 @@ GameObject:
   - component: {fileID: 984281256}
   m_Layer: 0
   m_Name: golem_golemTop
-  m_TagString: Untagged
+  m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3950,6 +3951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooCloseToBoss: 0
 --- !u!1 &1161261808
 GameObject:
   m_ObjectHideFlags: 0
@@ -4258,7 +4260,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370426417}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 8ab68b7a17faf414c929c322e0bc8fe6, type: 2}
   m_IsTrigger: 0
@@ -4337,7 +4339,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 8371219210333902931, guid: d305e35cb7f232e48a9f69ca6e0d6fec, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4463,7 +4465,7 @@ MonoBehaviour:
   indicatorTimeout: 0.5
   leftHand: {fileID: 1082388124}
   rightHand: {fileID: 978148114}
-  slammingForce: 21000
+  slammingForce: 600
   handFollowSpeed: 3
   handRaiseSpeed: 4
   head: {fileID: 0}
@@ -4795,7 +4797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1433424723
 Transform:
   m_ObjectHideFlags: 0
@@ -6533,7 +6535,7 @@ GameObject:
   - component: {fileID: 2007785042}
   m_Layer: 0
   m_Name: golem_neck
-  m_TagString: Untagged
+  m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
