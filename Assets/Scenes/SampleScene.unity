@@ -3558,7 +3558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  world: {fileID: 0}
   tooCloseToBoss: 0
+  isMoving: 0
 --- !u!1 &984281254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,7 +3898,7 @@ GameObject:
   - component: {fileID: 1082388129}
   m_Layer: 0
   m_Name: leftHand
-  m_TagString: Untagged
+  m_TagString: GolemHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3951,7 +3953,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357ec5da0563be844bdf1e58c319bbfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  world: {fileID: 1161261808}
   tooCloseToBoss: 0
+  isMoving: 0
 --- !u!1 &1161261808
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,8 +4586,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410127737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.046, y: 1.192, z: 0}
-  m_LocalScale: {x: 2.8554688, y: 0.375, z: 1}
+  m_LocalPosition: {x: -0.084, y: 2.339, z: 0}
+  m_LocalScale: {x: 2.6234617, y: 0.375, z: 1}
   m_Children: []
   m_Father: {fileID: 1082388125}
   m_RootOrder: 2
@@ -4598,7 +4602,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -4612,7 +4616,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 4.1}
   m_EdgeRadius: 0
 --- !u!1 &1419332459
 GameObject:
@@ -5848,7 +5852,7 @@ GameObject:
   - component: {fileID: 1694016705}
   m_Layer: 0
   m_Name: leftHandRenderer
-  m_TagString: Untagged
+  m_TagString: GolemHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

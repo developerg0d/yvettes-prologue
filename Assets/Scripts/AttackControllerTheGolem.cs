@@ -100,7 +100,6 @@ public class AttackControllerTheGolem : MonoBehaviour
     public void startBattle()
     {
         initialHandPosition = leftHand.transform.position;
-        lastHandPosition = initialHandPosition;
         StartCoroutine("startBattleCoroutine");
     }
 
@@ -128,18 +127,19 @@ public class AttackControllerTheGolem : MonoBehaviour
         return offSetPlayerPosition;
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (jumping)
+        {
+            jumping = false;
+            rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
+        }
         if (firstStage)
         {
             if (raisingHand)
             {
                 moveHandToInitialSlamPosition();
             }
-            // if (canFollowPlayer && !playerRidingHand)
-            // {
-            //     // moveHandToPlayer();
-            // }
         }
     }
 
@@ -156,7 +156,8 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void moveHandToInitialSlamPosition()
     {
-        leftHandRb.velocity = new Vector2(0, handRaiseSpeed);
+        float step = handRaiseSpeed * Time.fixedDeltaTime;
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
     }
     public void startReturning()
     {
@@ -199,7 +200,7 @@ public class AttackControllerTheGolem : MonoBehaviour
                 canFollowPlayer = true;
             }
             raisingHand = true;
-            if (leftHand.transform.position.y >= initialHandPosition.y)
+            if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
             {
                 raisingHand = false;
                 yield return new WaitForSeconds(2f);
@@ -271,15 +272,6 @@ public class AttackControllerTheGolem : MonoBehaviour
         foreach (var ladder in ladders)
         {
             ladder.GetComponent<BoxCollider2D>().enabled = true;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (jumping)
-        {
-            jumping = false;
-            rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
         }
     }
 
