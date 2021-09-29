@@ -1,0 +1,336 @@
+fileFormatVersion: 2
+guid: d305e35cb7f232e48a9f69ca6e0d6fec
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5155188733544009531
+    second: golem_golemBottom
+  - first:
+      213: -8870487496112532588
+    second: golem_golemHead
+  - first:
+      213: 1675933307795714155
+    second: golem_golemTop
+  - first:
+      213: -131787402016522476
+    second: golem_leftFoot
+  - first:
+      213: 8371219210333902931
+    second: golem_leftKnee
+  - first:
+      213: -2483791052373243438
+    second: golem_neck
+  - first:
+      213: 5287132457877918670
+    second: golem_ribs
+  - first:
+      213: 3310686181906789026
+    second: golem_rightFist
+  - first:
+      213: 7263528054014473256
+    second: golem_rightFoot
+  - first:
+      213: -4021599738014996146
+    second: golem_rightKnee
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: golem_golemBottom
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 324
+        width: 301
+        height: 187
+      alignment: 9
+      pivot: {x: 0.81395346, y: 4.614973}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3f8cfcf6d8ea8740800000000000000
+      internalID: 5155188733544009531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_golemHead
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 220
+        width: 138
+        height: 102
+      alignment: 9
+      pivot: {x: 1.173913, y: 2.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4931ba1ce92b5e480800000000000000
+      internalID: -8870487496112532588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_golemTop
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 167
+        width: 366
+        height: 247
+      alignment: 9
+      pivot: {x: 0.7978142, y: 2.1093118}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b60b866c67c124710800000000000000
+      internalID: 1675933307795714155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_leftFoot
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 223
+        width: 118
+        height: 99
+      alignment: 9
+      pivot: {x: 2.1016948, y: 10.272727}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41ffeec5e0ccb2ef0800000000000000
+      internalID: -131787402016522476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_leftKnee
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 126
+        width: 112
+        height: 92
+      alignment: 9
+      pivot: {x: 2.2142856, y: 10.152174}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 358d0e8e48b8c2470800000000000000
+      internalID: 8371219210333902931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_neck
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 162
+        width: 267
+        height: 57
+      alignment: 9
+      pivot: {x: 0.8614232, y: 5.0877194}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d9cff2923dc78dd0800000000000000
+      internalID: -2483791052373243438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_ribs
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 221
+        width: 333
+        height: 193
+      alignment: 9
+      pivot: {x: 0.8198198, y: 3.6010363}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec3504045faaf5940800000000000000
+      internalID: 5287132457877918670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_rightFist
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 416
+        width: 708
+        height: 95
+      alignment: 9
+      pivot: {x: 0.6440678, y: 6.6842103}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2395baa8be1fd20800000000000000
+      internalID: 3310686181906789026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_rightFoot
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 126
+        width: 117
+        height: 95
+      alignment: 9
+      pivot: {x: 0.42735043, y: 10.7263155}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 824fd93084c3dc460800000000000000
+      internalID: 7263528054014473256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: golem_rightKnee
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 74
+        width: 114
+        height: 91
+      alignment: 9
+      pivot: {x: 0.4385965, y: 10.296703}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e49efca78586038c0800000000000000
+      internalID: -4021599738014996146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
