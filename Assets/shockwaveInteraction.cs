@@ -32,7 +32,9 @@ public class shockwaveInteraction : MonoBehaviour
             if (col.gameObject.GetComponent<PlayerAttackScript>().isParrying)
             {
                 parried();
+                return;
             }
+            Destroy(this.gameObject);
         }
 
         if (col.gameObject.tag == "Golem" && beenParried)

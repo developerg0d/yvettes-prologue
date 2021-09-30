@@ -39,7 +39,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         uxInteraction.updateBossHpBar(bossStats.currentHp);
         attackControllerTheGolem.StopCoroutine("waitForGolemToShakeOff");
         firstStageCounter++;
-        if (firstStageCounter == -1)
+        if (firstStageCounter == 1)
         {
             leftHand.SetActive(false);
             rightHand.SetActive(false);

@@ -335,8 +335,9 @@ public class AttackControllerTheGolem : MonoBehaviour
             Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
             Quaternion targetRotation = Quaternion.Euler(direction);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-            if (Mathf.RoundToInt(transform.eulerAngles.z) == 270)
+            if (transform.eulerAngles.z >= 270 && transform.eulerAngles.z <= 272)
             {
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
                 head.SetActive(true);
                 head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
                 StopCoroutine("fallOver");
@@ -348,6 +349,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     public void getUp()
     {
         disableHandHolds();
+        rb.constraints = RigidbodyConstraints2D.None;
         StartCoroutine("getUpCoroutine");
     }
 
@@ -358,11 +360,11 @@ public class AttackControllerTheGolem : MonoBehaviour
         {
             Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
             Quaternion targetRotation = Quaternion.Euler(direction);
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 0.8f);
-            if (Mathf.RoundToInt(transform.eulerAngles.z) == 00)
+            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1.2f);
+            if (Mathf.RoundToInt(transform.eulerAngles.z) == 360)
             {
                 yield return new WaitForSeconds(2f);
-                golemHead2.SetActive(true);
+                // golemHead2.SetActive(true);
                 StartCoroutine("fallOverForwards");
                 StopCoroutine("getUpCoroutine");
             }
@@ -377,11 +379,12 @@ public class AttackControllerTheGolem : MonoBehaviour
             Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
             Quaternion targetRotation = Quaternion.Euler(direction);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-            if (Mathf.RoundToInt(transform.eulerAngles.z) == 90)
+            if (transform.eulerAngles.z >= 87 && transform.eulerAngles.z <= 91)
             {
-                StartCoroutine("commenceLazerFire");
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
                 finalStage = true;
                 secondStage = false;
+                StartCoroutine("commenceLazerFire");
                 StopCoroutine("fallOverForwards");
             }
             yield return null;
