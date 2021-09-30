@@ -422,12 +422,12 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public void finalStageHeadStrike()
     {
-        if (bossInteractionTheGolem.finalStageCounter == 0)
-        {
-            bossInteractionTheGolem.finalStageCounter++;
-            StartCoroutine("commenceLazerFire");
-            return;
-        }
+        // if (bossInteractionTheGolem.finalStageCounter == 0)
+        // {
+        //     bossInteractionTheGolem.finalStageCounter++;
+        //     StartCoroutine("commenceLazerFire");
+        //     return;
+        // }
         StartCoroutine("finalPlayerSpecialAttack");
     }
 

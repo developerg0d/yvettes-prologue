@@ -69,6 +69,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         {
             Debug.Log("parried");
             attackControllerTheGolem.lazerBallParry();
+            attackControllerTheGolem.finalStageHeadStrike();
             Destroy(col.gameObject);
         }
         if (col.gameObject.tag == "Shockwave")

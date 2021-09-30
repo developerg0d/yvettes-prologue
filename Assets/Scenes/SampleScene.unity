@@ -2751,7 +2751,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800900698}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.45, y: -4.23, z: 0}
+  m_LocalPosition: {x: -6.45, y: -3.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1161261809}
@@ -4546,7 +4546,7 @@ MonoBehaviour:
   shockWaveSpawnLocation: {fileID: 800900699}
   shockWave: {fileID: 3172001976807127278, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
   golemHead2: {fileID: 0}
-  lazerCannon: {fileID: 0}
+  lazerCannon: {fileID: 1499844858}
   firstStage: 0
   secondStage: 0
   finalStage: 0
