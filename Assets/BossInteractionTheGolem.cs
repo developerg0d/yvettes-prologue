@@ -37,8 +37,9 @@ public class BossInteractionTheGolem : MonoBehaviour
     {
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
+        attackControllerTheGolem.StopCoroutine("waitForGolemToShakeOff");
         firstStageCounter++;
-        if (firstStageCounter == 1)
+        if (firstStageCounter == -1)
         {
             leftHand.SetActive(false);
             rightHand.SetActive(false);
@@ -55,18 +56,20 @@ public class BossInteractionTheGolem : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
+
+        if (attackControllerTheGolem.firstStage)
+        {
+            if (col.gameObject.tag == "Player" && col.otherCollider.tag == "Golem")
+            {
+                attackControllerTheGolem.onGolemFirstStage();
+            }
+        }
+
         if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
         {
             Debug.Log("parried");
             attackControllerTheGolem.lazerBallParry();
             Destroy(col.gameObject);
-        }
-        if (attackControllerTheGolem.firstStage)
-        {
-            if (col.gameObject.tag == "Player" && col.otherCollider.tag == "ScalingWall" && !attackControllerTheGolem.returningToOriginalPosition)
-            {
-                attackControllerTheGolem.startReturning();
-            }
         }
         if (col.gameObject.tag == "Shockwave")
         {

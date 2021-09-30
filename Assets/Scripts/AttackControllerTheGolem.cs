@@ -80,6 +80,8 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     private int finalStageCounter;
 
+    public bool fistCanAttack;
+
     private BossInteractionTheGolem bossInteractionTheGolem;
     float xOffSet;
     void Start()
@@ -105,6 +107,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     IEnumerator startBattleCoroutine()
     {
+        fistCanAttack = true;
         canFollowPlayer = true;
         yield return new WaitForSeconds(2F);
         startedAttacking = true;
@@ -159,21 +162,22 @@ public class AttackControllerTheGolem : MonoBehaviour
         float step = handRaiseSpeed * Time.fixedDeltaTime;
         leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
     }
-    public void startReturning()
-    {
-        if (!firstStage)
-        {
-            return;
-        }
-        StopCoroutine("fistSlam");
-        StopCoroutine("raiseHand");
 
-        StartCoroutine("returnToOriginalPosition");
-        canFollowPlayer = false;
-        raisingHand = false;
-        returningToOriginalPosition = true;
+    public void onGolemFirstStage()
+    {
+        StopCoroutine("startFistSlam");
+        StopCoroutine("raiseHand");
+        StopCoroutine("fistSlam");
+        fistCanAttack = false;
+        StartCoroutine("waitForGolemToShakeOff");
     }
 
+    IEnumerator waitForGolemToShakeOff()
+    {
+        yield return new WaitForSeconds(15f);
+        Debug.Log("Start Shaking");
+        player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 150);
+    }
     IEnumerator returnToOriginalPosition()
     {
         while (enabled)
@@ -247,7 +251,6 @@ public class AttackControllerTheGolem : MonoBehaviour
         canFollowPlayer = false;
         slamHand();
         yield return new WaitForSeconds(5f);
-        //     disableHandHolds();
         StartCoroutine("raiseHand");
     }
 

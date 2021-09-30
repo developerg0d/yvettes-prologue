@@ -241,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.21, y: -4, z: 0}
+  m_LocalPosition: {x: -17.67, y: -3.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -1280,7 +1280,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453067203}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.749999, z: 0}
+  m_LocalPosition: {x: 0, y: 1.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007785041}
@@ -3911,7 +3911,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082388124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.27, y: -0.74, z: 0}
+  m_LocalPosition: {x: -15.45, y: 0.72, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1694016703}
@@ -4560,7 +4560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedDown: 0
-  recoilForce: 30
+  recoilForce: 60
 --- !u!1 &1410127737
 GameObject:
   m_ObjectHideFlags: 0
@@ -5955,11 +5955,12 @@ PolygonCollider2D:
       - {x: 1.52145, y: 0.24058533}
       - {x: 1.5043211, y: 0.40625}
       - {x: 1.4672852, y: 0.80610657}
-      - {x: 1.3351603, y: 1.0188446}
+      - {x: 1.4464741, y: 1.0188446}
+      - {x: 1.4273453, y: 1.3123112}
       - {x: 0.8499069, y: 1.317646}
-      - {x: -0.41000748, y: 1.2628937}
+      - {x: -0.42237568, y: 1.3082428}
       - {x: -1.1604061, y: 1.2970963}
-      - {x: -1.3832655, y: 1.2822609}
+      - {x: -1.5440521, y: 1.2987518}
       - {x: -1.5449839, y: 1.1622658}
       - {x: -1.5449848, y: -1.0159721}
       - {x: -1.5126104, y: -1.1516819}
