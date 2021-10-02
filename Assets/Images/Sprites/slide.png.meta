@@ -1,34 +1,19 @@
 fileFormatVersion: 2
-guid: 330c3ca86806e0e46ad45b9e11429454
+guid: 20b99a292b622b144a851cb338519dfb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8334561994634867063
-    second: walkcycle_0
+      213: 4857335772653305134
+    second: slide_0
   - first:
-      213: 1801977997176568008
-    second: walkcycle_1
+      213: -329969244792713109
+    second: slide_1
   - first:
-      213: 3791378765197845872
-    second: walkcycle_2
+      213: -7909398147288137428
+    second: slide_2
   - first:
-      213: -5634323389500642204
-    second: walkcycle_3
-  - first:
-      213: 4396339208605781930
-    second: walkcycle_4
-  - first:
-      213: -3699031986185784573
-    second: walkcycle_5
-  - first:
-      213: 6471475800094375100
-    second: walkcycle_6
-  - first:
-      213: 5093231832185351827
-    second: walkcycle_7
-  - first:
-      213: -3433806792489688352
-    second: walkcycle_8
+      213: 5850636965976271850
+    second: slide_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -95,7 +80,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,7 +92,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -119,7 +104,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -131,7 +116,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -142,11 +127,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: walkcycle_0
+      name: slide_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -156,18 +141,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 771bea8c9ff4aa370800000000000000
-      internalID: 8334561994634867063
+      spriteID: e2d3cc36629b86340800000000000000
+      internalID: 4857335772653305134
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle_1
+      name: slide_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 160
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -177,18 +162,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c877cee079e10910800000000000000
-      internalID: 1801977997176568008
+      spriteID: b60935958b6bb6bf0800000000000000
+      internalID: -329969244792713109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle_2
+      name: slide_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 160
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -198,18 +183,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 075a39c36eead9430800000000000000
-      internalID: 3791378765197845872
+      spriteID: c2102c37a4c2c3290800000000000000
+      internalID: -7909398147288137428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle_3
+      name: slide_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 160
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -219,113 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46ca32baabcdec1b0800000000000000
-      internalID: -5634323389500642204
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walkcycle_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aafc119a73fe20d30800000000000000
-      internalID: 4396339208605781930
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walkcycle_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 303b692c1066aacc0800000000000000
-      internalID: -3699031986185784573
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walkcycle_6
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cbc792de3fc4fc950800000000000000
-      internalID: 6471475800094375100
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walkcycle_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 39eae14cd5bcea640800000000000000
-      internalID: 5093231832185351827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walkcycle_8
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 128
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0e224525aeaa850d0800000000000000
-      internalID: -3433806792489688352
+      spriteID: aebe8c29253a13150800000000000000
+      internalID: 5850636965976271850
       vertices: []
       indices: 
       edges: []

@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     void LateUpdate()
     {
         playerAnimator.SetBool("isMoving", moving);
+        playerAnimator.SetBool("onGround", grounded);
     }
 
     void Update()
@@ -127,8 +128,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
-        transform
-            .Translate(horizontalDirection * Time.deltaTime * currentHorizontalSpeed);
+        // transform
+        //     .Translate(horizontalDirection * Time.fixedDeltaTime * currentHorizontalSpeed);
+        rb.AddForce(horizontalDirection * currentHorizontalSpeed);
     }
 
     void updatePlayerDirection(float horizontalMovement)

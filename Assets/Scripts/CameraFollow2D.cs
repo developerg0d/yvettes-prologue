@@ -6,7 +6,7 @@ public class CameraFollow2D : MonoBehaviour
     public float followDistance;
     public GameObject target;
     public Vector3 offset;
-    void Update()
+    void LateUpdate()
     {
         if (target)
         {
