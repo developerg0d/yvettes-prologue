@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool canTurn;
+    private bool canDash = true;
+    [SerializeField] float dashDelay = 5.0f;
 
     public GameObject world;
 
@@ -70,13 +72,13 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("upthrust", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && !playerAttackScript.isDefending)
+        if (Input.GetKeyDown(KeyCode.Q) && !playerAttackScript.isDefending && canDash)
         {
             float dashingAnimationDirection = isLeft == true ? 1 : 0;
             playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(0);
         }
-        else if (Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending)
+        else if (Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending && canDash)
         {
 
             float dashingAnimationDirection = isLeft == true ? 0 : 1;
@@ -112,11 +114,17 @@ public class PlayerMovement : MonoBehaviour
 
     void dashPlayer(int dashingDirection)
     {
-
+        canDash = false;
         playerAnimator.SetTrigger("dashed");
-
         Vector2 dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
+        StartCoroutine("dashTimer");
+    }
+
+    IEnumerator dashTimer()
+    {
+        yield return new WaitForSeconds(dashDelay);
+        canDash = true;
     }
 
     void swordUpThrust()

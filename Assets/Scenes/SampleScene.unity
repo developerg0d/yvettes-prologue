@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df648e95501c64b46836788b3adfec54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 80
+  horizontalSpeed: 60
   climbingSpeed: 1
   dashSpeed: 45
   jumpPower: 45
