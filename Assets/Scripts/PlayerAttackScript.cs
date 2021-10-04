@@ -9,7 +9,6 @@ public class PlayerAttackScript : MonoBehaviour
 
     public bool isParrying = false;
     private Animator animator;
-
     private PlayerMovement playerMovement;
 
     public bool playerAction;
@@ -30,24 +29,21 @@ public class PlayerAttackScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.S))
         {
-            playerAction = true;
             rb.AddForce(Vector2.down * swordDownThrustPower, ForceMode2D.Impulse);
             animator.SetBool("downThrust", true);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && playerMovement.grounded)
         {
-            playerAction = true;
             isStabbing = true;
+
             animator.SetBool("swordPulledBack", true);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
         {
-            playerAction = true;
             isDefending = true;
             animator.SetBool("isDefending", true);
-            StopCoroutine("playerActionWaitTimer");
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
@@ -68,6 +64,6 @@ public class PlayerAttackScript : MonoBehaviour
     {
         isDefending = false;
         animator.SetBool("isDefending", false);
-        animator.SetTrigger("isRiposting");
+        Debug.Log("add reposte animation");
     }
 }

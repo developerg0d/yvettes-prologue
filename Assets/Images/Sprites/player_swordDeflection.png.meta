@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: fc83391dd90f9c24cb7bffe4f355a486
+guid: b23a77448c7a3e14c8620f608bb778e6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5115618752126089108
-    second: player_idle_0
+      213: -4096177373201855007
+    second: player_swordDeflection_0
   - first:
-      213: -5050664382621690000
-    second: player_idle_1
+      213: 3098950035344884467
+    second: player_swordDeflection_1
   - first:
-      213: -5937766766644145194
-    second: player_idle_2
+      213: 436012840122209533
+    second: player_swordDeflection_2
   - first:
-      213: 6213080392227812279
-    second: player_idle_3
+      213: -8551174911662099273
+    second: player_swordDeflection_3
+  - first:
+      213: 4953736898844926529
+    second: player_swordDeflection_4
+  - first:
+      213: 7338409660317243295
+    second: player_swordDeflection_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -55,7 +61,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -127,11 +133,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_idle_0
+      name: player_swordDeflection_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -141,18 +147,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c68823149dba109b0800000000000000
-      internalID: -5115618752126089108
+      spriteID: 1ed8f4da1647727c0800000000000000
+      internalID: -4096177373201855007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_1
+      name: player_swordDeflection_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 384
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -162,18 +168,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 077dd1ae08f68e9b0800000000000000
-      internalID: -5050664382621690000
+      spriteID: 3f28a6163aea10b20800000000000000
+      internalID: 3098950035344884467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_2
+      name: player_swordDeflection_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 384
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -183,18 +189,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d35e0bd590d89da0800000000000000
-      internalID: -5937766766644145194
+      spriteID: df45ef43e570d0600800000000000000
+      internalID: 436012840122209533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_3
+      name: player_swordDeflection_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 384
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -204,8 +210,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b3feabc2bb493650800000000000000
-      internalID: 6213080392227812279
+      spriteID: 7b4f52259bf145980800000000000000
+      internalID: -8551174911662099273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_swordDeflection_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 142a566a6753fb440800000000000000
+      internalID: 4953736898844926529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_swordDeflection_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f97118b94b447d560800000000000000
+      internalID: 7338409660317243295
       vertices: []
       indices: 
       edges: []

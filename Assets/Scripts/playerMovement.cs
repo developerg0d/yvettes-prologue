@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private Transform bottomPlayerSprite;
-
+    float horizontalMovement;
     private PlayerAttackScript playerAttackScript;
 
     private bool moving;
@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     public AttackControllerTheGolem attackControllerTheGolem;
 
+    public bool isLeft;
+
     void Start()
     {
         playerAttackScript = GetComponent<PlayerAttackScript>();
@@ -52,6 +54,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        MovementControls();
+    }
+
+    void MovementControls()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !grounded && upThrustReady)
         {
             upThrustReady = false;
@@ -63,12 +70,17 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("upthrust", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !playerAttackScript.isDefending)
         {
+            float dashingAnimationDirection = isLeft == true ? 1 : 0;
+            playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(0);
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending)
         {
+
+            float dashingAnimationDirection = isLeft == true ? 0 : 1;
+            playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(1);
         }
 
@@ -80,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontalMovement = Input.GetAxis("HorizontalMoving");
+        horizontalMovement = Input.GetAxis("HorizontalMoving");
         float verticalMovement = Input.GetAxis("VerticalMoving");
         if (canClimb && verticalMovement != 0)
         {
@@ -100,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
 
     void dashPlayer(int dashingDirection)
     {
+
+        playerAnimator.SetTrigger("dashed");
+
         Vector2 dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
     }
@@ -123,13 +138,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void movePlayerHorizontally(float horizontalMovement)
     {
-        // float currentHorizontalSpeed = playerAttackScript.isStabbing == true | playerAttackScript.isDefending == true ? horizontalSpeed / 2 : horizontalSpeed;
         updatePlayerDirection(horizontalMovement);
-
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
-        // transform
-        //     .Translate(horizontalDirection * Time.fixedDeltaTime * currentHorizontalSpeed);
         rb.AddForce(horizontalDirection * horizontalSpeed);
     }
 
@@ -137,6 +148,8 @@ public class PlayerMovement : MonoBehaviour
     {
         playerSprite.localScale =
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
+
+        isLeft = horizontalMovement >= 0 ? false : true;
     }
 
     void OnTriggerEnter2D(Collider2D col)

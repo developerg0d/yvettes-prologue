@@ -278,7 +278,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61192966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.033999924, y: -0.006249901, z: 0}
+  m_LocalPosition: {x: 0.06524991, y: 0.119499944, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 608582757}
@@ -351,7 +351,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1324554861070464549, guid: 6ebd1314554bbdb48a3633be71054e3e, type: 3}
+  m_Sprite: {fileID: -6989581376770176096, guid: 6ebd1314554bbdb48a3633be71054e3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -504,6 +504,7 @@ MonoBehaviour:
   world: {fileID: 1161261808}
   canClimb: 0
   attackControllerTheGolem: {fileID: 1390091565}
+  isLeft: 0
 --- !u!50 &70601908
 Rigidbody2D:
   serializedVersion: 4
@@ -2813,7 +2814,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608582756}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.025000095, y: 0.03399992, z: 0}
+  m_LocalPosition: {x: -0.05699992, y: 0.03399992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61192967}
