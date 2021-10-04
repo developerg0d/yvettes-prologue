@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 7cfdb4a659d5c824780db27e8d85bf3f
+guid: 6ebd1314554bbdb48a3633be71054e3e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7167711806358879685
-    second: walkcycle 1_0
+      213: 1324554861070464549
+    second: player_sword_0
   - first:
-      213: -1352555816222640154
-    second: walkcycle 1_1
+      213: -2378809908701028446
+    second: player_sword_1
   - first:
-      213: -3490081242092252117
-    second: walkcycle 1_2
+      213: -5364881197636697557
+    second: player_sword_2
   - first:
-      213: -1286995100552311154
-    second: walkcycle 1_3
+      213: -2101903448078497978
+    second: player_sword_3
   - first:
-      213: -3802461478670226737
-    second: walkcycle 1_4
+      213: 7328893691743082802
+    second: player_sword_4
   - first:
-      213: 6638335182823704134
-    second: walkcycle 1_5
+      213: -2407249718367561342
+    second: player_sword_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -133,11 +133,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: walkcycle 1_0
+      name: player_sword_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -147,18 +147,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cdf46669e3d87360800000000000000
-      internalID: 7167711806358879685
+      spriteID: 5263f9bd0a3c16210800000000000000
+      internalID: 1324554861070464549
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle 1_1
+      name: player_sword_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -168,18 +168,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e7392bb6a1ca3de0800000000000000
-      internalID: -1352555816222640154
+      spriteID: 2af12b3ddf4ccfed0800000000000000
+      internalID: -2378809908701028446
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle 1_2
+      name: player_sword_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -189,18 +189,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2456dff99db09fc0800000000000000
-      internalID: -3490081242092252117
+      spriteID: b2241b0a9fc1c85b0800000000000000
+      internalID: -5364881197636697557
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle 1_3
+      name: player_sword_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -210,18 +210,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8e49eb56cca32ee0800000000000000
-      internalID: -1286995100552311154
+      spriteID: 647cc1943f984d2e0800000000000000
+      internalID: -2101903448078497978
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle 1_4
+      name: player_sword_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -231,18 +231,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fca21c37e61fa3bc0800000000000000
-      internalID: -3802461478670226737
+      spriteID: 23992f48bf575b560800000000000000
+      internalID: 7328893691743082802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkcycle 1_5
+      name: player_sword_5
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -252,8 +252,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6464f286daa102c50800000000000000
-      internalID: 6638335182823704134
+      spriteID: 289da03a22bb79ed0800000000000000
+      internalID: -2407249718367561342
       vertices: []
       indices: 
       edges: []

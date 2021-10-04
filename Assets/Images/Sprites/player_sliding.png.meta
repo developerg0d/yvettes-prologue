@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 25a06069a607e6e488c2bc8a1e45a7db
+guid: 1320778297ff07444ba7491cd75385ff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4744724232239111109
-    second: idle 1_0
+      213: -1960282878385292387
+    second: player_sliding_0
   - first:
-      213: 5241860297644566261
-    second: idle 1_1
+      213: 8851654728255122774
+    second: player_sliding_1
   - first:
-      213: 456404381510539164
-    second: idle 1_2
+      213: 8097260964638858306
+    second: player_sliding_2
   - first:
-      213: -4228064520661559452
-    second: idle 1_3
+      213: -3211568341896746131
+    second: player_sliding_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -127,11 +127,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle 1_0
+      name: player_sliding_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -141,18 +141,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b34233c037a572eb0800000000000000
-      internalID: -4744724232239111109
+      spriteID: d9b709eab1dabc4e0800000000000000
+      internalID: -1960282878385292387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 1_1
+      name: player_sliding_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -162,18 +162,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f6e35b0b24deb840800000000000000
-      internalID: 5241860297644566261
+      spriteID: 65dad08c31567da70800000000000000
+      internalID: 8851654728255122774
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 1_2
+      name: player_sliding_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -183,18 +183,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c971ed9ed59755600800000000000000
-      internalID: 456404381510539164
+      spriteID: 24c9fea32ff3f5070800000000000000
+      internalID: 8097260964638858306
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 1_3
+      name: player_sliding_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -204,8 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 467198e38b5e255c0800000000000000
-      internalID: -4228064520661559452
+      spriteID: d6baa51db973e63d0800000000000000
+      internalID: -3211568341896746131
       vertices: []
       indices: 
       edges: []

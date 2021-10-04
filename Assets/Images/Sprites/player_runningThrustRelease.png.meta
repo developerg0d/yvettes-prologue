@@ -1,22 +1,25 @@
 fileFormatVersion: 2
-guid: b0efd1d7f18e75b44bd86dac36c3e0b9
+guid: dc369f25276218f4db3b0046eb1fbd4a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8020143640844766479
-    second: spritesheet_0
+      213: -8468836411617861643
+    second: player_runningThrustRelease_0
   - first:
-      213: -6251682230944352461
-    second: spritesheet_1
+      213: 2875944141914468574
+    second: player_runningThrustRelease_1
   - first:
-      213: -1259408508766424310
-    second: spritesheet_2
+      213: -4584523025718227139
+    second: player_runningThrustRelease_2
   - first:
-      213: -5962389079421231736
-    second: spritesheet_3
+      213: 8670971997369307830
+    second: player_runningThrustRelease_3
   - first:
-      213: 2788568348960109317
-    second: spritesheet_4
+      213: -3796579606476013376
+    second: player_runningThrustRelease_4
+  - first:
+      213: -2779011153488881387
+    second: player_runningThrustRelease_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -57,7 +60,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -80,7 +83,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -92,7 +95,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -104,7 +107,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -116,7 +119,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -130,11 +133,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spritesheet_0
+      name: player_runningThrustRelease_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -144,18 +147,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0d092816264d4f60800000000000000
-      internalID: 8020143640844766479
+      spriteID: 5ff9f984726a87a80800000000000000
+      internalID: -8468836411617861643
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_1
+      name: player_runningThrustRelease_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -165,18 +168,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 337b0ff32209d39a0800000000000000
-      internalID: -6251682230944352461
+      spriteID: ed07daca5f769e720800000000000000
+      internalID: 2875944141914468574
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_2
+      name: player_runningThrustRelease_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -186,18 +189,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a037fd742aea58ee0800000000000000
-      internalID: -1259408508766424310
+      spriteID: d3f477319908060c0800000000000000
+      internalID: -4584523025718227139
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_3
+      name: player_runningThrustRelease_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -207,18 +210,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88ddd6ce8b6514da0800000000000000
-      internalID: -5962389079421231736
+      spriteID: 6b29e80471b755870800000000000000
+      internalID: 8670971997369307830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_4
+      name: player_runningThrustRelease_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 160
+        y: 256
         width: 32
         height: 32
       alignment: 0
@@ -228,8 +231,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5033aaf832cf2b620800000000000000
-      internalID: 2788568348960109317
+      spriteID: 0c0418a86f6df4bc0800000000000000
+      internalID: -3796579606476013376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_runningThrustRelease_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51952796418fe69d0800000000000000
+      internalID: -2779011153488881387
       vertices: []
       indices: 
       edges: []
