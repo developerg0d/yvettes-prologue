@@ -86,6 +86,17 @@ public class PlayerMovement : MonoBehaviour
             dashPlayer(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+        {
+            playerAnimator.SetBool("isClimbing", true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
+        {
+            playerAnimator.SetBool("isClimbing", false);
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             jump();
@@ -98,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         float verticalMovement = Input.GetAxis("VerticalMoving");
         if (canClimb && verticalMovement != 0)
         {
+
             climb(verticalMovement);
         }
         if (horizontalMovement != 0)
@@ -164,6 +176,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.tag == "Ladder")
         {
+            playerAnimator.SetBool("onLadder", true);
             rb.gravityScale = 0;
             canClimb = true;
         }
@@ -172,6 +185,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.tag == "Ladder")
         {
+            playerAnimator.SetBool("onLadder", false);
             rb.gravityScale = 1;
             canClimb = false;
         }
