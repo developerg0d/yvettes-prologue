@@ -135,11 +135,6 @@ public class PlayerMovement : MonoBehaviour
 
     void updatePlayerDirection(float horizontalMovement)
     {
-        if (playerAttackScript.playerAction | playerAttackScript.isStabbing | playerAttackScript.isDefending)
-        {
-            return;
-        }
-
         playerSprite.localScale =
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
     }

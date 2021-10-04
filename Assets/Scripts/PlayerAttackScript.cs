@@ -32,7 +32,6 @@ public class PlayerAttackScript : MonoBehaviour
         {
             playerAction = true;
             rb.AddForce(Vector2.down * swordDownThrustPower, ForceMode2D.Impulse);
-            StopCoroutine("playerActionWaitTimer");
             animator.SetBool("downThrust", true);
         }
 
@@ -41,7 +40,6 @@ public class PlayerAttackScript : MonoBehaviour
             playerAction = true;
             isStabbing = true;
             animator.SetBool("swordPulledBack", true);
-            StopCoroutine("playerActionWaitTimer");
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
@@ -55,14 +53,12 @@ public class PlayerAttackScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
         {
             isDefending = false;
-            StartCoroutine("playerActionWaitTimer");
             animator.SetBool("isDefending", false);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0) && playerMovement.grounded)
         {
             isStabbing = false;
-            StartCoroutine("playerActionWaitTimer");
             animator.SetBool("downThrust", false);
             animator.SetBool("swordPulledBack", false);
         }
@@ -71,18 +67,7 @@ public class PlayerAttackScript : MonoBehaviour
     public void parryAttack()
     {
         isDefending = false;
-        StartCoroutine("playerActionWaitTimer");
         animator.SetBool("isDefending", false);
         animator.SetTrigger("isRiposting");
-    }
-
-    IEnumerator playerActionWaitTimer()
-    {
-        yield return new WaitForSeconds(1f);
-        if (isDefending | isStabbing)
-        {
-            StopCoroutine("playerActionWaitTimer");
-        }
-        playerAction = false;
     }
 }
