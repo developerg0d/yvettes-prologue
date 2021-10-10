@@ -48,7 +48,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isJumpingUpLadder;
 
+
+    private bool isClimbing;
     public bool canMove = true;
+
+    bool onSideLadder;
     void Start()
     {
         playerAttackScript = GetComponent<PlayerAttackScript>();
@@ -58,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
+        playerAnimator.SetBool("onSideLadder", onSideLadder);
+        playerAnimator.SetBool("isSideLadderClimbing", isClimbing);
         playerAnimator.SetBool("isMoving", moving);
         playerAnimator.SetBool("onGround", grounded);
     }
@@ -68,6 +74,11 @@ public class PlayerMovement : MonoBehaviour
         {
             MovementControls();
         }
+    }
+
+    bool isOnLadder()
+    {
+        return onLadder || onSideLadder;
     }
 
     void MovementControls()
@@ -124,26 +135,41 @@ public class PlayerMovement : MonoBehaviour
     void PhysicsMovement()
     {
         horizontalMovement = Input.GetAxis("HorizontalMoving");
+        isPlayerMoving(horizontalMovement);
         float verticalMovement = Input.GetAxis("VerticalMoving");
         if (canClimb && verticalMovement != 0)
         {
 
             climb(verticalMovement);
         }
+        if (onSideLadder && horizontalMovement != 0)
+        {
+            movePlayerDiagonally(horizontalMovement);
+            return;
+        }
         if (horizontalMovement != 0)
         {
-            if (!isLeft && onLadder && horizontalMovement > 0)
-            {
-                return;
-            }
             movePlayerHorizontally(horizontalMovement);
         }
-        isPlayerMoving(horizontalMovement);
     }
 
     void isPlayerMoving(float horizontalMovement)
     {
         moving = horizontalMovement != 0;
+    }
+
+    void movePlayerDiagonally(float horizontalMovement)
+    {
+        Vector2 horizontalDirection =
+            horizontalMovement <= 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
+        rb.velocity = horizontalDirection * (horizontalSpeed / 30);
+    }
+    void movePlayerHorizontally(float horizontalMovement)
+    {
+        updatePlayerDirection(horizontalMovement);
+        Vector2 horizontalDirection =
+            horizontalMovement <= 0 ? Vector2.left : Vector2.right;
+        rb.AddForce(horizontalDirection * horizontalSpeed);
     }
 
     void dashPlayer(int dashingDirection)
@@ -180,14 +206,6 @@ public class PlayerMovement : MonoBehaviour
             .Translate(verticalDirection * Time.deltaTime * climbingSpeed);
     }
 
-    void movePlayerHorizontally(float horizontalMovement)
-    {
-        updatePlayerDirection(horizontalMovement);
-        Vector2 horizontalDirection =
-            horizontalMovement <= 0 ? Vector2.left : Vector2.right;
-        rb.AddForce(horizontalDirection * horizontalSpeed);
-    }
-
     void updatePlayerDirection(float horizontalMovement)
     {
         playerSprite.localScale =
@@ -203,14 +221,40 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0;
         }
-
     }
-
-
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "LadderEnd" && onLadder && Input.GetKey(KeyCode.W) && canMove)
+        if (col.tag == "ScalingWall" && !isLeft)
+        {
+            rb.gravityScale = 0.7f;
+            playerAnimator.SetBool("isScalingWall", true);
+        }
+
+        if (col.tag == "SideLadder")
+        {
+            // if (Input.GetKeyDown(KeyCode.D))
+            // {
+            //     rb.velocity = Vector2.zero;
+            // }
+
+            if (horizontalMovement > 0)
+            {
+                onSideLadder = true;
+                isClimbing = true;
+            }
+            else
+            {
+                isClimbing = false;
+            }
+            if (horizontalMovement < 0)
+            {
+                onSideLadder = false;
+
+            }
+        }
+
+        if (col.tag == "LadderEnd" && onLadder && isClimbing && canMove)
         {
             playerAnimator.SetBool("isClimbing", false);
             canClimb = false;
@@ -252,6 +296,18 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
+        if (col.tag == "ScalingWall")
+        {
+            rb.gravityScale = 1.0f;
+            playerAnimator.SetBool("isScalingWall", false);
+        }
+        if (col.tag == "SideLadder")
+        {
+            onSideLadder = false;
+            rb.gravityScale = 1;
+            playerAnimator.SetBool("onSideLadder", false);
+
+        }
         if (col.tag == "Ladder")
         {
             onLadder = false;
@@ -263,13 +319,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.collider.tag == "ScalingWall")
-        {
-            rb.gravityScale = 0.3f;
-            playerAnimator.SetBool("isScalingWall", true);
-        }
 
-        if (col.gameObject.tag == "Ground" && !onLadder)
+
+        if (col.gameObject.tag == "Ground" && !isOnLadder())
         {
             rb.gravityScale = 1f;
             upThrustReady = true;
@@ -279,6 +331,11 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.collider.tag == "ScalingWall")
+        {
+            rb.velocity = rb.velocity / 4;
+        }
+
         if (attackControllerTheGolem.firstStage)
         {
             if (col.gameObject.tag == "Ground" &&
@@ -306,10 +363,6 @@ public class PlayerMovement : MonoBehaviour
         {
             grounded = false;
         }
-        if (col.collider.tag == "ScalingWall")
-        {
-            rb.gravityScale = 1.0f;
-            playerAnimator.SetBool("isScalingWall", false);
-        }
+
     }
 }

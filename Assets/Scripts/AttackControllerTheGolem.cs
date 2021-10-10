@@ -86,11 +86,11 @@ public class AttackControllerTheGolem : MonoBehaviour
     float xOffSet;
     void Start()
     {
-        AssignVariables();
+        assignVariables();
         startBattle();
     }
 
-    void AssignVariables()
+    void assignVariables()
     {
         bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
         rb = GetComponent<Rigidbody2D>();
@@ -289,8 +289,9 @@ public class AttackControllerTheGolem : MonoBehaviour
     IEnumerator secondStageCoroutine()
     {
         firstStage = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(7.5f);
         secondStage = true;
+        Debug.Log("bouncing");
         StartCoroutine("bouncingAttack");
     }
 
@@ -300,7 +301,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         {
             jumping = true;
             shockWaveSpawned = false;
-            yield return new WaitForSeconds(7f);
+            yield return new WaitForSeconds(12f);
         }
     }
 

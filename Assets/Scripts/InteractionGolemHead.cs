@@ -19,26 +19,28 @@ public class InteractionGolemHead : MonoBehaviour
         attackControllerTheGolem = GetComponentInParent<AttackControllerTheGolem>();
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.otherCollider.tag != "GolemHead" || beenHitDelay)
+        Debug.Log("d");
+        if (beenHitDelay)
         {
             return;
         }
+
         if (attackControllerTheGolem.finalStage)
         {
-            if (col.collider.tag == "Sword")
+            if (col.gameObject.tag == "Sword")
             {
                 StartCoroutine("hitDelay");
                 golemFinalStageRecoil(col.gameObject);
-                attackControllerTheGolem.finalStageHeadStrike();
+                // attackControllerTheGolem.finalStageHeadStrike();
             }
             return;
         }
 
         if (attackControllerTheGolem.firstStage == true)
         {
-            if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
+            if (col.gameObject.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
             {
                 StartCoroutine("hitDelay");
                 golemHeadRecoil(col.gameObject);
@@ -47,7 +49,7 @@ public class InteractionGolemHead : MonoBehaviour
         }
         else
         {
-            if (col.collider.tag == "Sword")
+            if (col.gameObject.tag == "Sword")
             {
                 StartCoroutine("hitDelay");
                 golemDownThrustHeadRecoil(col.gameObject);
@@ -63,10 +65,16 @@ public class InteractionGolemHead : MonoBehaviour
     }
     void golemHeadRecoil(GameObject collider)
     {
-        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
+        StartCoroutine("headRecoil", collider);
+    }
 
+    IEnumerator headRecoil(GameObject collider)
+    {
+        Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.AddForce(Vector2.up * (recoilForce * 0.75f), ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.075f);
         rb.AddForce(Vector2.left * recoilForce, ForceMode2D.Impulse);
-        rb.AddForce(Vector2.up * (recoilForce * 0.7f), ForceMode2D.Impulse);
     }
 
     void golemDownThrustHeadRecoil(GameObject collider)

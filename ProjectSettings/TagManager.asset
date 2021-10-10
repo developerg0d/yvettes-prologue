@@ -15,6 +15,7 @@ TagManager:
   - LazerBall
   - FistAvoid
   - LadderEnd
+  - SideLadder
   layers:
   - Default
   - TransparentFX

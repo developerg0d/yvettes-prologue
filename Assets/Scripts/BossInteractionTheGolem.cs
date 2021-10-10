@@ -37,20 +37,14 @@ public class BossInteractionTheGolem : MonoBehaviour
     {
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
-        attackControllerTheGolem.StopCoroutine("waitForGolemToShakeOff");
         firstStageCounter++;
         if (firstStageCounter == 1)
         {
             leftHand.SetActive(false);
             rightHand.SetActive(false);
-            leftFootCollider.isTrigger = false;
-            rightFootCollider.isTrigger = false;
-            attackControllerTheGolem.returningToOriginalPosition = false;
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.constraints = RigidbodyConstraints2D.None;
             rb.gravityScale = 1.0f;
-            CloseCamera.gameObject.SetActive(false);
-            MediumCamera.gameObject.SetActive(true);
             attackControllerTheGolem.startSecondStage();
         }
     }
