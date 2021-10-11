@@ -20,9 +20,14 @@ public class BossInteractionTheGolem : MonoBehaviour
     public BoxCollider2D leftFootCollider;
     public BoxCollider2D rightFootCollider;
 
-    public Camera MediumCamera;
-    public Camera CloseCamera;
-    public Camera WideCamera;
+    [SerializeField]
+    private float closeCameraSize;
+    [SerializeField]
+    private float mediumCameraSize;
+    [SerializeField]
+    private float longCameraSize;
+
+    public Cinemachine.CinemachineVirtualCamera mainCamera;
     void Start()
     {
         attackControllerTheGolem = GetComponent<AttackControllerTheGolem>();
@@ -41,9 +46,12 @@ public class BossInteractionTheGolem : MonoBehaviour
         if (firstStageCounter == 1)
         {
             leftHand.SetActive(false);
+            mainCamera.m_Lens.OrthographicSize = longCameraSize;
             rightHand.SetActive(false);
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
             rb.gravityScale = 1.0f;
             attackControllerTheGolem.startSecondStage();
         }

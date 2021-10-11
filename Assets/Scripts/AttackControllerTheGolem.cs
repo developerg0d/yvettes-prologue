@@ -83,6 +83,8 @@ public class AttackControllerTheGolem : MonoBehaviour
     public bool fistCanAttack;
 
     private BossInteractionTheGolem bossInteractionTheGolem;
+
+    private Animator golemAnimator;
     float xOffSet;
     void Start()
     {
@@ -92,6 +94,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void assignVariables()
     {
+        golemAnimator = this.GetComponent<Animator>();
         bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -132,11 +135,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (jumping)
-        {
-            jumping = false;
-            rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
-        }
+
         if (firstStage)
         {
             if (raisingHand)
@@ -292,16 +291,24 @@ public class AttackControllerTheGolem : MonoBehaviour
         yield return new WaitForSeconds(7.5f);
         secondStage = true;
         Debug.Log("bouncing");
-        StartCoroutine("bouncingAttack");
+        bouncingAttack();
     }
 
-    IEnumerator bouncingAttack()
+    void bouncingAttack()
     {
+        StartCoroutine("bouncingAttackCoroutine");
+    }
+    IEnumerator bouncingAttackCoroutine()
+    {
+        float randomWaitingTime = Random.Range(5, 7.5f);
         while (enabled)
         {
-            jumping = true;
+            golemAnimator.SetTrigger("prepareToJump");
+            yield return new WaitForSeconds(randomWaitingTime);
+            golemAnimator.SetTrigger("jump");
+            rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
             shockWaveSpawned = false;
-            yield return new WaitForSeconds(12f);
+            randomWaitingTime = Random.Range(5, 7.5f);
         }
     }
 

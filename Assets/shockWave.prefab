@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beenParried: 0
+  shockwaveForce: 700
 --- !u!1 &3172001976842048037
 GameObject:
   m_ObjectHideFlags: 0

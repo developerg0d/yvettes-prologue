@@ -169,7 +169,15 @@ public class PlayerMovement : MonoBehaviour
         updatePlayerDirection(horizontalMovement);
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
-        rb.AddForce(horizontalDirection * horizontalSpeed);
+        if (grounded)
+        {
+
+            rb.AddForce(horizontalDirection * horizontalSpeed);
+        }
+        else
+        {
+            rb.AddForce(horizontalDirection * (horizontalSpeed / 2));
+        }
     }
 
     void dashPlayer(int dashingDirection)
@@ -254,7 +262,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (col.tag == "LadderEnd" && onLadder && isClimbing && canMove)
+        if (col.tag == "LadderEnd" && isClimbing && canMove)
         {
             playerAnimator.SetBool("isClimbing", false);
             canClimb = false;
