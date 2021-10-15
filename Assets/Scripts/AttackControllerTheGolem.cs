@@ -89,7 +89,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     void Start()
     {
         assignVariables();
-        startBattle();
+        // startBattle();
     }
 
     void assignVariables()
@@ -291,21 +291,22 @@ public class AttackControllerTheGolem : MonoBehaviour
         yield return new WaitForSeconds(7.5f);
         secondStage = true;
         Debug.Log("bouncing");
-        bouncingAttack();
+        //  bouncingAttack();
     }
 
     void bouncingAttack()
     {
-        StartCoroutine("bouncingAttackCoroutine");
+        //  StartCoroutine("bouncingAttackCoroutine");
     }
     IEnumerator bouncingAttackCoroutine()
     {
         float randomWaitingTime = Random.Range(5, 7.5f);
         while (enabled)
         {
-            golemAnimator.SetTrigger("prepareToJump");
+            golemAnimator.SetBool("prepareToJump", true);
             yield return new WaitForSeconds(randomWaitingTime);
             golemAnimator.SetTrigger("jump");
+            golemAnimator.SetBool("prepareToJump", false);
             rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
             shockWaveSpawned = false;
             randomWaitingTime = Random.Range(5, 7.5f);
@@ -314,7 +315,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && startedAttacking && !shockWaveSpawned && !hasFallenOver && secondStage)
+        if (col.gameObject.tag == "Ground" && startedAttacking && shockWaveSpawned && !hasFallenOver && secondStage)
         {
             shockWaveSpawned = true;
             spawnShockWaves();
@@ -330,54 +331,37 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public void beenParried()
     {
-        StopCoroutine("bouncingAttack");
-        enableHandHolds();
-
-        StartCoroutine("fallOverBackwards");
+        golemAnimator.applyRootMotion = false;
+        golemAnimator.SetBool("prepareToJump", false);
+        golemAnimator.SetBool("fallenOver", true);
+        head.SetActive(true);
+        head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
+        StopCoroutine("bouncingAttackCoroutine");
     }
 
-    IEnumerator fallOverBackwards()
-    {
-        while (enabled)
-        {
-            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
-            Quaternion targetRotation = Quaternion.Euler(direction);
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-            if (transform.eulerAngles.z >= 270 && transform.eulerAngles.z <= 272)
-            {
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-                head.SetActive(true);
-                head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
-                StopCoroutine("fallOver");
-            }
-            yield return null;
-        }
-    }
+    // IEnumerator fallOverBackwards()
+    // {
+    //     while (enabled)
+    //     {
+    //         Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
+    //         Quaternion targetRotation = Quaternion.Euler(direction);
+    //         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
+    //         if (transform.eulerAngles.z >= 270 && transform.eulerAngles.z <= 272)
+    //         {
+    //             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+    //             head.SetActive(true);
+    //             head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
+    //             StopCoroutine("fallOver");
+    //         }
+    //         yield return null;
+    //     }
+    // }
 
     public void getUp()
     {
-        disableHandHolds();
-        rb.constraints = RigidbodyConstraints2D.None;
-        StartCoroutine("getUpCoroutine");
-    }
-
-    IEnumerator getUpCoroutine()
-    {
-        yield return new WaitForSeconds(2f);
-        while (enabled)
-        {
-            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-            Quaternion targetRotation = Quaternion.Euler(direction);
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1.2f);
-            if (Mathf.RoundToInt(transform.eulerAngles.z) == 360)
-            {
-                yield return new WaitForSeconds(2f);
-                // golemHead2.SetActive(true);
-                StartCoroutine("fallOverForwards");
-                StopCoroutine("getUpCoroutine");
-            }
-            yield return null;
-        }
+        golemAnimator.SetBool("fallenOver", false);
+        golemAnimator.SetTrigger("getUp");
+        Debug.Log("get up");
     }
 
     IEnumerator fallOverForwards()

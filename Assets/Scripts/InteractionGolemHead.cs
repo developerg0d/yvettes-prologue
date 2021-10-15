@@ -21,7 +21,6 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("d");
         if (beenHitDelay)
         {
             return;
@@ -45,13 +44,13 @@ public class InteractionGolemHead : MonoBehaviour
                 StartCoroutine("hitDelay");
                 golemHeadRecoil(col.gameObject);
                 mainInteractionScript.firstStageGolemHeadHit();
+                return;
             }
         }
-        else
+        if (attackControllerTheGolem.secondStage == true)
         {
             if (col.gameObject.tag == "Sword")
             {
-                StartCoroutine("hitDelay");
                 golemDownThrustHeadRecoil(col.gameObject);
                 attackControllerTheGolem.getUp();
             }
@@ -79,10 +78,9 @@ public class InteractionGolemHead : MonoBehaviour
 
     void golemDownThrustHeadRecoil(GameObject collider)
     {
-        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
-
-        rb.AddForce(Vector2.left * recoilForce * 4, ForceMode2D.Impulse);
-        rb.AddForce(Vector2.up * recoilForce * 3, ForceMode2D.Impulse);
+        Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
+        rb.AddForce(Vector2.left * recoilForce * 3, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * recoilForce * 2, ForceMode2D.Impulse);
     }
 
     void golemFinalStageRecoil(GameObject collider)
