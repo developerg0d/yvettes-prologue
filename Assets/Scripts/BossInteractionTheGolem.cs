@@ -46,7 +46,6 @@ public class BossInteractionTheGolem : MonoBehaviour
         if (firstStageCounter == 1)
         {
             leftHand.SetActive(false);
-            mainCamera.m_Lens.OrthographicSize = longCameraSize;
             rightHand.SetActive(false);
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.constraints = RigidbodyConstraints2D.None;

@@ -82,6 +82,8 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public bool fistCanAttack;
 
+    private bool isBouncing = false;
+
     private BossInteractionTheGolem bossInteractionTheGolem;
 
     private Animator golemAnimator;
@@ -89,6 +91,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     void Start()
     {
         assignVariables();
+        StartCoroutine("secondStageCoroutine");
         // startBattle();
     }
 
@@ -288,34 +291,36 @@ public class AttackControllerTheGolem : MonoBehaviour
     IEnumerator secondStageCoroutine()
     {
         firstStage = false;
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(2f);
+        startedAttacking = true;
         secondStage = true;
         Debug.Log("bouncing");
-        //  bouncingAttack();
+        bouncingAttack();
     }
 
     void bouncingAttack()
     {
-        //  StartCoroutine("bouncingAttackCoroutine");
+        StartCoroutine("bouncingAttackCoroutine");
     }
     IEnumerator bouncingAttackCoroutine()
     {
+        golemAnimator.SetBool("prepareToJump", true);
         float randomWaitingTime = Random.Range(5, 7.5f);
         while (enabled)
         {
-            golemAnimator.SetBool("prepareToJump", true);
             yield return new WaitForSeconds(randomWaitingTime);
             golemAnimator.SetTrigger("jump");
-            golemAnimator.SetBool("prepareToJump", false);
+            isBouncing = true;
             rb.AddForce(Vector2.up * golemJumpUpForce, ForceMode2D.Impulse);
             shockWaveSpawned = false;
             randomWaitingTime = Random.Range(5, 7.5f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && startedAttacking && shockWaveSpawned && !hasFallenOver && secondStage)
+        if (col.gameObject.tag == "Ground" && isBouncing && !shockWaveSpawned)
         {
             shockWaveSpawned = true;
             spawnShockWaves();
@@ -331,37 +336,28 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public void beenParried()
     {
-        golemAnimator.applyRootMotion = false;
+        isBouncing = false;
         golemAnimator.SetBool("prepareToJump", false);
+        rb.bodyType = RigidbodyType2D.Static;
         golemAnimator.SetBool("fallenOver", true);
-        head.SetActive(true);
-        head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
+        startedAttacking = false;
         StopCoroutine("bouncingAttackCoroutine");
     }
-
-    // IEnumerator fallOverBackwards()
-    // {
-    //     while (enabled)
-    //     {
-    //         Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, -90);
-    //         Quaternion targetRotation = Quaternion.Euler(direction);
-    //         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-    //         if (transform.eulerAngles.z >= 270 && transform.eulerAngles.z <= 272)
-    //         {
-    //             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-    //             head.SetActive(true);
-    //             head.GetComponent<InteractionGolemHead>().isKnockedDown = true;
-    //             StopCoroutine("fallOver");
-    //         }
-    //         yield return null;
-    //     }
-    // }
 
     public void getUp()
     {
         golemAnimator.SetBool("fallenOver", false);
         golemAnimator.SetTrigger("getUp");
         Debug.Log("get up");
+        StartCoroutine("getUpCoroutine");
+    }
+
+    IEnumerator getUpCoroutine()
+    {
+        yield return new WaitForSeconds(21f);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        yield return new WaitForSeconds(2f);
+        bouncingAttack();
     }
 
     IEnumerator fallOverForwards()
