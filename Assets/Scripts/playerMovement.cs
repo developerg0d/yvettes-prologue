@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool upThrustReady;
 
 
-    public AttackControllerTheGolem attackControllerTheGolem;
+    public GolemAttackController golemAttackController;
 
     public bool isLeft;
 
@@ -344,11 +344,11 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = rb.velocity / 4;
         }
 
-        if (attackControllerTheGolem.firstStage)
+        if (golemAttackController.firstStage)
         {
             if (col.collider.tag == "GolemHand")
             {
-                attackControllerTheGolem.playerRidingHand = true;
+                golemAttackController.playerRidingHand = true;
             }
         }
     }
@@ -358,7 +358,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.collider.tag == "GolemHand")
         {
-            attackControllerTheGolem.playerRidingHand = false;
+            golemAttackController.playerRidingHand = false;
         }
         if (col.gameObject.tag == "Ground")
         {

@@ -9,14 +9,14 @@ public class InteractionGolemHead : MonoBehaviour
     [SerializeField] int recoilForce = 65;
     private BossInteractionTheGolem mainInteractionScript;
 
-    private AttackControllerTheGolem attackControllerTheGolem;
+    private GolemAttackController attackControllerTheGolem;
 
     private bool beenHitDelay;
 
     void Start()
     {
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
-        attackControllerTheGolem = GetComponentInParent<AttackControllerTheGolem>();
+        attackControllerTheGolem = GetComponentInParent<GolemAttackController>();
     }
 
     void OnTriggerEnter2D(Collider2D col)

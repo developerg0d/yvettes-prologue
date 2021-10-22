@@ -7,7 +7,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     public bool canTakeDamage = true;
     public UxInteraction uxInteraction;
 
-    private AttackControllerTheGolem attackControllerTheGolem;
+    private GolemAttackController golemAttackController;
 
     private BossStats bossStats;
 
@@ -30,7 +30,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     public Cinemachine.CinemachineVirtualCamera mainCamera;
     void Start()
     {
-        attackControllerTheGolem = GetComponent<AttackControllerTheGolem>();
+        golemAttackController = GetComponent<GolemAttackController>();
         bossStats = GetComponent<BossStats>();
     }
     public void golemHandHit()
@@ -52,7 +52,7 @@ public class BossInteractionTheGolem : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
             rb.gravityScale = 1.0f;
-            attackControllerTheGolem.startSecondStage();
+            golemAttackController.startSecondStage();
         }
     }
 
@@ -60,11 +60,11 @@ public class BossInteractionTheGolem : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
 
-        if (attackControllerTheGolem.firstStage)
+        if (golemAttackController.firstStage)
         {
             if (col.gameObject.tag == "Player" && col.otherCollider.tag == "Golem")
             {
-                attackControllerTheGolem.onGolemFirstStage();
+                golemAttackController.playerOnTopGolemFirstStage();
             }
         }
 
@@ -73,7 +73,7 @@ public class BossInteractionTheGolem : MonoBehaviour
             if (col.gameObject.GetComponent<shockwaveInteraction>().beenParried)
             {
                 Destroy(col.gameObject);
-                attackControllerTheGolem.beenParried();
+                golemAttackController.beenParried();
             }
         }
 

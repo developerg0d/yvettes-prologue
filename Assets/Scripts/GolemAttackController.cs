@@ -2,54 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackControllerTheGolem : MonoBehaviour
+public class GolemAttackController : MonoBehaviour
 {
-
+    [Header("Golem Physic Forces")]
+    [Space(10)]
     [SerializeField]
     private float golemJumpUpForce;
-    [SerializeField]
-    private float golemJumpForwardsForce;
 
     [SerializeField]
-    private float indicatorTimeout = 0.5F;
+    private float shockWaveForce;
 
     [SerializeField]
-    private GameObject leftHand;
-    [SerializeField]
-    private GameObject rightHand;
 
-    [SerializeField]
     private float slammingForce;
 
-    [SerializeField]
-    private float handFollowSpeed;
     [SerializeField]
     private float handRaiseSpeed;
 
     private Rigidbody2D leftHandRb;
-    private Rigidbody2D rightHandRb;
 
     private Vector3 initialHandPosition;
 
-    private bool hasFallenOver;
-    private bool raisingHand;
-
     private GameObject player;
 
+    [Space(10)]
+    [SerializeField]
+    private float indicatorTimeout = 0.5F;
     public bool playerRidingHand = false;
 
+    public GameObject leftHand;
     public UxInteraction uxInteraction;
-
-    public Vector3 offset;
-
-    public bool jumping;
 
     bool startedAttacking;
 
     private float spinTimer = 0f;
-
-    [SerializeField]
-    private float shockWaveForce;
 
     public Transform shockWaveSpawnLocation;
 
@@ -66,16 +52,11 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public GameObject lazerBall;
 
-    private int vb;
-
-    public bool fistCanAttack;
-
     private bool isBouncing = false;
 
     private BossInteractionTheGolem bossInteractionTheGolem;
 
     private Animator golemAnimator;
-    float xOffSet;
     void Start()
     {
         assignVariables();
@@ -89,7 +70,6 @@ public class AttackControllerTheGolem : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
-        rightHandRb = rightHand.GetComponent<Rigidbody2D>();
     }
 
     public void startBattle()
@@ -135,8 +115,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
         while (enabled)
         {
-            float step = handRaiseSpeed * Time.fixedDeltaTime;
-            leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
+            raisingHand();
 
             if (leftHand.transform.position.y >= initialHandPosition.y && leftHand.transform.position.x >= initialHandPosition.x)
             {
@@ -152,11 +131,17 @@ public class AttackControllerTheGolem : MonoBehaviour
                 {
                     StartCoroutine("startFistSlamCoroutine");
                 }
-                
+
                 StopCoroutine("raiseHandCoroutine");
             }
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
+    }
+
+    void raisingHand()
+    {
+        float step = handRaiseSpeed * Time.fixedDeltaTime;
+        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
     }
 
     IEnumerator spinHandCoroutine()
@@ -174,7 +159,7 @@ public class AttackControllerTheGolem : MonoBehaviour
         }
     }
 
-    public void onGolemFirstStage()
+    public void playerOnTopGolemFirstStage()
     {
         StopCoroutine("startFistSlamCoroutine");
         StopCoroutine("raiseHand");
