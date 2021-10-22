@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) && canClimb)
         {
+
             playerAnimator.SetBool("isClimbing", true);
         }
 
@@ -171,7 +172,6 @@ public class PlayerMovement : MonoBehaviour
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
         if (grounded)
         {
-
             rb.AddForce(horizontalDirection * horizontalSpeed);
         }
         else
@@ -222,15 +222,6 @@ public class PlayerMovement : MonoBehaviour
         isLeft = horizontalMovement >= 0 ? false : true;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Ladder")
-        {
-            rb.velocity = Vector2.zero;
-            rb.gravityScale = 0;
-        }
-    }
-
     void OnTriggerStay2D(Collider2D col)
     {
         if (col.tag == "ScalingWall" && !isLeft)
@@ -241,11 +232,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.tag == "SideLadder")
         {
-            // if (Input.GetKeyDown(KeyCode.D))
-            // {
-            //     rb.velocity = Vector2.zero;
-            // }
-
             if (horizontalMovement > 0)
             {
                 onSideLadder = true;
@@ -278,6 +264,10 @@ public class PlayerMovement : MonoBehaviour
             if (!grounded)
             {
                 onLadder = true;
+            }
+            if (rb.gravityScale != 0)
+            {
+                rb.gravityScale = 0;
             }
             playerAnimator.SetBool("onLadder", true);
             canClimb = true;
@@ -343,8 +333,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity / 4;
         }
-
-        if (golemAttackController.firstStage)
+        if (golemAttackController && golemAttackController.firstStage)
         {
             if (col.collider.tag == "GolemHand")
             {
@@ -355,7 +344,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-
         if (col.collider.tag == "GolemHand")
         {
             golemAttackController.playerRidingHand = false;
