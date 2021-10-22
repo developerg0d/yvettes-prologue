@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class UxInteraction : MonoBehaviour
 {
@@ -11,10 +12,10 @@ public class UxInteraction : MonoBehaviour
 
     public Image indicator;
 
-    public Camera mainCamera;
+    [SerializeField]
+    protected Camera mainCamera;
 
     public float indicatorTimeout = 0.5F;
-
 
     public void updateBossHpBar(int currentHp)
     {
@@ -25,7 +26,8 @@ public class UxInteraction : MonoBehaviour
     public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition)
     {
         indicator.gameObject.SetActive(true);
-        indicator.transform.position = new Vector3((mainCamera.WorldToScreenPoint(golemHandPosition).x), indicator.transform.position.y, 0);
+     //   Debug.Log(mainCamera);
+   //    indicator.transform.position = new Vector3((mainCamera.WorldToScreenPoint(golemHandPosition).x), indicator.transform.position.y, 0);
         StartCoroutine("disableIndicator");
     }
     IEnumerator disableIndicator()

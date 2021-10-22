@@ -346,13 +346,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (attackControllerTheGolem.firstStage)
         {
-            if (col.gameObject.tag == "Ground" &&
-            !attackControllerTheGolem.fistCanAttack)
-            {
-                attackControllerTheGolem.fistCanAttack = true;
-                attackControllerTheGolem.StartCoroutine("startBattleCoroutine");
-            }
-
             if (col.collider.tag == "GolemHand")
             {
                 attackControllerTheGolem.playerRidingHand = true;

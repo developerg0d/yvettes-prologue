@@ -30,16 +30,9 @@ public class AttackControllerTheGolem : MonoBehaviour
     private Rigidbody2D rightHandRb;
 
     private Vector3 initialHandPosition;
-    private Vector3 lastHandPosition;
-
-    private bool slammingHand;
 
     private bool hasFallenOver;
     private bool raisingHand;
-
-    [SerializeField]
-    private GameObject head;
-    public bool canFollowPlayer = true;
 
     private GameObject player;
 
@@ -48,9 +41,6 @@ public class AttackControllerTheGolem : MonoBehaviour
     public UxInteraction uxInteraction;
 
     public Vector3 offset;
-    public bool returningToOriginalPosition;
-
-    public bool useOffset;
 
     public bool jumping;
 
@@ -66,8 +56,6 @@ public class AttackControllerTheGolem : MonoBehaviour
     public GameObject shockWave;
 
     private bool shockWaveSpawned;
-
-    public GameObject golemHead2;
     private Rigidbody2D rb;
 
     public GameObject lazerCannon;
@@ -78,7 +66,7 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     public GameObject lazerBall;
 
-    private int finalStageCounter;
+    private int vb;
 
     public bool fistCanAttack;
 
@@ -91,8 +79,7 @@ public class AttackControllerTheGolem : MonoBehaviour
     void Start()
     {
         assignVariables();
-        StartCoroutine("secondStageCoroutine");
-        // startBattle();
+        startBattle();
     }
 
     void assignVariables()
@@ -113,119 +100,66 @@ public class AttackControllerTheGolem : MonoBehaviour
 
     IEnumerator startBattleCoroutine()
     {
-        fistCanAttack = true;
-        canFollowPlayer = true;
         yield return new WaitForSeconds(2F);
         startedAttacking = true;
         firstStage = true;
-        StartCoroutine("startFistSlam");
+        StartCoroutine("startFistSlamCoroutine");
     }
 
-    void fallingOver()
+    IEnumerator startFistSlamCoroutine()
     {
-        hasFallenOver = true;
-        enableHandHolds();
-        StartCoroutine("fallover");
+        Debug.Log("Slam Fist");
+
+        uxInteraction.updateGolemFistIndicatorPosition(player.transform.position);
+        yield return new WaitForSeconds(indicatorTimeout);
+        StartCoroutine("fistSlamCoroutine");
     }
 
-    Vector3 getOffsetPlayerPosition()
+    private IEnumerator fistSlamCoroutine()
     {
-        Vector3 offSetPlayerPosition = player.transform.position;
-        offSetPlayerPosition.x += offset.x;
-        offSetPlayerPosition.y += offset.y;
-        return offSetPlayerPosition;
+        slamFist();
+        yield return new WaitForSeconds(5f);
+        StartCoroutine("raiseHandCoroutine");
     }
 
-    void FixedUpdate()
+    void slamFist()
     {
-
-        if (firstStage)
-        {
-            if (raisingHand)
-            {
-                moveHandToInitialSlamPosition();
-            }
-        }
+        Debug.Log("Slamming Fist");
+        Vector3 test = leftHand.transform.right = player.transform.position - leftHand.transform.position;
+        leftHand.transform.eulerAngles = Vector3.zero;
+        leftHandRb.AddForce(test * slammingForce, ForceMode2D.Impulse);
     }
+    IEnumerator raiseHandCoroutine()
+    {
+        Debug.Log("Raising Hand");
 
-    void moveHandToPlayer()
-    {
-        bool tooCloseToBoss = leftHand.GetComponent<InteractionGolemHand>().tooCloseToBoss;
-        float step = handFollowSpeed * Time.deltaTime;
-        if (tooCloseToBoss)
-        {
-            xOffSet += 0.1f;
-        }
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(player.transform.position.x - xOffSet, leftHand.transform.position.y), step);
-    }
-
-    void moveHandToInitialSlamPosition()
-    {
-        float step = handRaiseSpeed * Time.fixedDeltaTime;
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
-    }
-
-    public void onGolemFirstStage()
-    {
-        StopCoroutine("startFistSlam");
-        StopCoroutine("raiseHand");
-        StopCoroutine("fistSlam");
-        fistCanAttack = false;
-        StartCoroutine("waitForGolemToShakeOff");
-    }
-
-    IEnumerator waitForGolemToShakeOff()
-    {
-        yield return new WaitForSeconds(15f);
-        Debug.Log("Start Shaking");
-        player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 150);
-    }
-    IEnumerator returnToOriginalPosition()
-    {
         while (enabled)
         {
-            float step = handFollowSpeed * Time.deltaTime;
-            leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, initialHandPosition, step);
+            float step = handRaiseSpeed * Time.fixedDeltaTime;
+            leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
 
-            if (leftHand.transform.position.x == initialHandPosition.x && leftHand.transform.position.y == initialHandPosition.y)
+            if (leftHand.transform.position.y >= initialHandPosition.y && leftHand.transform.position.x >= initialHandPosition.x)
             {
-                leftHandRb.velocity = Vector2.zero;
-                StopAllCoroutines();
-            }
-            yield return null;
-        }
-    }
+                Debug.Log("Raised Hand");
 
-    IEnumerator raiseHand()
-    {
-        while (enabled)
-        {
-
-            if (!playerRidingHand)
-            {
-                canFollowPlayer = true;
-            }
-            raisingHand = true;
-            if (leftHand.transform.position.y == initialHandPosition.y && leftHand.transform.position.x == initialHandPosition.x)
-            {
-                raisingHand = false;
                 yield return new WaitForSeconds(2f);
                 if (playerRidingHand)
                 {
                     spinTimer = 0;
-                    StartCoroutine("spinHand");
+                    StartCoroutine("spinHandCoroutine");
                 }
                 else
                 {
-                    StartCoroutine("startFistSlam");
-                    canFollowPlayer = true;
+                    StartCoroutine("startFistSlamCoroutine");
                 }
-                StopCoroutine("raiseHand");
+                
+                StopCoroutine("raiseHandCoroutine");
             }
             yield return null;
         }
     }
-    IEnumerator spinHand()
+
+    IEnumerator spinHandCoroutine()
     {
         while (enabled)
         {
@@ -240,51 +174,26 @@ public class AttackControllerTheGolem : MonoBehaviour
         }
     }
 
-    IEnumerator startFistSlam()
+    public void onGolemFirstStage()
     {
-        uxInteraction.updateGolemFistIndicatorPosition(player.transform.position);
-        yield return new WaitForSeconds(indicatorTimeout);
-        StartCoroutine("fistSlam");
+        StopCoroutine("startFistSlamCoroutine");
+        StopCoroutine("raiseHand");
+        StopCoroutine("fistSlam");
+        StartCoroutine("waitForGolemToShakeOff");
+    }
+    IEnumerator waitForGolemToShakeOff()
+    {
+        yield return new WaitForSeconds(15f);
+        Debug.Log("Start Shaking");
+        player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 150);
     }
 
-    private IEnumerator fistSlam()
-    {
-        raisingHand = false;
-        canFollowPlayer = false;
-        slamHand();
-        yield return new WaitForSeconds(5f);
-        StartCoroutine("raiseHand");
-    }
-
-    void slamHand()
-    {
-        Vector3 test = leftHand.transform.right = player.transform.position - leftHand.transform.position;
-        leftHand.transform.eulerAngles = Vector3.zero;
-        leftHandRb.AddForce(test * slammingForce, ForceMode2D.Impulse);
-        enableHandHolds();
-    }
-    public void disableHandHolds()
-    {
-        GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
-        foreach (var ladder in ladders)
-        {
-            ladder.GetComponent<BoxCollider2D>().enabled = false;
-        }
-    }
-    public void enableHandHolds()
-    {
-        GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
-        foreach (var ladder in ladders)
-        {
-            ladder.GetComponent<BoxCollider2D>().enabled = true;
-        }
-    }
 
     public void startSecondStage()
     {
-        StopCoroutine("startFistSlam");
+        StopCoroutine("startFistSlamCoroutine");
         StopCoroutine("raiseHand");
-        StopCoroutine("fistSlam");
+        StopCoroutine("fistSlamCoroutine");
         StartCoroutine("secondStageCoroutine");
     }
 
