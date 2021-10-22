@@ -55,6 +55,8 @@ public class BossInteractionTheGolem : MonoBehaviour
             attackControllerTheGolem.startSecondStage();
         }
     }
+
+
     void OnCollisionEnter2D(Collision2D col)
     {
 
@@ -66,13 +68,6 @@ public class BossInteractionTheGolem : MonoBehaviour
             }
         }
 
-        if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
-        {
-            Debug.Log("parried");
-            attackControllerTheGolem.lazerBallParry();
-            attackControllerTheGolem.finalStageHeadStrike();
-            Destroy(col.gameObject);
-        }
         if (col.gameObject.tag == "Shockwave")
         {
             if (col.gameObject.GetComponent<shockwaveInteraction>().beenParried)

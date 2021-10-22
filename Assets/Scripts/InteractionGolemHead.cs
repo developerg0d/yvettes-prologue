@@ -21,6 +21,15 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+
+        if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
+        {
+            Debug.Log("parried");
+            attackControllerTheGolem.lazerBallParry();
+            attackControllerTheGolem.finalStageHeadStrike();
+            Destroy(col.gameObject);
+        }
+
         if (beenHitDelay)
         {
             return;

@@ -29,13 +29,13 @@ public class lazerBall : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
         {
             if (col.gameObject.GetComponent<PlayerAttackScript>().isParrying)
             {
-                lazerBallSpeed = -lazerBallSpeed;
+                lazerBallSpeed = (-lazerBallSpeed * 1.5f);
                 beenParried = true;
                 return;
             }

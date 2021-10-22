@@ -355,28 +355,19 @@ public class AttackControllerTheGolem : MonoBehaviour
     IEnumerator getUpCoroutine()
     {
         yield return new WaitForSeconds(21f);
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        yield return new WaitForSeconds(2f);
-        bouncingAttack();
+        golemAnimator.SetTrigger("fallForwards");
+        yield return new WaitForSeconds(10f);
+        // bouncingAttack();
+        commenceFinalStage();
     }
 
-    IEnumerator fallOverForwards()
+    private void commenceFinalStage()
     {
-        while (enabled)
-        {
-            Vector3 direction = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
-            Quaternion targetRotation = Quaternion.Euler(direction);
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, Time.deltaTime * 1);
-            if (transform.eulerAngles.z >= 87 && transform.eulerAngles.z <= 91)
-            {
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-                finalStage = true;
-                secondStage = false;
-                StartCoroutine("commenceLazerFire");
-                StopCoroutine("fallOverForwards");
-            }
-            yield return null;
-        }
+        rb.bodyType = RigidbodyType2D.Static;
+        finalStage = true;
+        secondStage = false;
+        StartCoroutine("commenceLazerFire");
+        StopCoroutine("fallOverForwards");
     }
 
     public void lazerBallParry()
