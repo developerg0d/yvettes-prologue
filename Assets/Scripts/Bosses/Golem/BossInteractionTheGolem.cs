@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BossInteractionTheGolem : MonoBehaviour
 {
+    public bool onFist = false;
     public bool canTakeDamage = true;
     public UxInteraction uxInteraction;
 

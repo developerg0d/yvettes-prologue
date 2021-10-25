@@ -110,12 +110,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) && canClimb)
         {
-
+            isClimbing = true;
             playerAnimator.SetBool("isClimbing", true);
         }
 
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) && canClimb)
         {
+            isClimbing = false;
             playerAnimator.SetBool("isClimbing", false);
         }
 
@@ -163,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
-        rb.velocity = horizontalDirection * (horizontalSpeed / 30);
+        rb.velocity = horizontalDirection * (horizontalSpeed * 0.1f);
     }
     void movePlayerHorizontally(float horizontalMovement)
     {
@@ -222,9 +223,35 @@ public class PlayerMovement : MonoBehaviour
         isLeft = horizontalMovement >= 0 ? false : true;
     }
 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "LadderEnd")
+        {
+            Debug.Log("Can Climb Jump");
+        }
+
+        if (col.tag == "Ladder")
+        {
+            Debug.Log("Can Climb Ladder");
+        }
+    }
+
+
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "ScalingWall" && !isLeft)
+        if (col.tag == "LadderEnd" && isClimbing && canMove)
+        {
+            Debug.Log("Ladder Jump");
+
+            playerAnimator.SetBool("isClimbing", false);
+            canClimb = false;
+            canMove = false;
+            Vector3 endPosition = transform.position;
+            endPosition.y += 2;
+            playerAnimator.SetTrigger("climbJump");
+            StartCoroutine("exitLadderCoroutine", endPosition);
+        }
+        if (col.tag == "ScalingWall")
         {
             rb.gravityScale = 0.7f;
             playerAnimator.SetBool("isScalingWall", true);
@@ -232,6 +259,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.tag == "SideLadder")
         {
+
             if (horizontalMovement > 0)
             {
                 onSideLadder = true;
@@ -246,17 +274,6 @@ public class PlayerMovement : MonoBehaviour
                 onSideLadder = false;
 
             }
-        }
-
-        if (col.tag == "LadderEnd" && isClimbing && canMove)
-        {
-            playerAnimator.SetBool("isClimbing", false);
-            canClimb = false;
-            canMove = false;
-            Vector3 endPosition = transform.position;
-            endPosition.y += 2;
-            playerAnimator.SetTrigger("climbJump");
-            StartCoroutine("exitLadderCoroutine", endPosition);
         }
 
         if (col.tag == "Ladder")

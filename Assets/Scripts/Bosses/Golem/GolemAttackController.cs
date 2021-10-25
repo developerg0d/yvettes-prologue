@@ -47,13 +47,17 @@ public class GolemAttackController : MonoBehaviour
     public GameObject lazerCannon;
 
     public bool firstStage;
+
     public bool secondStage;
     public bool finalStage;
+
+    private bool isRaisingHand = false;
 
     public GameObject lazerBall;
 
     private bool isBouncing = false;
 
+    public UnityEngine.U2D.PixelPerfectCamera pixelPerfectCamera;
     private BossInteractionTheGolem bossInteractionTheGolem;
 
     private Animator golemAnimator;
@@ -109,20 +113,22 @@ public class GolemAttackController : MonoBehaviour
         leftHand.transform.eulerAngles = Vector3.zero;
         leftHandRb.AddForce(test * slammingForce, ForceMode2D.Impulse);
     }
+
     IEnumerator raiseHandCoroutine()
     {
         Debug.Log("Raising Hand");
 
         while (enabled)
         {
-            raisingHand();
+            raiseHand();
 
-            if (leftHand.transform.position.y >= initialHandPosition.y && leftHand.transform.position.x >= initialHandPosition.x)
+            if (leftHand.transform.position.y >= pixelPerfectCamera.RoundToPixel(initialHandPosition).y &&
+             leftHand.transform.position.x >= pixelPerfectCamera.RoundToPixel(initialHandPosition).x)
             {
                 Debug.Log("Raised Hand");
 
                 yield return new WaitForSeconds(2f);
-                if (playerRidingHand)
+                if (bossInteractionTheGolem.onFist)
                 {
                     spinTimer = 0;
                     StartCoroutine("spinHandCoroutine");
@@ -138,14 +144,19 @@ public class GolemAttackController : MonoBehaviour
         }
     }
 
-    void raisingHand()
+    void raiseHand()
     {
-        float step = handRaiseSpeed * Time.fixedDeltaTime;
-        leftHand.transform.position = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
+        float step = handRaiseSpeed * Time.time;
+        Vector3 toMovePosition = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
+        leftHand.transform.position = pixelPerfectCamera.RoundToPixel(toMovePosition);
     }
 
     IEnumerator spinHandCoroutine()
     {
+        Debug.Log("Spin Hand");
+        player.transform.SetParent(this.gameObject.transform.parent);
+        leftHand.GetComponent<InteractionGolemHand>().spinning = true;
+        player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 35, ForceMode2D.Impulse);
         while (enabled)
         {
             spinTimer += Time.deltaTime;
@@ -153,6 +164,7 @@ public class GolemAttackController : MonoBehaviour
             if (spinTimer >= 2)
             {
                 leftHand.transform.eulerAngles = new Vector3(0, 0, 0);
+                leftHand.GetComponent<InteractionGolemHand>().spinning = false;
                 StopCoroutine("spinHand");
             }
             yield return null;

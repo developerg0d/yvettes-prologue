@@ -6,12 +6,16 @@ public class InteractionGolemHand : MonoBehaviour
 {
 
     private BossInteractionTheGolem mainInteractionScript;
+
     private Rigidbody2D rb;
 
     public GameObject world;
     public bool tooCloseToBoss;
+
     BoxCollider2D[] cols;
     public bool isMoving;
+
+    public bool spinning = false;
 
     private bool onFist;
     void Start()
@@ -21,15 +25,12 @@ public class InteractionGolemHand : MonoBehaviour
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
     }
 
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.otherCollider.tag == "Ground" && col.gameObject.tag == "Player")
-        {
-            col.gameObject.transform.SetParent(world.transform);
-        }
-    }
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (spinning)
+        {
+            return;
+        }
 
         if (col.gameObject.tag == "Player")
         {
@@ -44,9 +45,10 @@ public class InteractionGolemHand : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.tag == "Player" && onFist)
+        if (col.tag == "Player")
         {
-            onFist = false;
+            Debug.Log("off fist");
+            mainInteractionScript.onFist = false;
             col.gameObject.transform.SetParent(world.transform);
         }
         if (col.tag == "FistAvoid")
@@ -57,11 +59,18 @@ public class InteractionGolemHand : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (spinning)
+        {
+            return;
+        }
+
         if (col.tag == "Player")
         {
-            if (isOnGroundTag(col))
+            PlayerMovement playerMovement = col.GetComponent<PlayerMovement>();
+            if (playerMovement.canClimb == false)
             {
-                onFist = true;
+                Debug.Log("on fist");
+                mainInteractionScript.onFist = true;
                 col.gameObject.transform.SetParent(this.gameObject.transform);
             }
         }
