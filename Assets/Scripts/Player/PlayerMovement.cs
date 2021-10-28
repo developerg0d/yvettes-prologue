@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool upThrustReady;
 
 
+    public BossInteractionTheGolem bossInteractionTheGolem;
     public GolemAttackController golemAttackController;
 
     public bool isLeft;
@@ -334,8 +335,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-
-
         if (col.gameObject.tag == "Ground" && !isOnLadder())
         {
             rb.gravityScale = 1f;

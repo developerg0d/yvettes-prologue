@@ -21,24 +21,27 @@ public class BossInteractionTheGolem : MonoBehaviour
     public BoxCollider2D leftFootCollider;
     public BoxCollider2D rightFootCollider;
 
-    [SerializeField]
-    private float closeCameraSize;
-    [SerializeField]
-    private float mediumCameraSize;
-    [SerializeField]
-    private float longCameraSize;
+    [SerializeField] private float closeCameraSize;
+    [SerializeField] private float mediumCameraSize;
+    [SerializeField] private float longCameraSize;
+
+    public bool playerOnGolem = false;
+
 
     public Cinemachine.CinemachineVirtualCamera mainCamera;
+
     void Start()
     {
         golemAttackController = GetComponent<GolemAttackController>();
         bossStats = GetComponent<BossStats>();
     }
+
     public void golemHandHit()
     {
         bossStats.currentHp -= 50;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
     }
+
     public void firstStageGolemHeadHit()
     {
         bossStats.currentHp -= 200;
@@ -57,15 +60,38 @@ public class BossInteractionTheGolem : MonoBehaviour
         }
     }
 
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Player" && playerOnGolem && golemAttackController.firstStage == true)
+        {
+            StartCoroutine("playerExitDelay");
+        }
+    }
+
+    IEnumerator playerExitDelay()
+    {
+        yield return new WaitForSeconds(10f);
+        Debug.Log("player exited");
+        golemAttackController.startFirstStage();
+        playerOnGolem = false;
+    }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-
         if (golemAttackController.firstStage)
         {
+            if (col.gameObject.tag == "Player" && playerOnGolem )
+            {
+                StopCoroutine("playerExitDelay");
+            }
+
             if (col.gameObject.tag == "Player" && col.otherCollider.tag == "Golem")
             {
-                golemAttackController.playerOnTopGolemFirstStage();
+                if (!playerOnGolem)
+                {
+                    playerOnGolem = true;
+                    golemAttackController.playerOnTopGolemFirstStage();
+                }
             }
         }
 
@@ -77,6 +103,5 @@ public class BossInteractionTheGolem : MonoBehaviour
                 golemAttackController.beenParried();
             }
         }
-
     }
 }

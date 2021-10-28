@@ -4,20 +4,14 @@ using UnityEngine;
 
 public class GolemAttackController : MonoBehaviour
 {
-    [Header("Golem Physic Forces")]
-    [Space(10)]
-    [SerializeField]
+    [Header("Golem Physic Forces")] [Space(10)] [SerializeField]
     private float golemJumpUpForce;
 
-    [SerializeField]
-    private float shockWaveForce;
+    [SerializeField] private float shockWaveForce;
 
-    [SerializeField]
+    [SerializeField] private float slammingForce;
 
-    private float slammingForce;
-
-    [SerializeField]
-    private float handRaiseSpeed;
+    [SerializeField] private float handRaiseSpeed;
 
     private Rigidbody2D leftHandRb;
 
@@ -25,15 +19,11 @@ public class GolemAttackController : MonoBehaviour
 
     private GameObject player;
 
-    [Space(10)]
-    [SerializeField]
-    private float indicatorTimeout = 0.5F;
+    [Space(10)] [SerializeField] private float indicatorTimeout = 0.5F;
     public bool playerRidingHand = false;
 
     public GameObject leftHand;
     public UxInteraction uxInteraction;
-
-    bool startedAttacking;
 
     private float spinTimer = 0f;
 
@@ -51,8 +41,6 @@ public class GolemAttackController : MonoBehaviour
     public bool secondStage;
     public bool finalStage;
 
-    private bool isRaisingHand = false;
-
     public GameObject lazerBall;
 
     private bool isBouncing = false;
@@ -61,10 +49,11 @@ public class GolemAttackController : MonoBehaviour
     private BossInteractionTheGolem bossInteractionTheGolem;
 
     private Animator golemAnimator;
+
     void Start()
     {
         assignVariables();
-        startBattle();
+        startFirstStage();
     }
 
     void assignVariables()
@@ -76,16 +65,15 @@ public class GolemAttackController : MonoBehaviour
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
     }
 
-    public void startBattle()
+    public void startFirstStage()
     {
         initialHandPosition = leftHand.transform.position;
-        StartCoroutine("startBattleCoroutine");
+        StartCoroutine("startFirstStageCoroutine");
     }
 
-    IEnumerator startBattleCoroutine()
+    IEnumerator startFirstStageCoroutine()
     {
         yield return new WaitForSeconds(2F);
-        startedAttacking = true;
         firstStage = true;
         StartCoroutine("startFistSlamCoroutine");
     }
@@ -123,11 +111,11 @@ public class GolemAttackController : MonoBehaviour
             raiseHand();
 
             if (leftHand.transform.position.y >= pixelPerfectCamera.RoundToPixel(initialHandPosition).y &&
-             leftHand.transform.position.x >= pixelPerfectCamera.RoundToPixel(initialHandPosition).x)
+                leftHand.transform.position.x >= pixelPerfectCamera.RoundToPixel(initialHandPosition).x)
             {
                 Debug.Log("Raised Hand");
-
                 yield return new WaitForSeconds(2f);
+                StopCoroutine("raiseHandCoroutine");
                 if (bossInteractionTheGolem.onFist)
                 {
                     spinTimer = 0;
@@ -137,9 +125,8 @@ public class GolemAttackController : MonoBehaviour
                 {
                     StartCoroutine("startFistSlamCoroutine");
                 }
-
-                StopCoroutine("raiseHandCoroutine");
             }
+
             yield return new WaitForFixedUpdate();
         }
     }
@@ -147,7 +134,8 @@ public class GolemAttackController : MonoBehaviour
     void raiseHand()
     {
         float step = handRaiseSpeed * Time.time;
-        Vector3 toMovePosition = Vector3.MoveTowards(leftHand.transform.position, new Vector3(initialHandPosition.x, initialHandPosition.y), step);
+        Vector3 toMovePosition = Vector3.MoveTowards(leftHand.transform.position,
+            new Vector3(initialHandPosition.x, initialHandPosition.y), step);
         leftHand.transform.position = pixelPerfectCamera.RoundToPixel(toMovePosition);
     }
 
@@ -167,17 +155,21 @@ public class GolemAttackController : MonoBehaviour
                 leftHand.GetComponent<InteractionGolemHand>().spinning = false;
                 StopCoroutine("spinHand");
             }
+
             yield return null;
         }
     }
 
     public void playerOnTopGolemFirstStage()
     {
+        Debug.Log("Player On Golem");
+
         StopCoroutine("startFistSlamCoroutine");
-        StopCoroutine("raiseHand");
+        StopCoroutine("raiseHandCoroutine");
         StopCoroutine("fistSlam");
-        StartCoroutine("waitForGolemToShakeOff");
+        // StartCoroutine("waitForGolemToShakeOff");
     }
+
     IEnumerator waitForGolemToShakeOff()
     {
         yield return new WaitForSeconds(15f);
@@ -198,7 +190,6 @@ public class GolemAttackController : MonoBehaviour
     {
         firstStage = false;
         yield return new WaitForSeconds(2f);
-        startedAttacking = true;
         secondStage = true;
         Debug.Log("bouncing");
         bouncingAttack();
@@ -208,6 +199,7 @@ public class GolemAttackController : MonoBehaviour
     {
         StartCoroutine("bouncingAttackCoroutine");
     }
+
     IEnumerator bouncingAttackCoroutine()
     {
         golemAnimator.SetBool("prepareToJump", true);
@@ -246,7 +238,6 @@ public class GolemAttackController : MonoBehaviour
         golemAnimator.SetBool("prepareToJump", false);
         rb.bodyType = RigidbodyType2D.Static;
         golemAnimator.SetBool("fallenOver", true);
-        startedAttacking = false;
         StopCoroutine("bouncingAttackCoroutine");
     }
 
