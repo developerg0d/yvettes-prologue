@@ -20,7 +20,6 @@ public class GolemAttackController : MonoBehaviour
     private GameObject player;
 
     [Space(10)] [SerializeField] private float indicatorTimeout = 0.5F;
-    public bool playerRidingHand = false;
 
     public GameObject leftHand;
     public UxInteraction uxInteraction;
@@ -68,14 +67,14 @@ public class GolemAttackController : MonoBehaviour
     public void startFirstStage()
     {
         initialHandPosition = leftHand.transform.position;
-        StartCoroutine("startFirstStageCoroutine");
+        StartCoroutine(nameof(startFirstStageCoroutine));
     }
 
     IEnumerator startFirstStageCoroutine()
     {
         yield return new WaitForSeconds(2F);
         firstStage = true;
-        StartCoroutine("startFistSlamCoroutine");
+        StartCoroutine(nameof(startFistSlamCoroutine));
     }
 
     IEnumerator startFistSlamCoroutine()
@@ -84,14 +83,14 @@ public class GolemAttackController : MonoBehaviour
 
         uxInteraction.updateGolemFistIndicatorPosition(player.transform.position);
         yield return new WaitForSeconds(indicatorTimeout);
-        StartCoroutine("fistSlamCoroutine");
+        StartCoroutine(nameof(fistSlamCoroutine));
     }
 
     private IEnumerator fistSlamCoroutine()
     {
         slamFist();
         yield return new WaitForSeconds(5f);
-        StartCoroutine("raiseHandCoroutine");
+        StartCoroutine(nameof(raiseHandCoroutine));
     }
 
     void slamFist()
@@ -115,16 +114,17 @@ public class GolemAttackController : MonoBehaviour
             {
                 Debug.Log("Raised Hand");
                 yield return new WaitForSeconds(2f);
-                StopCoroutine("raiseHandCoroutine");
                 if (bossInteractionTheGolem.onFist)
                 {
                     spinTimer = 0;
-                    StartCoroutine("spinHandCoroutine");
+                    StartCoroutine(nameof(spinHandCoroutine));
                 }
                 else
                 {
-                    StartCoroutine("startFistSlamCoroutine");
+                    StartCoroutine(nameof(startFistSlamCoroutine));
                 }
+
+                StopCoroutine(nameof(raiseHandCoroutine));
             }
 
             yield return new WaitForFixedUpdate();
@@ -133,9 +133,8 @@ public class GolemAttackController : MonoBehaviour
 
     void raiseHand()
     {
-        float step = handRaiseSpeed * Time.time;
         Vector3 toMovePosition = Vector3.MoveTowards(leftHand.transform.position,
-            new Vector3(initialHandPosition.x, initialHandPosition.y), step);
+            new Vector3(initialHandPosition.x, initialHandPosition.y), handRaiseSpeed);
         leftHand.transform.position = pixelPerfectCamera.RoundToPixel(toMovePosition);
     }
 
@@ -153,7 +152,7 @@ public class GolemAttackController : MonoBehaviour
             {
                 leftHand.transform.eulerAngles = new Vector3(0, 0, 0);
                 leftHand.GetComponent<InteractionGolemHand>().spinning = false;
-                StopCoroutine("spinHand");
+                StopCoroutine(nameof(spinHandCoroutine));
             }
 
             yield return null;
@@ -164,10 +163,9 @@ public class GolemAttackController : MonoBehaviour
     {
         Debug.Log("Player On Golem");
 
-        StopCoroutine("startFistSlamCoroutine");
-        StopCoroutine("raiseHandCoroutine");
-        StopCoroutine("fistSlam");
-        // StartCoroutine("waitForGolemToShakeOff");
+        StopCoroutine(nameof(startFistSlamCoroutine));
+        StopCoroutine(nameof(raiseHandCoroutine));
+        StopCoroutine(nameof(fistSlamCoroutine));
     }
 
     IEnumerator waitForGolemToShakeOff()
@@ -218,7 +216,7 @@ public class GolemAttackController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && isBouncing && !shockWaveSpawned)
+        if (col.gameObject.CompareTag("Ground") && isBouncing && !shockWaveSpawned)
         {
             shockWaveSpawned = true;
             spawnShockWaves();

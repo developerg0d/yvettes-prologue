@@ -349,21 +349,21 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity / 4;
         }
-        if (golemAttackController && golemAttackController.firstStage)
-        {
-            if (col.collider.tag == "GolemHand")
-            {
-                golemAttackController.playerRidingHand = true;
-            }
-        }
+        // if (golemAttackController && golemAttackController.firstStage)
+        // {
+        //     if (col.collider.tag == "GolemHand")
+        //     {
+        //         golemAttackController.playerRidingHand = true;
+        //     }
+        // }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.collider.tag == "GolemHand")
-        {
-            golemAttackController.playerRidingHand = false;
-        }
+        // if (col.collider.tag == "GolemHand")
+        // {
+        //     golemAttackController.playerRidingHand = false;
+        // }
         if (col.gameObject.tag == "Ground")
         {
             grounded = false;

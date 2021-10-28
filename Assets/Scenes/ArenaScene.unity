@@ -6883,11 +6883,12 @@ MonoBehaviour:
   golemJumpUpForce: 10000
   shockWaveForce: 200
   slammingForce: 650
-  handRaiseSpeed: 0.01
+  handRaiseSpeed: 0.08
   indicatorTimeout: 0.5
   playerRidingHand: 0
   leftHand: {fileID: 1082388124}
   uxInteraction: {fileID: 1529668537}
+  step: 0
   shockWaveSpawnLocation: {fileID: 800900699}
   shockWave: {fileID: 4862486189961373504, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
   lazerCannon: {fileID: 1499844858}
