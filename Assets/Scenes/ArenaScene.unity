@@ -6819,8 +6819,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   golemJumpUpForce: 10000
-  shockWaveForce: 200
-  slammingForce: 650
+  shockWaveForce: 500
+  slammingForce: 400
   handRaiseSpeed: 0.08
   indicatorTimeout: 0.5
   leftHand: {fileID: 1082388124}
@@ -6918,7 +6918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedDown: 0
-  recoilForce: 15
+  recoilForce: 5
 --- !u!95 &1390091570
 Animator:
   serializedVersion: 3

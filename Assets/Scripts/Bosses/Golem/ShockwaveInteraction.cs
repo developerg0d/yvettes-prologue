@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class shockwaveInteraction : MonoBehaviour
+public class ShockwaveInteraction : MonoBehaviour
 {
     public bool beenParried;
 
     [SerializeField] private float shockwaveForce;
     private float timer;
+    private Rigidbody2D rb;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         StartCoroutine("destroyOverTime");
     }
 
@@ -29,11 +31,11 @@ public class shockwaveInteraction : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.CompareTag("Player"))
         {
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            rb.velocity = Vector3.zero;
             PlayerAttackScript playerAttackScript = col.gameObject.GetComponent<PlayerAttackScript>();
             if (playerAttackScript.isParrying)
             {
@@ -46,27 +48,26 @@ public class shockwaveInteraction : MonoBehaviour
             {
                 Debug.Log("defended");
                 col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce / 2));
-                Destroy(this.gameObject);
+                StartCoroutine(nameof(dispelShock));
                 return;
             }
 
             Debug.Log("death");
             col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce));
-            Destroy(this.gameObject);
+            StartCoroutine(nameof(dispelShock));
         }
+    }
 
-        if (col.gameObject.tag == "Golem" && beenParried)
-        {
-            Debug.Log("PARRIED");
-        }
+    IEnumerator dispelShock()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Destroy(this.gameObject);
     }
 
     void parried()
     {
         beenParried = true;
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
         float previousVelocity = rb.velocity.x;
-        rb.velocity = Vector2.zero;
         Debug.Log(previousVelocity);
         transform.localScale = new Vector3(1, 1, 1);
         rb.velocity = Vector2.left * (previousVelocity * 3);

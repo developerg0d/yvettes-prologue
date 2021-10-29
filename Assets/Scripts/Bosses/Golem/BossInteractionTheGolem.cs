@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,6 +71,18 @@ public class BossInteractionTheGolem : MonoBehaviour
         playerOnGolem = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Shockwave")
+        {
+            if (col.gameObject.GetComponent<ShockwaveInteraction>().beenParried)
+            {
+                Destroy(col.gameObject);
+                golemAttackController.beenParried();
+            }
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if (golemAttackController.firstStage)
@@ -86,15 +99,6 @@ public class BossInteractionTheGolem : MonoBehaviour
                     playerOnGolem = true;
                     golemAttackController.playerOnTopGolemFirstStage();
                 }
-            }
-        }
-
-        if (col.gameObject.tag == "Shockwave")
-        {
-            if (col.gameObject.GetComponent<shockwaveInteraction>().beenParried)
-            {
-                Destroy(col.gameObject);
-                golemAttackController.beenParried();
             }
         }
     }
