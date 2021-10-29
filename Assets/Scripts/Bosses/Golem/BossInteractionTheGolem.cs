@@ -25,6 +25,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     [SerializeField] private float mediumCameraSize;
     [SerializeField] private float longCameraSize;
 
+
     public bool playerOnGolem = false;
 
 
@@ -49,14 +50,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         firstStageCounter++;
         if (firstStageCounter == 1)
         {
-            leftHand.SetActive(false);
-            rightHand.SetActive(false);
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-            rb.gravityScale = 1.0f;
-            golemAttackController.startSecondStage();
+            // golemAttackController.startSecondStage();
         }
     }
 
@@ -70,7 +64,7 @@ public class BossInteractionTheGolem : MonoBehaviour
 
     IEnumerator playerExitDelay()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(6f);
         Debug.Log("player exited");
         golemAttackController.startFirstStage();
         playerOnGolem = false;
@@ -79,8 +73,8 @@ public class BossInteractionTheGolem : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         if (golemAttackController.firstStage)
-        {  
-            if (col.gameObject.tag == "Player" && playerOnGolem )
+        {
+            if (col.gameObject.tag == "Player" && playerOnGolem)
             {
                 StopCoroutine("playerExitDelay");
             }

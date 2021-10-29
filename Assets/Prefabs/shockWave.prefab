@@ -183,4 +183,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beenParried: 0
-  shockwaveForce: 10
+  shockwaveForce: 1

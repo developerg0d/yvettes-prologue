@@ -276,9 +276,8 @@ GameObject:
   m_Component:
   - component: {fileID: 61192967}
   - component: {fileID: 61192969}
-  - component: {fileID: 61192970}
-  - component: {fileID: 61192971}
   - component: {fileID: 61192968}
+  - component: {fileID: 61192970}
   m_Layer: 0
   m_Name: swordRenderer
   m_TagString: Sword
@@ -294,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61192966}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.10750008, y: -0.38500023, z: 0}
+  m_LocalPosition: {x: 0.06324959, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 608582757}
@@ -397,25 +396,6 @@ MonoBehaviour:
   runContinously: 1
   useParentTransform: 0
   displayGrid: 0
---- !u!114 &61192971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 61192966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d2ed81fca1ac3749a83e9e78e6d17fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pixelPerfectCamera: {fileID: 0}
-  fitType: 0
-  parallaxLayer: 0
-  pixelScale: 1
-  runContinously: 1
-  useParentTransform: 0
-  displayGrid: 0
 --- !u!1 &70601903
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +411,7 @@ GameObject:
   - component: {fileID: 70601906}
   - component: {fileID: 70601911}
   - component: {fileID: 70601909}
+  - component: {fileID: 70601910}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -465,7 +446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.58, y: 6.26, z: 0}
+  m_LocalPosition: {x: -23.59375, y: 6.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -562,6 +543,25 @@ MonoBehaviour:
   isParrying: 0
   playerAction: 0
   swordDownThrustPower: 50
+--- !u!114 &70601910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70601903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361624b72949ac64692fe4b8583682ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pixelPerfectCamera: {fileID: 0}
+  fitType: 0
+  parallaxLayer: 0
+  pixelScale: 1
+  runContinously: 0
+  useParentTransform: 0
+  displayGrid: 0
 --- !u!58 &70601911
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1808,7 +1808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 5, z: -10}
+  m_FollowOffset: {x: 0, y: 0, z: -10}
   m_XDamping: 0
   m_YDamping: 0.5
   m_ZDamping: 0
@@ -2185,7 +2185,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608582756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.000749588, y: -0.03125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61192967}
@@ -2540,7 +2540,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715893120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31, y: 1.34375, z: -10}
+  m_LocalPosition: {x: -23.59375, y: 6.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2622,7 +2622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718511317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31, y: 1.34375, z: -10}
+  m_LocalPosition: {x: -23.59375, y: 6.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 508791293}

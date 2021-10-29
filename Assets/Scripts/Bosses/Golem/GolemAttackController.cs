@@ -48,11 +48,12 @@ public class GolemAttackController : MonoBehaviour
     private BossInteractionTheGolem bossInteractionTheGolem;
 
     private Animator golemAnimator;
+    public Collider2D[] golemFirstStageCollision;
+    public Collider2D[] golemSecondStageCollision;
 
     void Start()
     {
         assignVariables();
-        startFirstStage();
     }
 
     void assignVariables()
@@ -178,10 +179,27 @@ public class GolemAttackController : MonoBehaviour
 
     public void startSecondStage()
     {
+        leftHand.SetActive(false);
+
+        enableSecondStageColliders();
         StopCoroutine("startFistSlamCoroutine");
-        StopCoroutine("raiseHand");
+        StopCoroutine("raiseHandCoroutine");
         StopCoroutine("fistSlamCoroutine");
+
         StartCoroutine("secondStageCoroutine");
+    }
+
+    private void enableSecondStageColliders()
+    {
+        foreach (var collider2D1 in golemFirstStageCollision)
+        {
+            collider2D1.enabled = false;
+        }
+
+        foreach (var collider2D1 in golemSecondStageCollision)
+        {
+            collider2D1.enabled = true;
+        }
     }
 
     IEnumerator secondStageCoroutine()
@@ -252,11 +270,10 @@ public class GolemAttackController : MonoBehaviour
         yield return new WaitForSeconds(21f);
         golemAnimator.SetTrigger("fallForwards");
         yield return new WaitForSeconds(10f);
-        // bouncingAttack();
-        commenceFinalStage();
+        bouncingAttack();
     }
 
-    private void commenceFinalStage()
+    public void startThirdStage()
     {
         rb.bodyType = RigidbodyType2D.Static;
         finalStage = true;

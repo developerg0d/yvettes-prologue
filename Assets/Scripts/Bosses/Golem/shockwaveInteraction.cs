@@ -6,9 +6,9 @@ public class shockwaveInteraction : MonoBehaviour
 {
     public bool beenParried;
 
-    [SerializeField]
-    private float shockwaveForce;
+    [SerializeField] private float shockwaveForce;
     private float timer;
+
     void Start()
     {
         StartCoroutine("destroyOverTime");
@@ -24,13 +24,16 @@ public class shockwaveInteraction : MonoBehaviour
                 StopCoroutine("destroyOverTime");
                 Destroy(this.gameObject);
             }
+
             yield return null;
         }
     }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Player")
         {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             PlayerAttackScript playerAttackScript = col.gameObject.GetComponent<PlayerAttackScript>();
             if (playerAttackScript.isParrying)
             {
@@ -38,15 +41,17 @@ public class shockwaveInteraction : MonoBehaviour
                 parried();
                 return;
             }
+
             if (playerAttackScript.isDefending)
             {
                 Debug.Log("defended");
-                col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * shockwaveForce);
+                col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce / 2));
                 Destroy(this.gameObject);
                 return;
             }
+
             Debug.Log("death");
-            col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce * 2));
+            col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce));
             Destroy(this.gameObject);
         }
 
