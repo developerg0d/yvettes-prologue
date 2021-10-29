@@ -14,6 +14,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     private BossStats bossStats;
 
     public int firstStageCounter;
+    public int secondStageCounter;
     public int finalStageCounter;
 
     public GameObject leftHand;
@@ -43,7 +44,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         uxInteraction.updateBossHpBar(bossStats.currentHp);
     }
 
-    public void firstStageGolemHeadHit()
+    public void firstStageHeadHit()
     {
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
@@ -52,6 +53,15 @@ public class BossInteractionTheGolem : MonoBehaviour
         {
             bossStateManager.NextBossStage();
         }
+    }
+
+    public void secondStageHeadHit()
+    {
+        bossStats.currentHp -= 200;
+        uxInteraction.updateBossHpBar(bossStats.currentHp);
+        secondStageCounter++;
+        golemAttackController.getUp();
+        
     }
 
     void OnCollisionExit2D(Collision2D col)

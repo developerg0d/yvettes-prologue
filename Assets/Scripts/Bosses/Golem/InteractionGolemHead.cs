@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class InteractionGolemHead : MonoBehaviour
 {
@@ -22,49 +26,43 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
+        if (beenHitDelay)
         {
+            return;
+        }
+
+        if (col.gameObject.CompareTag("LazerBall") && col.gameObject.GetComponent<lazerBall>().beenParried)
+        {
+            StartCoroutine(nameof(hitDelay));
+
             Debug.Log("parried");
             attackControllerTheGolem.lazerBallParry();
             attackControllerTheGolem.finalStageHeadStrike();
             Destroy(col.gameObject);
         }
 
-        if (beenHitDelay)
+        if (col.gameObject.CompareTag("Sword"))
         {
-            return;
+            swordHitGolem(col.gameObject);
         }
+    }
 
-        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.ThirdStage)
+    void swordHitGolem(GameObject player)
+    {
+        StartCoroutine(nameof(hitDelay));
+        switch (bossStateManager.currentStage)
         {
-            if (col.gameObject.tag == "Sword")
-            {
-                StartCoroutine("hitDelay");
-                golemFinalStageRecoil(col.gameObject);
-                // attackControllerTheGolem.finalStageHeadStrike();
-            }
-
-            return;
-        }
-
-        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.FirstStage)
-        {
-            if (col.gameObject.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
-            {
-                StartCoroutine("hitDelay");
-                golemHeadRecoil(col.gameObject);
-                mainInteractionScript.firstStageGolemHeadHit();
+            case (int) GolemAttackController.BossStages.FirstStage:
+                golemHeadRecoil(player);
+                mainInteractionScript.firstStageHeadHit();
                 return;
-            }
-        }
-
-        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.SecondStage)
-        {
-            if (col.gameObject.tag == "Sword")
-            {
-                golemDownThrustHeadRecoil(col.gameObject);
-                attackControllerTheGolem.getUp();
-            }
+            case (int) GolemAttackController.BossStages.SecondStage:
+                golemDownThrustHeadRecoil(player);
+                mainInteractionScript.secondStageHeadHit();
+                return;
+            case (int) GolemAttackController.BossStages.ThirdStage:
+                golemFinalStageRecoil(player);
+                return;
         }
     }
 

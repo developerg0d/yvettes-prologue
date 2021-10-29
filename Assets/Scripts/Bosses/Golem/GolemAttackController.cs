@@ -263,23 +263,34 @@ public class GolemAttackController : MonoBehaviour
     {
         golemAnimator.SetBool("fallenOver", false);
         golemAnimator.SetTrigger("getUp");
+        StartCoroutine(nameof(getUpCoroutine));
         Debug.Log("get up");
-        StartCoroutine("getUpCoroutine");
     }
 
-    IEnumerator getUpCoroutine()
+    public IEnumerator getUpCoroutine()
     {
         yield return new WaitForSeconds(21f);
-        golemAnimator.SetTrigger("fallForwards");
-        yield return new WaitForSeconds(10f);
-        bouncingAttack();
+        if (bossInteractionTheGolem.secondStageCounter == 1)
+        {
+            bossStateManager.NextBossStage();
+        }
+        else
+        {
+            bouncingAttack();
+        }
     }
 
     public void startThirdStage()
     {
+        StartCoroutine(nameof(thirdStageCoroutine));
+    }
+
+    IEnumerator thirdStageCoroutine()
+    {
+        golemAnimator.SetTrigger("fallForwards");
+        yield return new WaitForSeconds(10f);
         rb.bodyType = RigidbodyType2D.Static;
         StartCoroutine("commenceLazerFire");
-        StopCoroutine("fallOverForwards");
     }
 
     public void lazerBallParry()
