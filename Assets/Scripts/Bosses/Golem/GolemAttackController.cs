@@ -35,21 +35,24 @@ public class GolemAttackController : MonoBehaviour
 
     public GameObject lazerCannon;
 
-    public bool firstStage;
-
-    public bool secondStage;
-    public bool finalStage;
-
     public GameObject lazerBall;
 
-    private bool isBouncing = false;
+    private bool isBouncing;
 
     public UnityEngine.U2D.PixelPerfectCamera pixelPerfectCamera;
     private BossInteractionTheGolem bossInteractionTheGolem;
 
+    private BossStateManager bossStateManager;
     private Animator golemAnimator;
     public Collider2D[] golemFirstStageCollision;
     public Collider2D[] golemSecondStageCollision;
+
+    public enum BossStages
+    {
+        FirstStage,
+        SecondStage,
+        ThirdStage,
+    }
 
     void Start()
     {
@@ -58,7 +61,8 @@ public class GolemAttackController : MonoBehaviour
 
     void assignVariables()
     {
-        golemAnimator = this.GetComponent<Animator>();
+        bossStateManager = GetComponent<BossStateManager>();
+        golemAnimator = GetComponent<Animator>();
         bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -74,7 +78,6 @@ public class GolemAttackController : MonoBehaviour
     IEnumerator startFirstStageCoroutine()
     {
         yield return new WaitForSeconds(2F);
-        firstStage = true;
         StartCoroutine(nameof(startFistSlamCoroutine));
     }
 
@@ -154,6 +157,7 @@ public class GolemAttackController : MonoBehaviour
                 leftHand.transform.eulerAngles = new Vector3(0, 0, 0);
                 leftHand.GetComponent<InteractionGolemHand>().spinning = false;
                 StopCoroutine(nameof(spinHandCoroutine));
+                startFirstStage();
             }
 
             yield return null;
@@ -204,9 +208,7 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator secondStageCoroutine()
     {
-        firstStage = false;
         yield return new WaitForSeconds(2f);
-        secondStage = true;
         Debug.Log("bouncing");
         bouncingAttack();
     }
@@ -276,8 +278,6 @@ public class GolemAttackController : MonoBehaviour
     public void startThirdStage()
     {
         rb.bodyType = RigidbodyType2D.Static;
-        finalStage = true;
-        secondStage = false;
         StartCoroutine("commenceLazerFire");
         StopCoroutine("fallOverForwards");
     }

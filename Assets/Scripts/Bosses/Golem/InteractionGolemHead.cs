@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InteractionGolemHead : MonoBehaviour
 {
-
     public bool isKnockedDown = false;
     [SerializeField] int recoilForce = 65;
     private BossInteractionTheGolem mainInteractionScript;
 
     private GolemAttackController attackControllerTheGolem;
+
+    public BossStateManager bossStateManager;
 
     private bool beenHitDelay;
 
@@ -21,7 +22,6 @@ public class InteractionGolemHead : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-
         if (col.gameObject.tag == "LazerBall" && col.gameObject.GetComponent<lazerBall>().beenParried)
         {
             Debug.Log("parried");
@@ -35,7 +35,7 @@ public class InteractionGolemHead : MonoBehaviour
             return;
         }
 
-        if (attackControllerTheGolem.finalStage)
+        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.ThirdStage)
         {
             if (col.gameObject.tag == "Sword")
             {
@@ -43,10 +43,11 @@ public class InteractionGolemHead : MonoBehaviour
                 golemFinalStageRecoil(col.gameObject);
                 // attackControllerTheGolem.finalStageHeadStrike();
             }
+
             return;
         }
 
-        if (attackControllerTheGolem.firstStage == true)
+        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.FirstStage)
         {
             if (col.gameObject.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
             {
@@ -56,7 +57,8 @@ public class InteractionGolemHead : MonoBehaviour
                 return;
             }
         }
-        if (attackControllerTheGolem.secondStage == true)
+
+        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.SecondStage)
         {
             if (col.gameObject.tag == "Sword")
             {
@@ -71,6 +73,7 @@ public class InteractionGolemHead : MonoBehaviour
         yield return new WaitForSeconds(5f);
         beenHitDelay = false;
     }
+
     void golemHeadRecoil(GameObject collider)
     {
         StartCoroutine("headRecoil", collider);
@@ -94,7 +97,6 @@ public class InteractionGolemHead : MonoBehaviour
 
     void golemFinalStageRecoil(GameObject collider)
     {
-
         Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
 
         rb.AddForce(Vector2.left * (recoilForce * 3.5f), ForceMode2D.Impulse);

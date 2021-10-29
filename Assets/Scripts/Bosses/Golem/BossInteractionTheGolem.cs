@@ -10,7 +10,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     public UxInteraction uxInteraction;
 
     private GolemAttackController golemAttackController;
-
+    private BossStateManager bossStateManager;
     private BossStats bossStats;
 
     public int firstStageCounter;
@@ -26,14 +26,13 @@ public class BossInteractionTheGolem : MonoBehaviour
     [SerializeField] private float mediumCameraSize;
     [SerializeField] private float longCameraSize;
 
-
     public bool playerOnGolem = false;
-
 
     public Cinemachine.CinemachineVirtualCamera mainCamera;
 
     void Start()
     {
+        bossStateManager = GetComponent<BossStateManager>();
         golemAttackController = GetComponent<GolemAttackController>();
         bossStats = GetComponent<BossStats>();
     }
@@ -51,13 +50,14 @@ public class BossInteractionTheGolem : MonoBehaviour
         firstStageCounter++;
         if (firstStageCounter == 1)
         {
-            // golemAttackController.startSecondStage();
+            bossStateManager.NextBossStage();
         }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player" && playerOnGolem && golemAttackController.firstStage == true)
+        if (col.gameObject.tag == "Player" && playerOnGolem &&
+            bossStateManager.currentStage == (int) GolemAttackController.BossStages.FirstStage)
         {
             StartCoroutine("playerExitDelay");
         }
@@ -85,7 +85,7 @@ public class BossInteractionTheGolem : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (golemAttackController.firstStage)
+        if (bossStateManager.currentStage == (int) GolemAttackController.BossStages.FirstStage)
         {
             if (col.gameObject.tag == "Player" && playerOnGolem)
             {

@@ -808,63 +808,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &86123588
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 86123589}
-  - component: {fileID: 86123590}
-  m_Layer: 0
-  m_Name: jump
-  m_TagString: LadderEnd
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &86123589
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86123588}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.388, y: 4.828, z: 0}
-  m_LocalScale: {x: 0.89854777, y: 0.14432427, z: 0.31807}
-  m_Children: []
-  m_Father: {fileID: 984281255}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &86123590
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86123588}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &86852152
 GameObject:
   m_ObjectHideFlags: 0
@@ -4909,7 +4852,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1489649973}
-  - {fileID: 86123589}
   - {fileID: 1496285823}
   - {fileID: 1430754154}
   - {fileID: 1073478097}
@@ -5281,7 +5223,7 @@ GameObject:
   - component: {fileID: 1073478097}
   - component: {fileID: 1073478098}
   m_Layer: 0
-  m_Name: climbingColider
+  m_Name: firstStageCollider
   m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5299,7 +5241,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 984281255}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &1073478098
 PolygonCollider2D:
@@ -6820,7 +6762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   golemJumpUpForce: 10000
   shockWaveForce: 500
-  slammingForce: 400
+  slammingForce: 650
   handRaiseSpeed: 0.08
   indicatorTimeout: 0.5
   leftHand: {fileID: 1082388124}
@@ -6837,6 +6779,7 @@ MonoBehaviour:
   - {fileID: 2090471100}
   - {fileID: 9775859}
   - {fileID: 488073068}
+  - {fileID: 1073478098}
   golemSecondStageCollision:
   - {fileID: 340323229}
   - {fileID: 1725811808}
@@ -6844,6 +6787,7 @@ MonoBehaviour:
   - {fileID: 768459497}
   - {fileID: 26629457}
   - {fileID: 1243886468}
+  - {fileID: 1914848863}
 --- !u!114 &1390091566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6993,7 +6937,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  currentStage: 1
+  currentStage: 0
 --- !u!1 &1410127737
 GameObject:
   m_ObjectHideFlags: 0
@@ -7171,7 +7115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1430754154
 Transform:
   m_ObjectHideFlags: 0
@@ -7184,7 +7128,7 @@ Transform:
   m_LocalScale: {x: 0.4375, y: 0.1375, z: 1}
   m_Children: []
   m_Father: {fileID: 984281255}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1430754155
 BoxCollider2D:
@@ -7351,7 +7295,7 @@ Transform:
   m_LocalScale: {x: 0.20079687, y: 4.922316, z: 1}
   m_Children: []
   m_Father: {fileID: 984281255}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -6.38}
 --- !u!61 &1496285824
 BoxCollider2D:
@@ -9182,12 +9126,12 @@ GameObject:
   - component: {fileID: 1914848862}
   - component: {fileID: 1914848863}
   m_Layer: 0
-  m_Name: fallenOverCollider
+  m_Name: secondStageCollider
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1914848862
 Transform:
   m_ObjectHideFlags: 0
@@ -9200,7 +9144,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 984281255}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &1914848863
 PolygonCollider2D:
@@ -9209,7 +9153,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914848861}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: ef3f2d31a26c16e429bf87a0686663a5, type: 2}
   m_IsTrigger: 0
