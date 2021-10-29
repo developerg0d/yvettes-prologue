@@ -350,6 +350,17 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.collider.CompareTag("GolemHand"))
+        {
+            InteractionGolemHand golemHandScript = col.gameObject.GetComponent<InteractionGolemHand>();
+
+            if (golemHandScript.IsSlamming && playerStats.CanDie)
+            {
+                golemHandScript.IsSlamming = false;
+                Debug.Log("Player Dead");
+            }
+        }
+
         if (col.collider.tag == "ScalingWall")
         {
             rb.velocity = rb.velocity / 4;

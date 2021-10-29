@@ -100,6 +100,7 @@ public class GolemAttackController : MonoBehaviour
     void slamFist()
     {
         Debug.Log("Slamming Fist");
+        leftHand.GetComponent<InteractionGolemHand>().IsSlamming = true;
         Vector3 test = leftHand.transform.right = player.transform.position - leftHand.transform.position;
         leftHand.transform.eulerAngles = Vector3.zero;
         leftHandRb.AddForce(test * slammingForce, ForceMode2D.Impulse);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InteractionGolemHand : MonoBehaviour
 {
-
     private BossInteractionTheGolem mainInteractionScript;
 
     private Rigidbody2D rb;
@@ -15,9 +14,18 @@ public class InteractionGolemHand : MonoBehaviour
     BoxCollider2D[] cols;
     public bool isMoving;
 
+    private bool isSlamming;
+
+    public bool IsSlamming
+    {
+        get => isSlamming;
+        set => isSlamming = value;
+    }
+
     public bool spinning = false;
 
     private bool onFist;
+
     void Start()
     {
         cols = GetComponentsInChildren<BoxCollider2D>();
@@ -30,6 +38,11 @@ public class InteractionGolemHand : MonoBehaviour
         if (spinning)
         {
             return;
+        }
+
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            IsSlamming = false;
         }
 
         if (col.gameObject.tag == "Player")
@@ -51,6 +64,7 @@ public class InteractionGolemHand : MonoBehaviour
             mainInteractionScript.onFist = false;
             col.gameObject.transform.SetParent(world.transform);
         }
+
         if (col.tag == "FistAvoid")
         {
             tooCloseToBoss = false;
@@ -85,8 +99,10 @@ public class InteractionGolemHand : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
+
     void OnTriggerStay2D(Collider2D col)
     {
         if (col.tag == "FistAvoid")
