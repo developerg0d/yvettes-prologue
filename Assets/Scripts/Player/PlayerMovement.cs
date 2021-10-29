@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isScalingWall;
 
+    private PlayerStats playerStats;
     public BossInteractionTheGolem bossInteractionTheGolem;
     public GolemAttackController golemAttackController;
 
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isJumpingUpLadder;
 
+    public Vector2 playerVelocity;
 
     private bool isClimbing;
     public bool canMove = true;
@@ -52,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         playerAttackScript = GetComponent<PlayerAttackScript>();
         playerAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -351,6 +354,21 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity / 4;
         }
+
+        if (col.gameObject.CompareTag("Ground") && !isOnLadder() && !isScalingWall)
+        {
+            Debug.Log(playerVelocity);
+            StopCoroutine(nameof(inAirCoroutine));
+            if (!playerStats.CanDie)
+            {
+                return;
+            }
+
+            if (playerVelocity.y < -8.5f)
+            {
+                Debug.Log("Death by Fall Damage");
+            }
+        }
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -358,6 +376,16 @@ public class PlayerMovement : MonoBehaviour
         if (col.gameObject.tag == "Ground")
         {
             grounded = false;
+            StartCoroutine(nameof(inAirCoroutine));
+        }
+    }
+
+    IEnumerator inAirCoroutine()
+    {
+        while (!grounded)
+        {
+            playerVelocity = rb.velocity;
+            yield return new WaitForFixedUpdate();
         }
     }
 }
