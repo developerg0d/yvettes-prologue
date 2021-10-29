@@ -294,7 +294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61192966}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.03125, y: -0.15625, z: 0}
+  m_LocalPosition: {x: -0.10750008, y: -0.38500023, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 608582757}
@@ -465,7 +465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31, y: -3.65625, z: 0}
+  m_LocalPosition: {x: -23.58, y: 6.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -520,6 +520,7 @@ MonoBehaviour:
   dashDelay: 5
   world: {fileID: 1161261808}
   canClimb: 0
+  bossInteractionTheGolem: {fileID: 0}
   golemAttackController: {fileID: 0}
   isLeft: 0
   canMove: 1
@@ -2303,7 +2304,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 10}
+  m_Size: {x: 0.37, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &673874789
 GameObject:

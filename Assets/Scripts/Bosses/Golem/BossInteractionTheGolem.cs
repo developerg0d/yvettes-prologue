@@ -79,7 +79,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         if (golemAttackController.firstStage)
-        {
+        {  
             if (col.gameObject.tag == "Player" && playerOnGolem )
             {
                 StopCoroutine("playerExitDelay");

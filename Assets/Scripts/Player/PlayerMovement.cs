@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float horizontalSpeed;
-    [SerializeField]
-    private float climbingSpeed;
-    [SerializeField]
-    private float dashSpeed = 50f;
-    [SerializeField]
-    private float jumpPower = 30f;
+    [SerializeField] private float horizontalSpeed;
+    [SerializeField] private float climbingSpeed;
+    [SerializeField] private float dashSpeed = 50f;
+    [SerializeField] private float jumpPower = 30f;
     private Animator playerAnimator;
 
-    [SerializeField]
-    private Transform playerSprite;
+    [SerializeField] private Transform playerSprite;
 
-    [SerializeField]
-    private Transform bottomPlayerSprite;
+    [SerializeField] private Transform bottomPlayerSprite;
     float horizontalMovement;
     private PlayerAttackScript playerAttackScript;
 
@@ -37,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool upThrustReady;
 
+    private bool isScalingWall;
 
     public BossInteractionTheGolem bossInteractionTheGolem;
     public GolemAttackController golemAttackController;
@@ -54,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     bool onSideLadder;
+
     void Start()
     {
         playerAttackScript = GetComponent<PlayerAttackScript>();
@@ -63,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
+        playerAnimator.SetBool("isScalingWall", isScalingWall);
         playerAnimator.SetBool("onSideLadder", onSideLadder);
         playerAnimator.SetBool("isSideLadderClimbing", isClimbing);
         playerAnimator.SetBool("isMoving", moving);
@@ -90,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("upthrust", true);
             swordUpThrust();
         }
+
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnimator.SetBool("upthrust", false);
@@ -103,7 +101,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending && canDash)
         {
-
             float dashingAnimationDirection = isLeft == true ? 0 : 1;
             playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(1);
@@ -142,14 +139,15 @@ public class PlayerMovement : MonoBehaviour
         float verticalMovement = Input.GetAxis("VerticalMoving");
         if (canClimb && verticalMovement != 0)
         {
-
             climb(verticalMovement);
         }
+
         if (onSideLadder && horizontalMovement != 0)
         {
             movePlayerDiagonally(horizontalMovement);
             return;
         }
+
         if (horizontalMovement != 0)
         {
             movePlayerHorizontally(horizontalMovement);
@@ -167,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
             horizontalMovement <= 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
         rb.velocity = horizontalDirection * (horizontalSpeed * 0.1f);
     }
+
     void movePlayerHorizontally(float horizontalMovement)
     {
         updatePlayerDirection(horizontalMovement);
@@ -224,6 +223,24 @@ public class PlayerMovement : MonoBehaviour
         isLeft = horizontalMovement >= 0 ? false : true;
     }
 
+    IEnumerator exitLadderCoroutine(Vector3 endPosition)
+    {
+        while (enabled)
+        {
+            if (transform.position.y < endPosition.y)
+            {
+                rb.velocity = new Vector3(1f, 2f, 0) * 3f;
+            }
+            else
+            {
+                StopCoroutine("exitLadderCoroutine");
+                canMove = true;
+            }
+
+            yield return null;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "LadderEnd")
@@ -252,15 +269,15 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetTrigger("climbJump");
             StartCoroutine("exitLadderCoroutine", endPosition);
         }
+
         if (col.tag == "ScalingWall")
         {
             rb.gravityScale = 0.7f;
-            playerAnimator.SetBool("isScalingWall", true);
+            isScalingWall = true;
         }
 
         if (col.tag == "SideLadder")
         {
-
             if (horizontalMovement > 0)
             {
                 onSideLadder = true;
@@ -270,10 +287,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 isClimbing = false;
             }
+
             if (horizontalMovement < 0)
             {
                 onSideLadder = false;
-
             }
         }
 
@@ -283,30 +300,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 onLadder = true;
             }
+
             if (rb.gravityScale != 0)
             {
                 rb.gravityScale = 0;
             }
+
             playerAnimator.SetBool("onLadder", true);
             canClimb = true;
-        }
-    }
-
-    IEnumerator exitLadderCoroutine(Vector3 endPosition)
-    {
-        while (enabled)
-        {
-
-            if (transform.position.y < endPosition.y)
-            {
-                rb.velocity = new Vector3(1f, 2f, 0) * 3f;
-            }
-            else
-            {
-                StopCoroutine("exitLadderCoroutine");
-                canMove = true;
-            }
-            yield return null;
         }
     }
 
@@ -315,15 +316,16 @@ public class PlayerMovement : MonoBehaviour
         if (col.tag == "ScalingWall")
         {
             rb.gravityScale = 1.0f;
-            playerAnimator.SetBool("isScalingWall", false);
+            isScalingWall = false;
         }
+
         if (col.tag == "SideLadder")
         {
             onSideLadder = false;
             rb.gravityScale = 1;
             playerAnimator.SetBool("onSideLadder", false);
-
         }
+
         if (col.tag == "Ladder")
         {
             onLadder = false;
@@ -335,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && !isOnLadder())
+        if (col.gameObject.tag == "Ground" && !isOnLadder() && !isScalingWall)
         {
             rb.gravityScale = 1f;
             upThrustReady = true;
@@ -349,25 +351,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity / 4;
         }
-        // if (golemAttackController && golemAttackController.firstStage)
-        // {
-        //     if (col.collider.tag == "GolemHand")
-        //     {
-        //         golemAttackController.playerRidingHand = true;
-        //     }
-        // }
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        // if (col.collider.tag == "GolemHand")
-        // {
-        //     golemAttackController.playerRidingHand = false;
-        // }
         if (col.gameObject.tag == "Ground")
         {
             grounded = false;
         }
-
     }
 }
