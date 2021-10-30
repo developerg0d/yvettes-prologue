@@ -32,12 +32,15 @@ public class InteractionGolemHand : MonoBehaviour
 
     public CameraShake cameraShake;
 
+    private Animator fistAnimator;
+
     void Start()
     {
         setBottomOfFistPosition();
         fistCrater.transform.position = bottomOfFist;
         cols = GetComponentsInChildren<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+        fistAnimator = GetComponent<Animator>();
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
     }
 
@@ -48,12 +51,11 @@ public class InteractionGolemHand : MonoBehaviour
         bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2);
     }
 
-    void OnCollisionExit2D(Collision2D col)
+    public void groundExit()
     {
-        if (col.gameObject.CompareTag("Ground"))
-        {
-            climbingHolds.SetActive(false);
-        }
+        fistAnimator.SetBool("fistInGround", false);
+
+        climbingHolds.SetActive(false);
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -66,7 +68,7 @@ public class InteractionGolemHand : MonoBehaviour
         if (col.gameObject.CompareTag("Ground") && IsSlamming)
         {
             cameraShake.shakeCamera(0.3f, 0.1f);
-
+            fistAnimator.SetBool("fistInGround", true);
             spawnCrater();
             climbingHolds.SetActive(true);
             IsSlamming = false;
@@ -80,6 +82,7 @@ public class InteractionGolemHand : MonoBehaviour
                 return;
             }
 
+            spawnCrater();
             cameraShake.shakeCamera(0.6f, 0.1f);
         }
 

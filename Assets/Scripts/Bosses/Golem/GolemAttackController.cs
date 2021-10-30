@@ -109,6 +109,7 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator raiseHandCoroutine()
     {
+        leftHand.GetComponent<InteractionGolemHand>().groundExit();
         Debug.Log("Raising Hand");
         while (enabled)
         {
