@@ -10005,9 +10005,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camTransform: {fileID: 715893124}
-  shakeDuration: 3
-  shakeAmount: 0.7
-  decreaseFactor: 1
 --- !u!1 &730907056
 GameObject:
   m_ObjectHideFlags: 0
@@ -12371,7 +12368,9 @@ MonoBehaviour:
   tooCloseToBoss: 0
   climbingHolds: {fileID: 0}
   isMoving: 0
+  fistCrater: {fileID: 0}
   spinning: 0
+  cameraShake: {fileID: 0}
 --- !u!1 &984281254
 GameObject:
   m_ObjectHideFlags: 0
@@ -13663,7 +13662,9 @@ MonoBehaviour:
   tooCloseToBoss: 0
   climbingHolds: {fileID: 920135287}
   isMoving: 0
+  fistCrater: {fileID: 6516595680239835272, guid: 961fa23036a05244b87d53e4a247038e, type: 3}
   spinning: 0
+  cameraShake: {fileID: 718511321}
 --- !u!1 &1082750504
 GameObject:
   m_ObjectHideFlags: 0
@@ -24603,7 +24604,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0d7b9dd54e761cb42baf616e76728eba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

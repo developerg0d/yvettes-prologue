@@ -180,7 +180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650557859012620222}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31, y: -3.03125, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 650557860796033189}
@@ -228,8 +228,10 @@ MonoBehaviour:
   dashDelay: 5
   world: {fileID: 0}
   canClimb: 0
+  bossInteractionTheGolem: {fileID: 0}
   golemAttackController: {fileID: 0}
   isLeft: 0
+  playerVelocity: {x: 0, y: 0}
   canMove: 1
 --- !u!50 &650557859012620197
 Rigidbody2D:

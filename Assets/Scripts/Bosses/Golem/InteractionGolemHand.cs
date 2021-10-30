@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 public class InteractionGolemHand : MonoBehaviour
@@ -16,6 +17,9 @@ public class InteractionGolemHand : MonoBehaviour
 
     private bool isSlamming;
 
+    public GameObject fistCrater;
+    private Vector3 bottomOfFist;
+
     public bool IsSlamming
     {
         get => isSlamming;
@@ -30,9 +34,18 @@ public class InteractionGolemHand : MonoBehaviour
 
     void Start()
     {
+        setBottomOfFistPosition();
+        fistCrater.transform.position = bottomOfFist;
         cols = GetComponentsInChildren<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
+    }
+
+    void setBottomOfFistPosition()
+    {
+        var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
+        bottomOfFist.x = fistColliderBounds.center.x;
+        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2);
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -50,9 +63,11 @@ public class InteractionGolemHand : MonoBehaviour
             return;
         }
 
-        if (col.gameObject.CompareTag("Ground"))
+        if (col.gameObject.CompareTag("Ground") && IsSlamming)
         {
             cameraShake.shakeCamera(0.3f, 0.1f);
+
+            spawnCrater();
             climbingHolds.SetActive(true);
             IsSlamming = false;
         }
@@ -72,6 +87,14 @@ public class InteractionGolemHand : MonoBehaviour
         {
             mainInteractionScript.golemHandHit();
         }
+    }
+
+    private void spawnCrater()
+    {
+        setBottomOfFistPosition();
+        Debug.Log(bottomOfFist);
+        Instantiate(fistCrater, bottomOfFist, Quaternion.identity);
+        Debug.Log(bottomOfFist);
     }
 
     void OnTriggerExit2D(Collider2D col)
