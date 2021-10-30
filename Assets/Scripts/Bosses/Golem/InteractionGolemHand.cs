@@ -26,6 +26,8 @@ public class InteractionGolemHand : MonoBehaviour
 
     private bool onFist;
 
+    public CameraShake cameraShake;
+
     void Start()
     {
         cols = GetComponentsInChildren<BoxCollider2D>();
@@ -50,16 +52,23 @@ public class InteractionGolemHand : MonoBehaviour
 
         if (col.gameObject.CompareTag("Ground"))
         {
+            cameraShake.shakeCamera(0.3f, 0.1f);
             climbingHolds.SetActive(true);
             IsSlamming = false;
         }
 
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.CompareTag("Player"))
         {
             rb.velocity = Vector2.zero;
+            if (!isSlamming)
+            {
+                return;
+            }
+
+            cameraShake.shakeCamera(0.6f, 0.1f);
         }
 
-        if (col.collider.tag == "Sword" && mainInteractionScript.canTakeDamage == true)
+        if (col.collider.CompareTag("Sword") && mainInteractionScript.canTakeDamage == true)
         {
             mainInteractionScript.golemHandHit();
         }
