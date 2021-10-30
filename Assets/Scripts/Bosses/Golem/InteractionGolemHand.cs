@@ -10,7 +10,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     public GameObject world;
     public bool tooCloseToBoss;
-
+    public GameObject climbingHolds;
     BoxCollider2D[] cols;
     public bool isMoving;
 
@@ -33,6 +33,14 @@ public class InteractionGolemHand : MonoBehaviour
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
     }
 
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            climbingHolds.SetActive(false);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if (spinning)
@@ -42,6 +50,7 @@ public class InteractionGolemHand : MonoBehaviour
 
         if (col.gameObject.CompareTag("Ground"))
         {
+            climbingHolds.SetActive(true);
             IsSlamming = false;
         }
 
@@ -55,7 +64,7 @@ public class InteractionGolemHand : MonoBehaviour
             mainInteractionScript.golemHandHit();
         }
     }
-    
+
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "Player")

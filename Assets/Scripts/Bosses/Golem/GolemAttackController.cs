@@ -22,6 +22,7 @@ public class GolemAttackController : MonoBehaviour
     [Space(10)] [SerializeField] private float indicatorTimeout = 0.5F;
 
     public GameObject leftHand;
+    public GameObject leftHandClimbingHolds;
     public UxInteraction uxInteraction;
 
     private float spinTimer = 0f;
@@ -109,12 +110,11 @@ public class GolemAttackController : MonoBehaviour
     IEnumerator raiseHandCoroutine()
     {
         Debug.Log("Raising Hand");
-
         while (enabled)
         {
             raiseHand();
 
-            if (leftHand.transform.position.y >= pixelPerfectCamera.RoundToPixel(initialHandPosition).y &&
+            if (leftHand.transform.position.y >= (pixelPerfectCamera.RoundToPixel(initialHandPosition).y - 1) &&
                 leftHand.transform.position.x >= pixelPerfectCamera.RoundToPixel(initialHandPosition).x)
             {
                 Debug.Log("Raised Hand");
