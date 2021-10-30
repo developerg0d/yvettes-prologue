@@ -34,10 +34,22 @@ public class InteractionGolemHand : MonoBehaviour
 
     private Animator fistAnimator;
 
+    public Sprite[] leftSideSprites;
+    public Sprite[] rightSideSprites;
+
+    public GameObject leftSideLadder;
+    public GameObject rightSideLadder;
+
+    public SpriteRenderer leftSideRenderer;
+    public SpriteRenderer rightSideRenderer;
+
+    [SerializeField] private int leftSideHp = 2;
+    [SerializeField] private int rightSideHp = 2;
+
+    public bool canBeHit = true;
+
     void Start()
     {
-        setBottomOfFistPosition();
-        fistCrater.transform.position = bottomOfFist;
         cols = GetComponentsInChildren<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         fistAnimator = GetComponent<Animator>();
@@ -48,13 +60,13 @@ public class InteractionGolemHand : MonoBehaviour
     {
         var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
         bottomOfFist.x = fistColliderBounds.center.x;
-        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2);
+        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2) - 0.5f;
     }
 
     public void groundExit()
     {
         fistAnimator.SetBool("fistInGround", false);
-
+        canBeHit = false;
         climbingHolds.SetActive(false);
     }
 
@@ -67,6 +79,7 @@ public class InteractionGolemHand : MonoBehaviour
 
         if (col.gameObject.CompareTag("Ground") && IsSlamming)
         {
+            canBeHit = true;
             cameraShake.shakeCamera(0.3f, 0.1f);
             fistAnimator.SetBool("fistInGround", true);
             spawnCrater();
@@ -84,11 +97,6 @@ public class InteractionGolemHand : MonoBehaviour
 
             spawnCrater();
             cameraShake.shakeCamera(0.6f, 0.1f);
-        }
-
-        if (col.collider.CompareTag("Sword") && mainInteractionScript.canTakeDamage == true)
-        {
-            mainInteractionScript.golemHandHit();
         }
     }
 
@@ -129,29 +137,68 @@ public class InteractionGolemHand : MonoBehaviour
             {
                 Debug.Log("on fist");
                 mainInteractionScript.onFist = true;
-                col.gameObject.transform.SetParent(this.gameObject.transform);
+                col.gameObject.transform.SetParent(gameObject.transform);
             }
         }
-    }
 
-    bool isOnGroundTag(Collider2D col)
-    {
-        foreach (BoxCollider2D item in cols)
+        if (col.CompareTag("Sword") && canBeHit)
         {
-            if (item.tag == "Ground" && item.IsTouching(col))
+            canBeHit = false;
+            var currentPosition = transform.position;
+            var playerPosition = col.transform.parent.transform.position;
+
+            if (playerPosition.x > currentPosition.x)
             {
-                return true;
+                fistGotHit(false);
             }
+            else
+            {
+                fistGotHit(true);
+            }
+            // mainInteractionScript.golemHandHit();
         }
-
-        return false;
     }
 
-    void OnTriggerStay2D(Collider2D col)
+    private void fistGotHit(bool hitFromTheLeft)
     {
-        if (col.tag == "FistAvoid")
+        cameraShake.shakeCamera(0.1f, 0.1f);
+
+        if (hitFromTheLeft)
         {
-            tooCloseToBoss = true;
+            leftSideHit();
+            return;
+        }
+
+        rightSideHit();
+    }
+
+    private void leftSideHit()
+    {
+        if (leftSideHp <= 0)
+        {
+            return;
+        }
+
+        leftSideHp -= 1;
+        leftSideRenderer.sprite = leftSideSprites[leftSideHp];
+        if (leftSideHp == 0)
+        {
+            leftSideLadder.SetActive(true);
+        }
+    }
+
+    private void rightSideHit()
+    {
+        if (rightSideHp <= 0)
+        {
+            return;
+        }
+
+        rightSideHp -= 1;
+        rightSideRenderer.sprite = rightSideSprites[rightSideHp];
+        if (rightSideHp == 0)
+        {
+            rightSideLadder.SetActive(true);
         }
     }
 }
