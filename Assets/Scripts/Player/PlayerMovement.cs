@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -232,7 +233,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (transform.position.y < endPosition.y)
             {
-                rb.velocity = new Vector3(1f, 2f, 0) * 3f;
+                rb.velocity = new Vector3(isLeft == true ? -1 : 1, 2f, 0) * 3f;
             }
             else
             {

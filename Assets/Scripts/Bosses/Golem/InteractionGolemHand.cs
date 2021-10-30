@@ -55,7 +55,7 @@ public class InteractionGolemHand : MonoBehaviour
             mainInteractionScript.golemHandHit();
         }
     }
-
+    
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "Player")
