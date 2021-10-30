@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using Debug = UnityEngine.Debug;
 
 public class UxInteraction : MonoBehaviour
 {
@@ -12,10 +14,23 @@ public class UxInteraction : MonoBehaviour
 
     public Image indicator;
 
-    [SerializeField]
-    protected Camera mainCamera;
+    [SerializeField] protected Camera mainCamera;
 
     public float indicatorTimeout = 0.5F;
+
+    public Sprite[] arrowSprites;
+
+    public enum ArrowAngles
+    {
+        Deg0,
+        Deg45,
+        Deg90,
+        Deg135,
+        Deg180,
+        Deg225,
+        Deg270,
+        Deg315,
+    }
 
     public void updateBossHpBar(int currentHp)
     {
@@ -23,13 +38,71 @@ public class UxInteraction : MonoBehaviour
         bossHpBar.fillAmount = convertedHp;
     }
 
-    public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition)
+    public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition, Vector3 playerPosition)
     {
         indicator.gameObject.SetActive(true);
-     //   Debug.Log(mainCamera);
-   //    indicator.transform.position = new Vector3((mainCamera.WorldToScreenPoint(golemHandPosition).x), indicator.transform.position.y, 0);
+        float angle = AngleInDeg(golemHandPosition, playerPosition);
+        Debug.Log(angle);
+        determineArrowSprite(angle);
         StartCoroutine("disableIndicator");
     }
+
+    void determineArrowSprite(float angle)
+    {
+        float roundedAngle = Mathf.Round(angle * -1);
+        int determinedAngle = 0;
+        
+        if (determineAngle(roundedAngle, 0, 44))
+        {
+            determinedAngle = (int) ArrowAngles.Deg0;
+        }
+        else if (determineAngle(roundedAngle, 45, 89))
+        {
+            determinedAngle = (int) ArrowAngles.Deg45;
+        }
+        else if (determineAngle(roundedAngle, 90, 134))
+        {
+            determinedAngle = (int) ArrowAngles.Deg90;
+        }
+        else if (determineAngle(roundedAngle, 135, 179))
+        {
+            determinedAngle = (int) ArrowAngles.Deg135;
+        }
+        else if (determineAngle(roundedAngle, 180, 224))
+        {
+            determinedAngle = (int) ArrowAngles.Deg180;
+        }
+        else if (determineAngle(roundedAngle, 225, 269))
+        {
+            determinedAngle = (int) ArrowAngles.Deg225;
+        }
+        else if (determineAngle(roundedAngle, 270, 314))
+        {
+            determinedAngle = (int) ArrowAngles.Deg270;
+        }
+        else if (determineAngle(roundedAngle, 315, 359))
+        {
+            determinedAngle = (int) ArrowAngles.Deg315;
+        }
+
+        indicator.sprite = arrowSprites[determinedAngle];
+    }
+
+    public bool determineAngle(float currentAngle, float minAngle, float maxAngle)
+    {
+        return currentAngle >= minAngle && currentAngle <= maxAngle;
+    }
+
+    private float AngleInRad(Vector3 vec1, Vector3 vec2)
+    {
+        return Mathf.Atan2(vec2.y - vec1.y, vec2.x - vec1.x);
+    }
+
+    private float AngleInDeg(Vector3 vec1, Vector3 vec2)
+    {
+        return AngleInRad(vec1, vec2) * 180 / Mathf.PI;
+    }
+
     IEnumerator disableIndicator()
     {
         yield return new WaitForSeconds(indicatorTimeout);

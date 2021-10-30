@@ -86,7 +86,7 @@ public class GolemAttackController : MonoBehaviour
     {
         Debug.Log("Slam Fist");
 
-        uxInteraction.updateGolemFistIndicatorPosition(player.transform.position);
+        uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position, player.transform.position);
         yield return new WaitForSeconds(indicatorTimeout);
         StartCoroutine(nameof(fistSlamCoroutine));
     }
