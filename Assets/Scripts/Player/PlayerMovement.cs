@@ -379,6 +379,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (playerVelocity.y < -8.5f)
             {
+                playerAnimator.SetTrigger("crushed");
+                enabled = false;
                 Debug.Log("Death by Fall Damage");
             }
         }

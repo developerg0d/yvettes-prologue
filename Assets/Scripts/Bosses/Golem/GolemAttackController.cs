@@ -115,8 +115,7 @@ public class GolemAttackController : MonoBehaviour
         {
             raiseHand();
 
-            if (leftHand.transform.position.y >= (pixelPerfectCamera.RoundToPixel(initialHandPosition).y - 1) &&
-                leftHand.transform.position.x >= pixelPerfectCamera.RoundToPixel(initialHandPosition).x)
+            if (leftHand.transform.position.y >= pixelPerfectCamera.RoundToPixel(initialHandPosition).y)
             {
                 Debug.Log("Raised Hand");
                 yield return new WaitForSeconds(2f);
@@ -139,8 +138,18 @@ public class GolemAttackController : MonoBehaviour
 
     void raiseHand()
     {
-        Vector3 toMovePosition = Vector3.MoveTowards(leftHand.transform.position,
-            new Vector3(initialHandPosition.x, initialHandPosition.y), handRaiseSpeed);
+        Vector3 toMovePosition;
+        if (bossInteractionTheGolem.onFist)
+        {
+            toMovePosition = Vector3.MoveTowards(leftHand.transform.position,
+                new Vector3(initialHandPosition.x, initialHandPosition.y), handRaiseSpeed);
+        }
+        else
+        {
+            toMovePosition = Vector3.MoveTowards(leftHand.transform.position,
+                new Vector3(leftHand.transform.position.x, initialHandPosition.y), handRaiseSpeed);
+        }
+
         leftHand.transform.position = pixelPerfectCamera.RoundToPixel(toMovePosition);
     }
 
@@ -194,7 +203,7 @@ public class GolemAttackController : MonoBehaviour
 
         StartCoroutine("secondStageCoroutine");
     }
-
+    
     private void enableSecondStageColliders()
     {
         foreach (var collider2D1 in golemFirstStageCollision)
@@ -210,7 +219,7 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator secondStageCoroutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(15f);
         Debug.Log("bouncing");
         bouncingAttack();
     }

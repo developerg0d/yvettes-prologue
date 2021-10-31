@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 3653732249258614849}
   - component: {fileID: 8354781733216288086}
   - component: {fileID: 2284690687683613004}
+  - component: {fileID: 501624421524381635}
   m_Layer: 0
   m_Name: fistCrater
   m_TagString: Untagged
@@ -187,3 +188,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &501624421524381635
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516595680239835272}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.015690327, y: 0.01198101}
+      - {x: -1.5435653, y: 0.19185102}
+      - {x: -2.3814802, y: -0.24052426}
+      - {x: 0.08039951, y: -0.86491036}
+      - {x: 2.4653249, y: -0.24468112}
+      - {x: 1.5329237, y: 0.22012037}

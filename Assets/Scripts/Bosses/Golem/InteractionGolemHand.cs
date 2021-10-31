@@ -47,6 +47,7 @@ public class InteractionGolemHand : MonoBehaviour
     [SerializeField] private int leftSideHp = 2;
     [SerializeField] private int rightSideHp = 2;
 
+    private bool hitPlayer;
     public bool canBeHit = true;
 
     void Start()
@@ -78,11 +79,15 @@ public class InteractionGolemHand : MonoBehaviour
             return;
         }
 
-        if (col.gameObject.CompareTag("Ground") && IsSlamming)
+        if (col.gameObject.CompareTag("Ground") && (IsSlamming || hitPlayer))
         {
+            if (!hitPlayer)
+            {
+                cameraShake.shakeCamera(0.3f, 0.1f);
+            }
+
             rb.velocity = Vector2.zero;
             canBeHit = true;
-            cameraShake.shakeCamera(0.3f, 0.1f);
             fistAnimator.SetBool("fistInGround", true);
             climbingHolds.SetActive(true);
             spawnCrater();
@@ -94,6 +99,7 @@ public class InteractionGolemHand : MonoBehaviour
             StartCoroutine(nameof(slowTimeCoroutine));
             col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             IsSlamming = false;
+            hitPlayer = true;
         }
     }
 
@@ -106,7 +112,6 @@ public class InteractionGolemHand : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         spawnCrater();
         yield return new WaitForSeconds(0.05f);
-        fistAnimator.SetBool("fistInGround", true);
         Time.timeScale = 1f;
     }
 
