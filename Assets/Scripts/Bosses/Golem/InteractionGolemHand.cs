@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     public SpriteRenderer leftSideRenderer;
     public SpriteRenderer rightSideRenderer;
-
+    public Cinemachine.CinemachineVirtualCamera virtualCamera;
     [SerializeField] private int leftSideHp = 2;
     [SerializeField] private int rightSideHp = 2;
 
@@ -60,7 +61,7 @@ public class InteractionGolemHand : MonoBehaviour
     {
         var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
         bottomOfFist.x = fistColliderBounds.center.x;
-        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2) - 0.5f;
+        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2) - 0.25f;
     }
 
     public void groundExit()
@@ -83,30 +84,37 @@ public class InteractionGolemHand : MonoBehaviour
             canBeHit = true;
             cameraShake.shakeCamera(0.3f, 0.1f);
             fistAnimator.SetBool("fistInGround", true);
-            spawnCrater();
             climbingHolds.SetActive(true);
+            spawnCrater();
             IsSlamming = false;
         }
 
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") && isSlamming)
         {
-            rb.velocity = Vector2.zero;
-            if (!isSlamming)
-            {
-                return;
-            }
-
-            spawnCrater();
-            cameraShake.shakeCamera(0.6f, 0.1f);
+            StartCoroutine(nameof(slowTimeCoroutine));
+            col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            IsSlamming = false;
         }
+    }
+
+    IEnumerator slowTimeCoroutine()
+    {
+        Time.timeScale = 0.1f;
+        virtualCamera.m_Lens.OrthographicSize = 5;
+        cameraShake.shakeCamera(0.05f, 0.15f);
+        virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 1.75f;
+        yield return new WaitForSeconds(0.05f);
+        spawnCrater();
+        yield return new WaitForSeconds(0.05f);
+        fistAnimator.SetBool("fistInGround", true);
+        Time.timeScale = 1f;
     }
 
     private void spawnCrater()
     {
+        Debug.Log("Spawn Crater");
         setBottomOfFistPosition();
-        Debug.Log(bottomOfFist);
         Instantiate(fistCrater, bottomOfFist, Quaternion.identity);
-        Debug.Log(bottomOfFist);
     }
 
     void OnTriggerExit2D(Collider2D col)
@@ -156,7 +164,6 @@ public class InteractionGolemHand : MonoBehaviour
             {
                 fistGotHit(true);
             }
-            // mainInteractionScript.golemHandHit();
         }
     }
 

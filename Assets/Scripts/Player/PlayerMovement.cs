@@ -357,7 +357,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (golemHandScript.IsSlamming && playerStats.CanDie)
             {
-                golemHandScript.IsSlamming = false;
+                playerAnimator.SetTrigger("crushed");
+                enabled = false;
                 Debug.Log("Player Dead");
             }
         }
