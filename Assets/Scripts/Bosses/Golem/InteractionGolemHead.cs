@@ -14,6 +14,7 @@ public class InteractionGolemHead : MonoBehaviour
 
     private GolemAttackController attackControllerTheGolem;
 
+    public CameraShake cameraShake;
     public BossStateManager bossStateManager;
 
     private bool beenHitDelay;
@@ -33,9 +34,20 @@ public class InteractionGolemHead : MonoBehaviour
 
         if (col.gameObject.CompareTag("LazerBall") && col.gameObject.GetComponent<lazerBall>().beenParried)
         {
+            lazerBall lazerBallScript = col.gameObject.GetComponent<lazerBall>();
             StartCoroutine(nameof(hitDelay));
-
             Debug.Log("parried");
+            if (lazerBallScript.bounceCounter == 0)
+            {
+                cameraShake.shakeCamera(0.1f, 0.1f);
+                col.gameObject.transform.localScale = new Vector3(2, 2, 2);
+                lazerBallScript.bounceCounter++;
+                col.gameObject.GetComponent<lazerBall>().lazerBallSpeed =
+                    -col.gameObject.GetComponent<lazerBall>().lazerBallSpeed * 1.5f;
+                return;
+            }
+
+            cameraShake.shakeCamera(0.7f, 0.4f);
             attackControllerTheGolem.lazerBallParry();
             attackControllerTheGolem.finalStageHeadStrike();
             Destroy(col.gameObject);

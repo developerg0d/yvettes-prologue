@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isScalingWall;
 
     private PlayerStats playerStats;
+    public CameraShake cameraShake;
 
     public bool isLeft;
 
@@ -244,8 +246,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void playerHit()
+    {
+        cameraShake.shakeCamera(0.3f, 0.2f);
+        rb.AddForce(Vector2.left * 100);
+        Debug.Log("Hit");
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.CompareTag("LazerBall"))
+        {
+            if (playerAttackScript.isDefending)
+            {
+                rb.AddForce(Vector2.left * 50);
+                playerAttackScript.playerDefended(0);
+
+                return;
+            }
+
+            if (playerAttackScript.isParrying)
+            {
+                rb.AddForce(Vector2.left * 25);
+                playerAttackScript.playerParried();
+                return;
+            }
+
+            playerHit();
+        }
+
         if (col.tag == "LadderEnd")
         {
             Debug.Log("Can Climb Jump");
@@ -340,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && !isOnLadder() && !isScalingWall)
+        if (col.gameObject.tag == "Ground" || col.otherCollider.CompareTag("Ground") && !isOnLadder() && !isScalingWall)
         {
             rb.gravityScale = 1f;
             upThrustReady = true;
@@ -381,7 +410,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = rb.velocity / 4;
         }
 
-        if (col.gameObject.CompareTag("Ground") && !isOnLadder() && !isScalingWall)
+        if (col.gameObject.CompareTag("Ground") || col.otherCollider.CompareTag("Ground") && !isOnLadder() &&
+            !isScalingWall)
         {
             Debug.Log(playerVelocity);
             StopCoroutine(nameof(inAirCoroutine));
@@ -401,7 +431,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.tag == "Ground" || col.otherCollider.CompareTag("Ground"))
         {
             grounded = false;
             StartCoroutine(nameof(inAirCoroutine));

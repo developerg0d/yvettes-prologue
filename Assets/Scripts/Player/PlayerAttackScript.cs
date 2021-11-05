@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Cinemachine;
 using UnityEngine;
 
@@ -78,15 +79,35 @@ public class PlayerAttackScript : MonoBehaviour
         StartCoroutine(nameof(majorImpactAction));
     }
 
-    public void playerDefended()
+    public void playerDefended(float cameraShakeType = 1)
     {
-        Debug.Log("Player Defended");
-        mediumCameraShake();
+        switch (cameraShakeType)
+        {
+            case 0:
+                lightCameraShake();
+                break;
+            case 1:
+                mediumCameraShake();
+                break;
+            case 2:
+                heavyCameraShake();
+                break;
+        }
+    }
+
+    public void lightCameraShake()
+    {
+        cameraShake.shakeCamera(0.1f, 0.1f);
     }
 
     public void mediumCameraShake()
     {
         cameraShake.shakeCamera(0.2f, 0.2f);
+    }
+
+    public void heavyCameraShake()
+    {
+        cameraShake.shakeCamera(0.4f, 0.4f);
     }
 
     IEnumerator majorImpactAction()

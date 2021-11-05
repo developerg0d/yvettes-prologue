@@ -333,18 +333,40 @@ public class GolemAttackController : MonoBehaviour
     {
         while (enabled)
         {
-            Vector3 dir = player.transform.position - lazerCannon.transform.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            lazerCannon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            fireLazerBall();
+            aimAtPlayer();
+            int rand = Random.Range(0, 3);
+            switch (rand)
+            {
+                case 0:
+                    fireLazerBall();
+                    fireLazerBall(-2);
+                    fireLazerBall(2);
+                    break;
+                default:
+                    fireLazerBall();
+                    break;
+            }
+            yield return new WaitForSeconds(0.5f);
+            fireLazerBall(5);
+            yield return new WaitForSeconds(0.5f);
+            fireLazerBall(-5);
             yield return new WaitForSeconds(2f);
         }
     }
 
-    void fireLazerBall()
+    void aimAtPlayer()
+    {
+        Vector3 dir = player.transform.position - lazerCannon.transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        lazerCannon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    void fireLazerBall(float angleOffset = 0)
     {
         Debug.Log("Fire");
         GameObject lazerBallInstance = Instantiate(lazerBall, lazerCannon.transform);
+        lazerBallInstance.transform.eulerAngles =
+            new Vector3(0, 0, lazerBallInstance.transform.eulerAngles.z + angleOffset);
         lazerBallInstance.transform.position = lazerCannon.transform.position;
     }
 
@@ -356,10 +378,10 @@ public class GolemAttackController : MonoBehaviour
         //     StartCoroutine("commenceLazerFire");
         //     return;
         // }
-        StartCoroutine("finalPlayerSpecialAttack");
+        StartCoroutine(nameof(finalPlayerSpecialAttack));
     }
 
-    IEnumerator finalPlayerSpecialAttack()
+    private IEnumerator finalPlayerSpecialAttack()
     {
         yield return new WaitForSeconds(5f);
         Debug.Log("Player has won");
