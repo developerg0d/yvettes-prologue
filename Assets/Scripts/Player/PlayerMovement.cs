@@ -5,6 +5,7 @@ using Cinemachine;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (canMove == true)
+        if (canMove)
         {
             MovementControls();
         }

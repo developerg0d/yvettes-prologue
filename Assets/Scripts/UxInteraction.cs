@@ -4,6 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 public class UxInteraction : MonoBehaviour
@@ -29,6 +30,14 @@ public class UxInteraction : MonoBehaviour
         Deg225,
         Deg270,
         Deg315,
+    }
+
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.LeftShift))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void updateBossHpBar(int currentHp)
