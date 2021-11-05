@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Timers;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossInteractionTheGolem : MonoBehaviour
@@ -28,7 +31,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     [SerializeField] private float longCameraSize;
 
     public bool playerOnGolem = false;
-
+    private bool hasBeenParried;
     public Cinemachine.CinemachineVirtualCamera mainCamera;
 
     void Start()
@@ -61,7 +64,6 @@ public class BossInteractionTheGolem : MonoBehaviour
         uxInteraction.updateBossHpBar(bossStats.currentHp);
         secondStageCounter++;
         golemAttackController.getUp();
-        
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -85,12 +87,19 @@ public class BossInteractionTheGolem : MonoBehaviour
     {
         if (col.gameObject.tag == "Shockwave")
         {
-            if (col.gameObject.GetComponent<ShockwaveInteraction>().beenParried)
+            if (col.gameObject.GetComponentInParent<ShockwaveInteraction>().beenParried)
             {
-                Destroy(col.gameObject);
+                Destroy(col.GetComponentInChildren<BoxCollider2D>());
+                StartCoroutine(nameof(shockwaveDispel), col.gameObject);
                 golemAttackController.beenParried();
             }
         }
+    }
+
+    IEnumerator shockwaveDispel(GameObject shockwave)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(shockwave);
     }
 
     void OnCollisionEnter2D(Collision2D col)

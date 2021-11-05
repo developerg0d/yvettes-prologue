@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform playerSprite;
 
-    [SerializeField] private Transform bottomPlayerSprite;
     float horizontalMovement;
     private PlayerAttackScript playerAttackScript;
 
@@ -35,8 +36,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isScalingWall;
 
     private PlayerStats playerStats;
-    public BossInteractionTheGolem bossInteractionTheGolem;
-    public GolemAttackController golemAttackController;
 
     public bool isLeft;
 
@@ -50,8 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isClimbing;
     public bool canMove = true;
-
     bool onSideLadder;
+    public UxInteraction uxInteraction;
 
     void Start()
     {
@@ -349,6 +348,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void playerCrushed()
+    {
+        playerAnimator.SetTrigger("crushed");
+        enabled = false;
+        uxInteraction.disableUiOnDeath();
+        Debug.Log("Player Dead");
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.collider.CompareTag("GolemHand"))
@@ -357,10 +364,16 @@ public class PlayerMovement : MonoBehaviour
 
             if (golemHandScript.IsSlamming && playerStats.CanDie)
             {
-                playerAnimator.SetTrigger("crushed");
-                enabled = false;
-                Debug.Log("Player Dead");
+                playerCrushed();
             }
+        }
+
+        if (col.collider.CompareTag("Golem") &&
+            col.gameObject.GetComponent<GolemAttackController>().isFalling == true)
+        {
+            rb.AddForce(Vector2.left * 200);
+            playerAttackScript.mediumCameraShake();
+            playerCrushed();
         }
 
         if (col.collider.tag == "ScalingWall")

@@ -16,7 +16,6 @@ public class UxInteraction : MonoBehaviour
 
     [SerializeField] protected Camera mainCamera;
 
-    public float indicatorTimeout = 0.5F;
 
     public Sprite[] arrowSprites;
 
@@ -38,20 +37,21 @@ public class UxInteraction : MonoBehaviour
         bossHpBar.fillAmount = convertedHp;
     }
 
-    public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition, Vector3 playerPosition)
+    public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition, Vector3 playerPosition,
+        float disableTimeLength = 0.5F)
     {
         indicator.gameObject.SetActive(true);
         float angle = AngleInDeg(golemHandPosition, playerPosition);
         Debug.Log(angle);
         determineArrowSprite(angle);
-        StartCoroutine("disableIndicator");
+        StartCoroutine("disableIndicator", disableTimeLength);
     }
 
     void determineArrowSprite(float angle)
     {
         float roundedAngle = Mathf.Round(angle * -1);
         int determinedAngle = 0;
-        
+
         if (determineAngle(roundedAngle, 0, 44))
         {
             determinedAngle = (int) ArrowAngles.Deg0;
@@ -103,9 +103,15 @@ public class UxInteraction : MonoBehaviour
         return AngleInRad(vec1, vec2) * 180 / Mathf.PI;
     }
 
-    IEnumerator disableIndicator()
+    public void disableUiOnDeath()
     {
-        yield return new WaitForSeconds(indicatorTimeout);
+        StopCoroutine(nameof(disableIndicator));
+        indicator.gameObject.SetActive(false);
+    }
+
+    IEnumerator disableIndicator(float disableIndicatorLength)
+    {
+        yield return new WaitForSeconds(disableIndicatorLength);
         indicator.gameObject.SetActive(false);
     }
 }

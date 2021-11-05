@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GolemAttackController : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class GolemAttackController : MonoBehaviour
     private Vector3 initialHandPosition;
 
     private GameObject player;
+
+    public CameraShake cameraShake;
 
     [Space(10)] [SerializeField] private float indicatorTimeout = 0.5F;
 
@@ -47,6 +51,8 @@ public class GolemAttackController : MonoBehaviour
     private Animator golemAnimator;
     public Collider2D[] golemFirstStageCollision;
     public Collider2D[] golemSecondStageCollision;
+
+    public bool isFalling;
 
     public enum BossStages
     {
@@ -191,7 +197,6 @@ public class GolemAttackController : MonoBehaviour
         player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 150);
     }
 
-
     public void startSecondStage()
     {
         leftHand.SetActive(false);
@@ -203,7 +208,7 @@ public class GolemAttackController : MonoBehaviour
 
         StartCoroutine("secondStageCoroutine");
     }
-    
+
     private void enableSecondStageColliders()
     {
         foreach (var collider2D1 in golemFirstStageCollision)
@@ -219,7 +224,7 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator secondStageCoroutine()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(2f);
         Debug.Log("bouncing");
         bouncingAttack();
     }
@@ -232,7 +237,7 @@ public class GolemAttackController : MonoBehaviour
     IEnumerator bouncingAttackCoroutine()
     {
         golemAnimator.SetBool("prepareToJump", true);
-        float randomWaitingTime = Random.Range(5, 7.5f);
+        float randomWaitingTime = Random.Range(2, 3.5f);
         while (enabled)
         {
             yield return new WaitForSeconds(randomWaitingTime);
@@ -298,9 +303,11 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator thirdStageCoroutine()
     {
+        rb.bodyType = RigidbodyType2D.Static;
+        uxInteraction.updateGolemFistIndicatorPosition(transform.position, player.transform.position, 10f);
+
         golemAnimator.SetTrigger("fallForwards");
         yield return new WaitForSeconds(10f);
-        rb.bodyType = RigidbodyType2D.Static;
         StartCoroutine("commenceLazerFire");
     }
 

@@ -10,9 +10,16 @@ public class ShockwaveInteraction : MonoBehaviour
     private float timer;
     private Rigidbody2D rb;
 
+    private Collider2D shockwaveCollider;
+
+    private bool hasInteraction;
+    private Vector2 previousVelocity;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        shockwaveCollider = GetComponentInChildren<Collider2D>();
+
         StartCoroutine("destroyOverTime");
     }
 
@@ -33,43 +40,58 @@ public class ShockwaveInteraction : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") && !hasInteraction)
         {
-            rb.velocity = Vector3.zero;
+            hasInteraction = true;
+            transform.position = new Vector3(col.gameObject.transform.position.x, transform.position.y);
+
             PlayerAttackScript playerAttackScript = col.gameObject.GetComponent<PlayerAttackScript>();
             if (playerAttackScript.isParrying)
             {
-                Debug.Log("parried");
-                parried();
+                float leftSideX = shockwaveCollider.bounds.center.x - (shockwaveCollider.bounds.size.x / 2);
+                transform.position = new Vector3(leftSideX, transform.position.y);
+                GetComponent<Animator>().speed = 0f;
+                previousVelocity = rb.velocity;
+                rb.velocity = Vector3.zero;
+                playerAttackScript.playerParried();
+                StartCoroutine(nameof(shockWaveParryCoroutine));
                 return;
             }
 
             if (playerAttackScript.isDefending)
             {
-                Debug.Log("defended");
+                rb.velocity = Vector3.zero;
+                playerAttackScript.playerDefended();
                 col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce / 2));
-                StartCoroutine(nameof(dispelShock));
+                StartCoroutine(nameof(dispelShock), 0.25f);
                 return;
             }
 
-            Debug.Log("death");
+            playerAttackScript.playerDied();
             col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce));
-            StartCoroutine(nameof(dispelShock));
+            StartCoroutine(nameof(dispelShock), 0.75f);
         }
     }
 
-    IEnumerator dispelShock()
+    IEnumerator dispelShock(float dispelTime)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(dispelTime);
         Destroy(this.gameObject);
     }
 
-    void parried()
+    IEnumerator shockWaveParryCoroutine()
     {
-        beenParried = true;
-        float previousVelocity = rb.velocity.x;
-        Debug.Log(previousVelocity);
+        yield return new WaitForSeconds(0.1f);
+        shockwaveParried();
+    }
+
+    void shockwaveParried()
+    {
         transform.localScale = new Vector3(1, 1, 1);
-        rb.velocity = Vector2.left * (previousVelocity * 3);
+        GetComponent<Animator>().speed = 0.5f;
+        float leftSideX = shockwaveCollider.bounds.center.x + (shockwaveCollider.bounds.size.x / 2);
+        transform.position = new Vector3(leftSideX, transform.position.y);
+        beenParried = true;
+        rb.velocity = -previousVelocity;
     }
 }
