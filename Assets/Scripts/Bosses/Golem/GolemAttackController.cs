@@ -346,6 +346,7 @@ public class GolemAttackController : MonoBehaviour
                     fireLazerBall();
                     break;
             }
+
             yield return new WaitForSeconds(0.5f);
             fireLazerBall(5);
             yield return new WaitForSeconds(0.5f);
@@ -372,18 +373,18 @@ public class GolemAttackController : MonoBehaviour
 
     public void finalStageHeadStrike()
     {
-        // if (bossInteractionTheGolem.finalStageCounter == 0)
-        // {
-        //     bossInteractionTheGolem.finalStageCounter++;
-        //     StartCoroutine("commenceLazerFire");
-        //     return;
-        // }
-        StartCoroutine(nameof(finalPlayerSpecialAttack));
+        if (bossInteractionTheGolem.finalStageCounter == 1)
+        {
+            bossInteractionTheGolem.finalStageCounter++;
+            StartCoroutine("commenceLazerFire");
+            return;
+        }
+
+        playerHasDefeatedGolem();
     }
 
-    private IEnumerator finalPlayerSpecialAttack()
+    private void playerHasDefeatedGolem()
     {
-        yield return new WaitForSeconds(5f);
         Debug.Log("Player has won");
     }
 }

@@ -49,7 +49,6 @@ public class InteractionGolemHead : MonoBehaviour
 
             cameraShake.shakeCamera(0.7f, 0.4f);
             attackControllerTheGolem.lazerBallParry();
-            attackControllerTheGolem.finalStageHeadStrike();
             Destroy(col.gameObject);
         }
 
@@ -74,6 +73,7 @@ public class InteractionGolemHead : MonoBehaviour
                 return;
             case (int) GolemAttackController.BossStages.ThirdStage:
                 golemFinalStageRecoil(player);
+                attackControllerTheGolem.finalStageHeadStrike();
                 return;
         }
     }
@@ -107,7 +107,7 @@ public class InteractionGolemHead : MonoBehaviour
 
     void golemFinalStageRecoil(GameObject collider)
     {
-        Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
 
         rb.AddForce(Vector2.left * (recoilForce * 3.5f), ForceMode2D.Impulse);
         rb.AddForce(Vector2.down * (recoilForce * 2), ForceMode2D.Impulse);
