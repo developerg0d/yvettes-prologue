@@ -1390,7 +1390,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.34375, y: -4.6875, z: -8.78}
+  m_LocalPosition: {x: -64, y: -4.6875, z: -8.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -26164,7 +26164,7 @@ MonoBehaviour:
   shockWaveSpawnLocation: {fileID: 800900699}
   shockWave: {fileID: 7512420088233455867, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
   lazerCannon: {fileID: 1499844858}
-  lazerBall: {fileID: 7888380890458922211, guid: 2635e441a7b3c1441aacbba55faa5205, type: 3}
+  lazerBall: {fileID: 4672875672573591927, guid: f6a05b043184189428cb1ade047286ff, type: 3}
   pixelPerfectCamera: {fileID: 715893122}
   golemFirstStageCollision:
   - {fileID: 1489649974}
@@ -27836,7 +27836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499844858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.784, y: 0.288, z: 0}
+  m_LocalPosition: {x: -1.06, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453067204}

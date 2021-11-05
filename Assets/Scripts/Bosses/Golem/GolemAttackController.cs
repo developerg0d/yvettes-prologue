@@ -304,11 +304,18 @@ public class GolemAttackController : MonoBehaviour
     IEnumerator thirdStageCoroutine()
     {
         rb.bodyType = RigidbodyType2D.Static;
-        uxInteraction.updateGolemFistIndicatorPosition(transform.position, player.transform.position, 10f);
-
+        uxInteraction.updateGolemFistIndicatorPosition(transform.position, player.transform.position, 5f);
+        leftHand.SetActive(false);
         golemAnimator.SetTrigger("fallForwards");
-        yield return new WaitForSeconds(10f);
-        StartCoroutine("commenceLazerFire");
+        yield return new WaitForSeconds(2.5f);
+        shakeGround();
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(nameof(commenceLazerFire));
+    }
+
+    private void shakeGround()
+    {
+        cameraShake.shakeCamera(0.35f, 0.4f);
     }
 
     public void lazerBallParry()
@@ -326,7 +333,9 @@ public class GolemAttackController : MonoBehaviour
     {
         while (enabled)
         {
-            lazerCannon.transform.right = player.transform.position - lazerCannon.transform.position;
+            Vector3 dir = player.transform.position - lazerCannon.transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            lazerCannon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             fireLazerBall();
             yield return new WaitForSeconds(2f);
         }
@@ -337,7 +346,6 @@ public class GolemAttackController : MonoBehaviour
         Debug.Log("Fire");
         GameObject lazerBallInstance = Instantiate(lazerBall, lazerCannon.transform);
         lazerBallInstance.transform.position = lazerCannon.transform.position;
-        lazerBallInstance.transform.rotation = lazerCannon.transform.rotation;
     }
 
     public void finalStageHeadStrike()

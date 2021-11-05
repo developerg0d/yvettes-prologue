@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class lazerBall : MonoBehaviour
 {
-    [SerializeField]
-    private float lazerBallSpeed = 2f;
+    [SerializeField] private float lazerBallSpeed = 2f;
     private float timer;
 
     public bool beenParried;
+
     void Start()
     {
         StartCoroutine("flying");
@@ -25,25 +25,29 @@ public class lazerBall : MonoBehaviour
                 StopCoroutine("flying");
                 Destroy(this.gameObject);
             }
+
             yield return null;
         }
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.CompareTag("Player"))
         {
             if (col.gameObject.GetComponent<PlayerAttackScript>().isParrying)
             {
+                transform.localScale = new Vector3(-1, 1, 1);
                 lazerBallSpeed = (-lazerBallSpeed * 1.5f);
                 beenParried = true;
                 return;
             }
+
             Destroy(this.gameObject);
         }
-        if (col.gameObject.tag == "Ground")
+
+        if (col.CompareTag("Player"))
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

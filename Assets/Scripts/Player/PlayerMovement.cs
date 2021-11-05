@@ -369,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (col.collider.CompareTag("Golem") &&
-            col.gameObject.GetComponent<GolemAttackController>().isFalling == true)
+            col.gameObject.GetComponent<GolemAttackController>().isFalling)
         {
             rb.AddForce(Vector2.left * 200);
             playerAttackScript.mediumCameraShake();
