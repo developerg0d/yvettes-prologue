@@ -342,11 +342,20 @@ public class GolemAttackController : MonoBehaviour
         while (enabled)
         {
             aimAtPlayer();
+            int maxRangeDecreaser = 0;
+
+            switch (bossInteractionTheGolem.finalStageCounter)
+            {
+                case 1:
+                    maxRangeDecreaser = 1;
+                    break;
+            }
+
             int rand = Random.Range(0, 3);
             switch (rand)
             {
                 case 0:
-                    int specialRand = Random.Range(0, 4);
+                    int specialRand = Random.Range(0, 4 - maxRangeDecreaser);
                     switch (specialRand)
                     {
                         case 0:
@@ -394,6 +403,13 @@ public class GolemAttackController : MonoBehaviour
         Debug.Log("Fire");
         GameObject lazerBallInstance;
 
+        switch (bossInteractionTheGolem.finalStageCounter)
+        {
+            case 1:
+                ballSpeed += ballSpeed * 1.03f;
+                break;
+        }
+
         if (isLightBall == 1)
         {
             lazerBallInstance = Instantiate(lightLazerBall, lazerCannon.transform);
@@ -412,10 +428,10 @@ public class GolemAttackController : MonoBehaviour
 
     public void finalStageHeadStrike()
     {
-        if (bossInteractionTheGolem.finalStageCounter == 1)
+        bossInteractionTheGolem.finalStageCounter++;
+        if (bossInteractionTheGolem.finalStageCounter != 2)
         {
-            bossInteractionTheGolem.finalStageCounter++;
-            StartCoroutine("commenceLazerFire");
+            StartCoroutine(nameof(commenceLazerFire));
             return;
         }
 

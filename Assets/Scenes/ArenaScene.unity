@@ -1524,8 +1524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDie: 1
-  maxHp: 3
-  currentHp: 3
+  maxHp: 10
+  currentHp: 10
   hitMultiplier: 1
 --- !u!1 &71762195
 GameObject:

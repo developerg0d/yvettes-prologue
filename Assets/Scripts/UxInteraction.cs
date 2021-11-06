@@ -47,7 +47,7 @@ public class UxInteraction : MonoBehaviour
             enableEndScreen();
         }
 
-        float convertedHp = currentHp * 0.001f;
+        float convertedHp = currentHp * 0.1f;
         playerHpBar.fillAmount = convertedHp;
     }
 
