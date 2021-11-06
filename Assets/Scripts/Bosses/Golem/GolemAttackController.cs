@@ -350,9 +350,9 @@ public class GolemAttackController : MonoBehaviour
                     switch (specialRand)
                     {
                         case 0:
-                            fireLazerBall(0, 12f);
-                            fireLazerBall(-4);
-                            fireLazerBall(4);
+                            fireLazerBall(0, 11f);
+                            fireLazerBall(-4, 10.5f);
+                            fireLazerBall(4, 10.5f);
                             fireLazerBall(-6);
                             fireLazerBall(6);
                             break;

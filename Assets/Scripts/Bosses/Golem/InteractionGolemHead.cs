@@ -93,7 +93,7 @@ public class InteractionGolemHead : MonoBehaviour
     {
         Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
         rb.velocity = Vector2.zero;
-        rb.AddForce(Vector2.up * (recoilForce * 0.75f), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * (recoilForce * 1.5f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.075f);
         rb.AddForce(Vector2.left * recoilForce, ForceMode2D.Impulse);
     }
@@ -101,8 +101,8 @@ public class InteractionGolemHead : MonoBehaviour
     void golemDownThrustHeadRecoil(GameObject collider)
     {
         Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
-        rb.AddForce(Vector2.left * recoilForce * 3, ForceMode2D.Impulse);
-        rb.AddForce(Vector2.up * recoilForce * 2, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.left * recoilForce * 1, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * recoilForce * 1, ForceMode2D.Impulse);
     }
 
     void golemFinalStageRecoil(GameObject collider)

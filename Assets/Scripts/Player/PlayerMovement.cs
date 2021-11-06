@@ -413,7 +413,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (col.collider.CompareTag("Golem") &&
+        if (col.gameObject.CompareTag("Golem") &&
             col.gameObject.GetComponent<GolemAttackController>().isFalling)
         {
             rb.AddForce(Vector2.left * 200);
