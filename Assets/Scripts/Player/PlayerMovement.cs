@@ -14,14 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float jumpPower = 30f;
     private Animator playerAnimator;
-
+    private SpriteRenderer renderer;
     [SerializeField] private Transform playerSprite;
 
     float horizontalMovement;
     private PlayerAttackScript playerAttackScript;
 
     private bool moving;
-
+    public Material[] materials;
     public bool grounded;
     private Rigidbody2D rb;
 
@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        renderer = GetComponentInChildren<SpriteRenderer>();
         playerStats = GetComponent<PlayerStats>();
         playerAttackScript = GetComponent<PlayerAttackScript>();
         playerAnimator = GetComponent<Animator>();
@@ -249,6 +250,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void playerHit()
     {
+        StartCoroutine(nameof(changeMaterial));
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
         Debug.Log("Hit");
@@ -431,6 +433,13 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Death by Fall Damage");
             }
         }
+    }
+
+    IEnumerator changeMaterial()
+    {
+        renderer.material = materials[1];
+        yield return new WaitForSeconds(0.2f);
+        renderer.material = materials[0];
     }
 
     void OnCollisionExit2D(Collision2D col)

@@ -1440,6 +1440,9 @@ MonoBehaviour:
   dashSpeed: 15
   jumpPower: 8
   playerSprite: {fileID: 2129234868}
+  materials:
+  - {fileID: 2100000, guid: 0d7b9dd54e761cb42baf616e76728eba, type: 2}
+  - {fileID: 2100000, guid: 001aff64eec540b40a8c4f3864a95a90, type: 2}
   grounded: 0
   dashDelay: 5
   world: {fileID: 1161261808}
@@ -26222,7 +26225,8 @@ MonoBehaviour:
   shockWaveSpawnLocation: {fileID: 800900699}
   shockWave: {fileID: 7512420088233455867, guid: 28b8ee3177035714cb0c037dbd82ca32, type: 3}
   lazerCannon: {fileID: 1499844858}
-  lazerBall: {fileID: 4672875672573591927, guid: f6a05b043184189428cb1ade047286ff, type: 3}
+  lightLazerBall: {fileID: 3242622677139255741, guid: 6c481fbcb72ab7b42a6f5497b5c90b95, type: 3}
+  darkLazerBall: {fileID: 1205789241229150198, guid: f6a05b043184189428cb1ade047286ff, type: 3}
   pixelPerfectCamera: {fileID: 715893122}
   golemFirstStageCollision:
   - {fileID: 1489649974}
