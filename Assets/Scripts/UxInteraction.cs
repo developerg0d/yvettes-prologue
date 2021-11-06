@@ -10,6 +10,7 @@ using Debug = UnityEngine.Debug;
 public class UxInteraction : MonoBehaviour
 {
     public Image bossHpBar;
+    public Image playerHpBar;
 
     public GameObject golemHand;
 
@@ -38,6 +39,12 @@ public class UxInteraction : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+    }
+
+    public void updatePlayerHpBar(int currentHp)
+    {
+        float convertedHp = currentHp * 0.001f;
+        playerHpBar.fillAmount = convertedHp;
     }
 
     public void updateBossHpBar(int currentHp)

@@ -388,6 +388,8 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator.SetTrigger("crushed");
         enabled = false;
         uxInteraction.disableUiOnDeath();
+        playerStats.CurrentHp = 0;
+        uxInteraction.updatePlayerHpBar(0);
         Debug.Log("Player Dead");
     }
 
