@@ -8,6 +8,8 @@ public class lazerBall : MonoBehaviour
     private float timer;
     public int bounceCounter;
     public bool beenParried;
+    
+    public bool isLightBall = false;
 
     void Start()
     {

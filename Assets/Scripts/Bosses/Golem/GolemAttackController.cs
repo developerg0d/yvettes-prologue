@@ -40,7 +40,8 @@ public class GolemAttackController : MonoBehaviour
 
     public GameObject lazerCannon;
 
-    public GameObject lazerBall;
+    public GameObject lightLazerBall;
+    public GameObject darkLazerBall;
 
     private bool isBouncing;
 
@@ -224,7 +225,7 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator secondStageCoroutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(10f);
         Debug.Log("bouncing");
         bouncingAttack();
     }
@@ -364,8 +365,20 @@ public class GolemAttackController : MonoBehaviour
 
     void fireLazerBall(float angleOffset = 0)
     {
+        int isLightBall = Random.Range(0, 2);
         Debug.Log("Fire");
-        GameObject lazerBallInstance = Instantiate(lazerBall, lazerCannon.transform);
+        GameObject lazerBallInstance;
+
+        if (isLightBall == 1)
+        {
+            lazerBallInstance = Instantiate(lightLazerBall, lazerCannon.transform);
+            lazerBallInstance.GetComponent<lazerBall>().isLightBall = true;
+        }
+        else
+        {
+            lazerBallInstance = Instantiate(darkLazerBall, lazerCannon.transform);
+        }
+
         lazerBallInstance.transform.eulerAngles =
             new Vector3(0, 0, lazerBallInstance.transform.eulerAngles.z + angleOffset);
         lazerBallInstance.transform.position = lazerCannon.transform.position;

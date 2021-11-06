@@ -258,19 +258,22 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.CompareTag("LazerBall"))
         {
-            if (playerAttackScript.isDefending)
+            if (col.GetComponent<lazerBall>().isLightBall)
             {
-                rb.AddForce(Vector2.left * 50);
-                playerAttackScript.playerDefended(0);
+                if (playerAttackScript.isDefending)
+                {
+                    rb.AddForce(Vector2.left * 50);
+                    playerAttackScript.playerDefended(0);
 
-                return;
-            }
+                    return;
+                }
 
-            if (playerAttackScript.isParrying)
-            {
-                rb.AddForce(Vector2.left * 25);
-                playerAttackScript.playerParried();
-                return;
+                if (playerAttackScript.isParrying)
+                {
+                    rb.AddForce(Vector2.left * 25);
+                    playerAttackScript.playerParried();
+                    return;
+                }
             }
 
             playerHit();
