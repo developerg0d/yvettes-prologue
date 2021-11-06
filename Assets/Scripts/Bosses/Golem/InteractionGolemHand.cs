@@ -80,13 +80,15 @@ public class InteractionGolemHand : MonoBehaviour
             return;
         }
 
-        if (col.gameObject.CompareTag("Ground") && (IsSlamming || hitPlayer))
+        if (col.gameObject.CompareTag("Ground") &&
+            IsSlamming)
         {
             if (!hitPlayer)
             {
                 cameraShake.shakeCamera(0.3f, 0.1f);
             }
 
+            hitPlayer = true;
             rb.velocity = Vector2.zero;
             canBeHit = true;
             fistAnimator.SetBool("fistInGround", true);

@@ -52,7 +52,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
         firstStageCounter++;
-        if (firstStageCounter == 1)
+        if (firstStageCounter == 2)
         {
             bossStateManager.NextBossStage();
         }

@@ -382,7 +382,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" || col.otherCollider.CompareTag("Ground") && !isOnLadder() && !isScalingWall)
+        if ((col.gameObject.CompareTag("Ground") || col.otherCollider.CompareTag("Ground")) && !isOnLadder() &&
+            !isScalingWall)
         {
             rb.gravityScale = 1f;
             upThrustReady = true;
@@ -453,7 +454,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" || col.otherCollider.CompareTag("Ground"))
+        if (col.gameObject.tag == "Ground" ||
+            col.otherCollider.CompareTag("Ground"))
         {
             grounded = false;
             StartCoroutine(nameof(inAirCoroutine));
