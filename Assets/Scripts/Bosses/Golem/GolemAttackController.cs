@@ -106,6 +106,12 @@ public class GolemAttackController : MonoBehaviour
         StartCoroutine(nameof(raiseHandCoroutine));
     }
 
+    public void retractHandInstantly()
+    {
+        StopCoroutine(nameof(fistSlamCoroutine));
+        StartCoroutine(nameof(raiseHandCoroutine));
+    }
+
     void slamFist()
     {
         Debug.Log("Slamming Fist");

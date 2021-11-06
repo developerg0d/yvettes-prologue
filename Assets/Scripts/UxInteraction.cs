@@ -15,6 +15,7 @@ public class UxInteraction : MonoBehaviour
     public GameObject golemHand;
 
     public Image indicator;
+    public GameObject endScreen;
 
     [SerializeField] protected Camera mainCamera;
 
@@ -33,16 +34,19 @@ public class UxInteraction : MonoBehaviour
         Deg315,
     }
 
-    void Update()
+    public void restartGame()
     {
-        if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.LeftShift))
-        {
-            SceneManager.LoadScene(0);
-        }
+        endScreen.SetActive(true);
+        SceneManager.LoadScene(0);
     }
 
     public void updatePlayerHpBar(int currentHp)
     {
+        if (currentHp == 0)
+        {
+            enableEndScreen();
+        }
+
         float convertedHp = currentHp * 0.001f;
         playerHpBar.fillAmount = convertedHp;
     }
@@ -102,6 +106,11 @@ public class UxInteraction : MonoBehaviour
         }
 
         indicator.sprite = arrowSprites[determinedAngle];
+    }
+
+    void enableEndScreen()
+    {
+        endScreen.SetActive(true);
     }
 
     public bool determineAngle(float currentAngle, float minAngle, float maxAngle)

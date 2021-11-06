@@ -40,7 +40,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     public GameObject leftSideLadder;
     public GameObject rightSideLadder;
-
+    private GolemAttackController golemAttackController;
     public SpriteRenderer leftSideRenderer;
     public SpriteRenderer rightSideRenderer;
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
@@ -52,6 +52,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     void Start()
     {
+        golemAttackController = GetComponentInParent<GolemAttackController>();
         cols = GetComponentsInChildren<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         fistAnimator = GetComponent<Animator>();
@@ -175,7 +176,7 @@ public class InteractionGolemHand : MonoBehaviour
     private void fistGotHit(bool hitFromTheLeft)
     {
         cameraShake.shakeCamera(0.1f, 0.1f);
-
+        golemAttackController.retractHandInstantly();
         if (hitFromTheLeft)
         {
             leftSideHit();

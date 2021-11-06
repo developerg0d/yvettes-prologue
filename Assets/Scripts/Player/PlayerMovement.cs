@@ -248,11 +248,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void playerHit()
+    private void playerHit(int damageHit = 1)
     {
         StartCoroutine(nameof(changeMaterial));
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
+        playerStats.CurrentHp -= damageHit;
+        uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
+        if (playerStats.CurrentHp == 0)
+        {
+            playerCrushed();
+        }
+
         Debug.Log("Hit");
     }
 
