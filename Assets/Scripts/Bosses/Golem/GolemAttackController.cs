@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -339,9 +340,27 @@ public class GolemAttackController : MonoBehaviour
             switch (rand)
             {
                 case 0:
-                    fireLazerBall();
-                    fireLazerBall(-2);
-                    fireLazerBall(2);
+                    int specialRand = Random.Range(0, 4);
+                    switch (specialRand)
+                    {
+                        case 0:
+                            fireLazerBall(0, 12f);
+                            fireLazerBall(-4);
+                            fireLazerBall(4);
+                            fireLazerBall(-6);
+                            fireLazerBall(6);
+                            break;
+                        default:
+                            fireLazerBall(0, 12f);
+                            fireLazerBall(-2);
+                            fireLazerBall(2);
+                            break;
+                    }
+
+                    break;
+                case 1:
+                    fireLazerBall(2, 12f);
+                    fireLazerBall(-2, 12f);
                     break;
                 default:
                     fireLazerBall();
@@ -363,7 +382,7 @@ public class GolemAttackController : MonoBehaviour
         lazerCannon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    void fireLazerBall(float angleOffset = 0)
+    void fireLazerBall(float angleOffset = 0, float ballSpeed = 10f)
     {
         int isLightBall = Random.Range(0, 2);
         Debug.Log("Fire");
@@ -379,6 +398,7 @@ public class GolemAttackController : MonoBehaviour
             lazerBallInstance = Instantiate(darkLazerBall, lazerCannon.transform);
         }
 
+        lazerBallInstance.GetComponent<lazerBall>().lazerBallSpeed = ballSpeed;
         lazerBallInstance.transform.eulerAngles =
             new Vector3(0, 0, lazerBallInstance.transform.eulerAngles.z + angleOffset);
         lazerBallInstance.transform.position = lazerCannon.transform.position;

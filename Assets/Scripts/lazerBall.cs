@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class lazerBall : MonoBehaviour
 {
-    [SerializeField] public float lazerBallSpeed = 2f;
+    [SerializeField] public float lazerBallSpeed = 10f;
     private float timer;
     public int bounceCounter;
     public bool beenParried;
