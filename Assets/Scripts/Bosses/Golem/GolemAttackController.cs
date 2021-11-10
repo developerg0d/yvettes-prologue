@@ -44,6 +44,8 @@ public class GolemAttackController : MonoBehaviour
     public GameObject lightLazerBall;
     public GameObject darkLazerBall;
 
+    public GameObject floatingEye;
+
     private bool isBouncing;
 
     public UnityEngine.U2D.PixelPerfectCamera pixelPerfectCamera;

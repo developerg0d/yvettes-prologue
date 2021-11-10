@@ -32,6 +32,7 @@ public class floatingEyeAI : MonoBehaviour
 
     private void Start()
     {
+        cameraShake = Camera.current.GetComponent<CameraShake>();
         renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         floatingEyeAnimator = GetComponent<Animator>();

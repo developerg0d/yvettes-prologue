@@ -11,15 +11,15 @@ public class InteractionGolemHand : MonoBehaviour
     private Rigidbody2D rb;
 
     public GameObject world;
-    public bool tooCloseToBoss;
     public GameObject climbingHolds;
-    BoxCollider2D[] cols;
     public bool isMoving;
 
     private bool isSlamming;
 
     public GameObject fistCrater;
     private Vector3 bottomOfFist;
+
+    public GameObject floatingEye;
 
     public bool IsSlamming
     {
@@ -43,7 +43,7 @@ public class InteractionGolemHand : MonoBehaviour
     private GolemAttackController golemAttackController;
     public SpriteRenderer leftSideRenderer;
     public SpriteRenderer rightSideRenderer;
-    public Cinemachine.CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera virtualCamera;
     [SerializeField] private int leftSideHp = 2;
     [SerializeField] private int rightSideHp = 2;
 
@@ -53,7 +53,6 @@ public class InteractionGolemHand : MonoBehaviour
     void Start()
     {
         golemAttackController = GetComponentInParent<GolemAttackController>();
-        cols = GetComponentsInChildren<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         fistAnimator = GetComponent<Animator>();
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
@@ -68,9 +67,29 @@ public class InteractionGolemHand : MonoBehaviour
 
     public void groundExit()
     {
+        var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
+
+        spawnLeftMob(fistColliderBounds);
+        spawnRightMob(fistColliderBounds);
         fistAnimator.SetBool("fistInGround", false);
         canBeHit = false;
         climbingHolds.SetActive(false);
+    }
+
+    void spawnLeftMob(Bounds fistColliderBounds)
+    {
+        Vector3 leftSideVector =
+            new Vector3(transform.position.x - (fistColliderBounds.size.x / 2), leftSideLadder.transform.position.y, 0);
+        GameObject floatingEyeInstance = Instantiate(floatingEye);
+        floatingEyeInstance.transform.position = leftSideVector;
+    }
+
+    void spawnRightMob(Bounds fistColliderBounds)
+    {
+        Vector3 leftSideVector =
+            new Vector3(transform.position.x + (fistColliderBounds.size.x / 2), leftSideLadder.transform.position.y, 0);
+        GameObject floatingEyeInstance = Instantiate(floatingEye);
+        floatingEyeInstance.transform.position = leftSideVector;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -132,11 +151,6 @@ public class InteractionGolemHand : MonoBehaviour
             Debug.Log("off fist");
             mainInteractionScript.onFist = false;
             col.gameObject.transform.SetParent(world.transform);
-        }
-
-        if (col.tag == "FistAvoid")
-        {
-            tooCloseToBoss = false;
         }
     }
 
