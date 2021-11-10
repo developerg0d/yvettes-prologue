@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class lazerBall : MonoBehaviour
     private float timer;
     public int bounceCounter;
     public bool beenParried;
-    
+
     public bool isLightBall = false;
 
     void Start()

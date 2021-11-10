@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using Cache = UnityEngine.Cache;
 
 public class floatingEyeAI : MonoBehaviour
 {
@@ -13,9 +14,16 @@ public class floatingEyeAI : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float lookingUpdateTime;
 
+    public CameraShake cameraShake;
+
     private bool beenHit;
 
     private Rigidbody2D rigidbody2D;
+
+    private bool movingForwards = true;
+
+    private float moveTimer;
+    private bool hitPlayer;
 
     private void Start()
     {
@@ -30,9 +38,30 @@ public class floatingEyeAI : MonoBehaviour
     {
         while (enabled)
         {
-            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            if (movingForwards)
+            {
+                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Translate(Vector3.right * -moveSpeed * Time.deltaTime);
+            }
+
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    IEnumerator goBackwardsTransition()
+    {
+        StopCoroutine(nameof(move));
+        moveSpeed = moveSpeed / 2;
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(nameof(move));
+        movingForwards = false;
+        hitPlayer = false;
+        yield return new WaitForSeconds(0.5f);
+        moveSpeed = moveSpeed * 2;
+        movingForwards = true;
     }
 
     IEnumerator lookAtPlayer()
@@ -49,16 +78,40 @@ public class floatingEyeAI : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag("Player") && col.gameObject.GetComponent<PlayerAttackScript>().isStabbing &&
-            !beenHit)
+        if (col.gameObject.CompareTag("Player") && !hitPlayer)
         {
-            beenHit = true;
-            StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
+            hitPlayer = true;
+            StartCoroutine(nameof(goBackwardsTransition));
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Sword") && !beenHit)
+        {
+            Collider2D[] collider2D = new Collider2D[1];
+            col.GetContacts(collider2D);
+            foreach (var collider2D1 in collider2D)
+            {
+                if (collider2D1.CompareTag("FloatingEye"))
+                {
+                    beenHit = true;
+                    cameraShake.shakeCamera(0.1f, 0.1f);
+                    StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            floatingEyeAnimator.SetBool("isNearPlayer", false);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
@@ -72,22 +125,14 @@ public class floatingEyeAI : MonoBehaviour
         StopCoroutine(nameof(lookAtPlayer));
         if (hitFromLeft)
         {
-            rigidbody2D.AddForce(Vector2.left * 8, ForceMode2D.Impulse);
+            rigidbody2D.AddForce(new Vector2(-1, 0.1f) * 40, ForceMode2D.Impulse);
         }
         else
         {
-            rigidbody2D.AddForce(Vector2.right * 8, ForceMode2D.Impulse);
+            rigidbody2D.AddForce(new Vector2(1, 0.1f) * 40, ForceMode2D.Impulse);
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
-    }
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.CompareTag("Player"))
-        {
-            floatingEyeAnimator.SetBool("isNearPlayer", false);
-        }
     }
 }

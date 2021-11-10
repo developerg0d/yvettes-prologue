@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public bool grounded;
     private Rigidbody2D rb;
 
+    private bool canHit = true;
     private bool canTurn;
     private bool canDash = true;
     [SerializeField] float dashDelay = 5.0f;
@@ -260,7 +261,15 @@ public class PlayerMovement : MonoBehaviour
             playerCrushed();
         }
 
+        StartCoroutine(nameof(hitDelay));
         Debug.Log("Hit");
+    }
+
+    IEnumerator hitDelay()
+    {
+        canHit = false;
+        yield return new WaitForSeconds(1f);
+        canHit = true;
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -403,6 +412,11 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.CompareTag("FloatingEye") && canHit)
+        {
+            playerHit();
+        }
+
         if (col.collider.CompareTag("GolemHand"))
         {
             InteractionGolemHand golemHandScript = col.gameObject.GetComponent<InteractionGolemHand>();
