@@ -20,18 +20,22 @@ public class floatingEyeAI : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
+    private SpriteRenderer renderer;
     private bool movingForwards = true;
 
+    public Collider2D sight;
+    public Collider2D mainCollider;
     private float moveTimer;
     private bool hitPlayer;
+    [SerializeField] private Material[] materials;
+    private bool canSeePlayer;
 
     private void Start()
     {
+        renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         floatingEyeAnimator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(nameof(lookAtPlayer));
-        StartCoroutine(nameof(move));
     }
 
     IEnumerator move()
@@ -68,12 +72,20 @@ public class floatingEyeAI : MonoBehaviour
     {
         while (enabled)
         {
-            Vector3 playerMiddle = new Vector3(player.transform.position.x, player.transform.position.y - 0.25f, 0);
+            Vector3 playerMiddle = new Vector3(player.transform.position.x, player.transform.position.y - 0.1f, 0);
             Vector3 dir = playerMiddle - transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             yield return lookingUpdateTime;
         }
+    }
+
+
+    IEnumerator seenPlayer()
+    {
+        StartCoroutine(nameof(lookAtPlayer));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(nameof(move));
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -83,22 +95,29 @@ public class floatingEyeAI : MonoBehaviour
             hitPlayer = true;
             StartCoroutine(nameof(goBackwardsTransition));
         }
+
+        if (col.gameObject.CompareTag("FloatingEye"))
+        {
+            rigidbody2D.velocity = Vector2.zero;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.gameObject.CompareTag("Player") && !canSeePlayer)
+        {
+            canSeePlayer = true;
+            StartCoroutine(nameof(seenPlayer));
+        }
+
         if (col.CompareTag("Sword") && !beenHit)
         {
-            Collider2D[] collider2D = new Collider2D[1];
-            col.GetContacts(collider2D);
-            foreach (var collider2D1 in collider2D)
+            if (col.IsTouching(mainCollider))
             {
-                if (collider2D1.CompareTag("FloatingEye"))
-                {
-                    beenHit = true;
-                    cameraShake.shakeCamera(0.1f, 0.1f);
-                    StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
-                }
+                StartCoroutine(nameof(changeMaterial));
+                beenHit = true;
+                cameraShake.shakeCamera(0.1f, 0.1f);
+                StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
             }
         }
     }
@@ -115,8 +134,16 @@ public class floatingEyeAI : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            canSeePlayer = true;
             floatingEyeAnimator.SetBool("isNearPlayer", true);
         }
+    }
+
+    IEnumerator changeMaterial()
+    {
+        renderer.material = materials[1];
+        yield return new WaitForSeconds(0.2f);
+        renderer.material = materials[0];
     }
 
     IEnumerator dying(bool hitFromLeft)
