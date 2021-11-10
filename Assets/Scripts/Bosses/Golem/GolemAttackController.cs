@@ -131,7 +131,7 @@ public class GolemAttackController : MonoBehaviour
         {
             raiseHand();
 
-            if (leftHand.transform.position.y >= pixelPerfectCamera.RoundToPixel(initialHandPosition).y)
+            if (leftHand.transform.position.y >= initialHandPosition.y)
             {
                 Debug.Log("Raised Hand");
                 yield return new WaitForSeconds(2f);
