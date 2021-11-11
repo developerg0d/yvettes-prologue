@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             dashPlayer(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) && canClimb)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) && canClimb)
         {
             isClimbing = true;
             playerAnimator.SetBool("isClimbing", true);
@@ -311,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "LadderEnd" && isClimbing && canMove)
+        if (col.tag == "LadderEnd" && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
         {
             Debug.Log("Ladder Jump");
 
@@ -332,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.tag == "SideLadder")
         {
-            if (horizontalMovement > 0)
+            if (horizontalMovement > 0f)
             {
                 onSideLadder = true;
                 isClimbing = true;
@@ -350,9 +350,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (col.tag == "Ladder")
         {
-            if (!grounded)
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
                 onLadder = true;
+                playerAnimator.SetBool("onLadder", true);
             }
 
             if (rb.gravityScale != 0)
@@ -360,7 +361,6 @@ public class PlayerMovement : MonoBehaviour
                 rb.gravityScale = 0;
             }
 
-            playerAnimator.SetBool("onLadder", true);
             canClimb = true;
         }
     }
@@ -400,7 +400,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void playerCrushed()
+    public void playerCrushed()
     {
         playerAnimator.SetTrigger("crushed");
         enabled = false;
@@ -452,8 +452,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (playerVelocity.y < -8.5f)
             {
-                playerAnimator.SetTrigger("crushed");
-                enabled = false;
+                playerCrushed();
                 Debug.Log("Death by Fall Damage");
             }
         }

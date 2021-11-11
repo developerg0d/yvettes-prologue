@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class GolemAttackController : MonoBehaviour
@@ -104,7 +105,8 @@ public class GolemAttackController : MonoBehaviour
     private IEnumerator fistSlamCoroutine()
     {
         slamFist();
-        yield return new WaitForSeconds(5f);
+        float randomLiftTime = Random.Range(5.5f, 6.5f);
+        yield return new WaitForSeconds(randomLiftTime);
         StartCoroutine(nameof(raiseHandCoroutine));
     }
 
@@ -196,8 +198,10 @@ public class GolemAttackController : MonoBehaviour
         Debug.Log("Player On Golem");
 
         StopCoroutine(nameof(startFistSlamCoroutine));
+        StopCoroutine(nameof(spinHandCoroutine));
         StopCoroutine(nameof(raiseHandCoroutine));
         StopCoroutine(nameof(fistSlamCoroutine));
+        
     }
 
     IEnumerator waitForGolemToShakeOff()

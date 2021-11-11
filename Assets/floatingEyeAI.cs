@@ -91,6 +91,11 @@ public class floatingEyeAI : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.CompareTag("Golem") || col.gameObject.CompareTag("GolemHand"))
+        {
+            mainCollider.enabled = false;
+        }
+
         if (col.gameObject.CompareTag("Player") && !hitPlayer)
         {
             hitPlayer = true;
@@ -125,6 +130,12 @@ public class floatingEyeAI : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col)
     {
+        if (col.gameObject.CompareTag("Golem") || col.gameObject.CompareTag("GolemHand"))
+        {
+            mainCollider.enabled = true;
+        }
+
+
         if (col.CompareTag("Player"))
         {
             floatingEyeAnimator.SetBool("isNearPlayer", false);

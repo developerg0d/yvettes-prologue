@@ -46,6 +46,7 @@ public class ShockwaveInteraction : MonoBehaviour
             transform.position = new Vector3(col.gameObject.transform.position.x, transform.position.y);
 
             PlayerAttackScript playerAttackScript = col.gameObject.GetComponent<PlayerAttackScript>();
+            PlayerMovement playerMovementScript = col.gameObject.GetComponent<PlayerMovement>();
             if (playerAttackScript.isParrying)
             {
                 float leftSideX = shockwaveCollider.bounds.center.x - (shockwaveCollider.bounds.size.x / 2);
@@ -67,7 +68,7 @@ public class ShockwaveInteraction : MonoBehaviour
                 return;
             }
 
-            playerAttackScript.playerDied();
+            playerMovementScript.playerCrushed();
             col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce));
             StartCoroutine(nameof(dispelShock), 0.75f);
         }

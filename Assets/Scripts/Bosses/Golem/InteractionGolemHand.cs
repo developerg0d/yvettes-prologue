@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -62,15 +63,19 @@ public class InteractionGolemHand : MonoBehaviour
     {
         var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
         bottomOfFist.x = fistColliderBounds.center.x;
-        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2) - 0.25f;
+        bottomOfFist.y = fistColliderBounds.center.y - (fistColliderBounds.size.y / 2) - 0.30f;
     }
 
     public void groundExit()
     {
         var fistColliderBounds = GetComponentInChildren<BoxCollider2D>().bounds;
 
-        spawnLeftMob(fistColliderBounds);
-        spawnRightMob(fistColliderBounds);
+        if (!mainInteractionScript.onFist)
+        {
+            spawnLeftMob(fistColliderBounds);
+            spawnRightMob(fistColliderBounds);
+        }
+
         fistAnimator.SetBool("fistInGround", false);
         canBeHit = false;
         climbingHolds.SetActive(false);
@@ -97,6 +102,13 @@ public class InteractionGolemHand : MonoBehaviour
         if (spinning)
         {
             return;
+        }
+
+        if (col.gameObject.CompareTag("Player") && col.otherCollider.CompareTag("Ground"))
+        {
+            Debug.Log("on fist");
+            mainInteractionScript.onFist = true;
+            col.gameObject.transform.SetParent(gameObject.transform);
         }
 
         if (col.gameObject.CompareTag("Ground") &&
@@ -159,17 +171,6 @@ public class InteractionGolemHand : MonoBehaviour
         if (spinning)
         {
             return;
-        }
-
-        if (col.tag == "Player")
-        {
-            PlayerMovement playerMovement = col.GetComponent<PlayerMovement>();
-            if (playerMovement.canClimb == false)
-            {
-                Debug.Log("on fist");
-                mainInteractionScript.onFist = true;
-                col.gameObject.transform.SetParent(gameObject.transform);
-            }
         }
 
         if (col.CompareTag("Sword") && canBeHit)
