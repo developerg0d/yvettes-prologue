@@ -54,8 +54,14 @@ public class BossInteractionTheGolem : MonoBehaviour
         firstStageCounter++;
         if (firstStageCounter == 2)
         {
-            bossStateManager.NextBossStage();
+            StartCoroutine(nameof(waitForNextBossStage), 10f);
         }
+    }
+
+    IEnumerator waitForNextBossStage(float waitingTime)
+    {
+        yield return new WaitForSeconds(waitingTime);
+        bossStateManager.NextBossStage();
     }
 
     public void secondStageHeadHit()

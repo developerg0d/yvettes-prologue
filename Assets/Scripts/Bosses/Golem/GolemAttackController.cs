@@ -201,7 +201,6 @@ public class GolemAttackController : MonoBehaviour
         StopCoroutine(nameof(spinHandCoroutine));
         StopCoroutine(nameof(raiseHandCoroutine));
         StopCoroutine(nameof(fistSlamCoroutine));
-        
     }
 
     IEnumerator waitForGolemToShakeOff()
@@ -214,13 +213,12 @@ public class GolemAttackController : MonoBehaviour
     public void startSecondStage()
     {
         leftHand.SetActive(false);
-
+        rb.constraints = RigidbodyConstraints2D.None;
         enableSecondStageColliders();
         StopCoroutine("startFistSlamCoroutine");
         StopCoroutine("raiseHandCoroutine");
         StopCoroutine("fistSlamCoroutine");
-
-        StartCoroutine("secondStageCoroutine");
+        bouncingAttack();
     }
 
     private void enableSecondStageColliders()
@@ -234,13 +232,6 @@ public class GolemAttackController : MonoBehaviour
         {
             collider2D1.enabled = true;
         }
-    }
-
-    IEnumerator secondStageCoroutine()
-    {
-        yield return new WaitForSeconds(10f);
-        Debug.Log("bouncing");
-        bouncingAttack();
     }
 
     void bouncingAttack()

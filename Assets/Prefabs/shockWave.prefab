@@ -247,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beenParried: 0
   shockwaveForce: 1000
+  floatingEye: {fileID: 6673014064190334745, guid: 4ff9d121c5077d444b1b480b085920f0, type: 3}
 --- !u!95 &1495790979557195605
 Animator:
   serializedVersion: 3

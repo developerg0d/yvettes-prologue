@@ -12,6 +12,8 @@ public class ShockwaveInteraction : MonoBehaviour
 
     private Collider2D shockwaveCollider;
 
+    public GameObject floatingEye;
+
     private bool hasInteraction;
     private Vector2 previousVelocity;
 
@@ -64,6 +66,7 @@ public class ShockwaveInteraction : MonoBehaviour
                 rb.velocity = Vector3.zero;
                 playerAttackScript.playerDefended();
                 col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * (shockwaveForce / 2));
+                Instantiate(floatingEye);
                 StartCoroutine(nameof(dispelShock), 0.25f);
                 return;
             }

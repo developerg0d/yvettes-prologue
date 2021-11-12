@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cinemachine;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAttackScript : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerAttackScript : MonoBehaviour
     public bool playerAction;
 
     private Rigidbody2D rb;
+
+    public GameObject deflectParry;
 
     [SerializeField] private float swordDownThrustPower = 50f;
 
@@ -77,6 +80,14 @@ public class PlayerAttackScript : MonoBehaviour
     {
         Debug.Log("Player Parried");
         StartCoroutine(nameof(majorImpactAction));
+        StartCoroutine(nameof(parryDeflect));
+    }
+
+    IEnumerator parryDeflect()
+    {
+        GameObject deflectParryInstance = Instantiate(deflectParry, transform.position, transform.rotation);
+        yield return new WaitForSeconds(1f);
+        Destroy(deflectParryInstance);
     }
 
     public void playerDefended(float cameraShakeType = 1)
@@ -115,7 +126,7 @@ public class PlayerAttackScript : MonoBehaviour
         Time.timeScale = 0.1f;
         virtualCamera.m_Lens.OrthographicSize = 5;
         virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 1.75f;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.04f);
         cameraShake.shakeCamera(0.5f, 0.2f);
         virtualCamera.m_Lens.OrthographicSize = 10;
         virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 3f;
