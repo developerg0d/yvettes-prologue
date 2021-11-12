@@ -22,6 +22,13 @@ public class UxInteraction : MonoBehaviour
 
     public Sprite[] arrowSprites;
 
+    public GameObject startScreen;
+
+    [SerializeField] private BossStateManager bossStateManager;
+
+    [SerializeField] private GameObject player;
+
+
     public enum ArrowAngles
     {
         Deg0,
@@ -32,6 +39,19 @@ public class UxInteraction : MonoBehaviour
         Deg225,
         Deg270,
         Deg315,
+    }
+
+    public void startGame()
+    {
+        StartCoroutine(nameof(startGameCoroutine));
+    }
+
+    IEnumerator startGameCoroutine()
+    {
+        startScreen.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        player.SetActive(true);
+        bossStateManager.StartBossStages();
     }
 
     public void restartGame()

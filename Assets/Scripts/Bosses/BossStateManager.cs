@@ -15,11 +15,6 @@ public class BossStateManager : MonoBehaviour
 
     public int currentStage;
 
-    void Start()
-    {
-        StartBossStages();
-    }
-
     public void StartBossStages()
     {
         UpdateBossStage();

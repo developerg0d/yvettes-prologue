@@ -21,7 +21,7 @@ public class GolemAttackController : MonoBehaviour
 
     private Vector3 initialHandPosition;
 
-    private GameObject player;
+    [SerializeField] private GameObject player;
 
     public CameraShake cameraShake;
 
@@ -77,7 +77,6 @@ public class GolemAttackController : MonoBehaviour
         golemAnimator = GetComponent<Animator>();
         bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag("Player");
         leftHandRb = leftHand.GetComponent<Rigidbody2D>();
     }
 
