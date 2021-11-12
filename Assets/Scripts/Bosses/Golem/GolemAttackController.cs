@@ -402,7 +402,7 @@ public class GolemAttackController : MonoBehaviour
         switch (bossInteractionTheGolem.finalStageCounter)
         {
             case 1:
-                ballSpeed += ballSpeed * 1.01f;
+                ballSpeed = ballSpeed * 1.25f;
                 break;
         }
 

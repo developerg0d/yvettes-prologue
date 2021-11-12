@@ -269,7 +269,11 @@ public class PlayerMovement : MonoBehaviour
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
         playerStats.CurrentHp -= damageHit;
-        uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
+        if (playerStats.CurrentHp > 0)
+        {
+            uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
+        }
+
         if (playerStats.CurrentHp == 0)
         {
             playerCrushed();
@@ -296,16 +300,15 @@ public class PlayerMovement : MonoBehaviour
                 {
                     rb.AddForce(Vector2.left * 50);
                     playerAttackScript.playerDefended(0);
-
                     return;
                 }
+            }
 
-                if (playerAttackScript.isParrying)
-                {
-                    rb.AddForce(Vector2.left * 25);
-                    playerAttackScript.playerParried();
-                    return;
-                }
+            if (playerAttackScript.isParrying)
+            {
+                rb.AddForce(Vector2.left * 25);
+                playerAttackScript.playerParried();
+                return;
             }
 
             playerHit();

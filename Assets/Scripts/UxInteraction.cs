@@ -21,6 +21,7 @@ public class UxInteraction : MonoBehaviour
 
     [SerializeField] protected Camera mainCamera;
 
+    [SerializeField] private Text playerHpText;
 
     public Sprite[] arrowSprites;
 
@@ -30,6 +31,12 @@ public class UxInteraction : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
+    private PlayerStats playerStats;
+
+    private void Start()
+    {
+        playerStats = player.GetComponent<PlayerStats>();
+    }
 
     public enum ArrowAngles
     {
@@ -69,8 +76,8 @@ public class UxInteraction : MonoBehaviour
             enableEndScreen();
         }
 
-        float convertedHp = currentHp * 0.1f;
-        playerHpBar.fillAmount = convertedHp;
+        playerHpBar.fillAmount = (float) 1 / playerStats.MaxHp * currentHp;
+        playerHpText.text = currentHp + "/" + playerStats.MaxHp;
     }
 
     public void updateBossHpBar(int currentHp)

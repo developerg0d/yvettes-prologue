@@ -22,6 +22,10 @@ public class PlayerStats : MonoBehaviour
     [SerializeField]
     private int maxHp = 3;
 
+    public int MaxHp
+    {
+        get => maxHp;
+    }
 
     [Tooltip(
         "Current health points that the player has during the game.")]
