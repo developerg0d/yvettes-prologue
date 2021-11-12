@@ -402,7 +402,7 @@ public class GolemAttackController : MonoBehaviour
         switch (bossInteractionTheGolem.finalStageCounter)
         {
             case 1:
-                ballSpeed += ballSpeed * 1.03f;
+                ballSpeed += ballSpeed * 1.01f;
                 break;
         }
 
@@ -436,6 +436,17 @@ public class GolemAttackController : MonoBehaviour
 
     private void playerHasDefeatedGolem()
     {
+        uxInteraction.updateBossHpBar(0);
         Debug.Log("Player has won");
+        golemAnimator.SetTrigger("dead");
+        cameraShake.shakeCamera(0.2f, 2.5f);
+        uxInteraction.endScreen.SetActive(true);
+        StartCoroutine(nameof(golemUxDelay));
+    }
+
+    IEnumerator golemUxDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        uxInteraction.golemOverlay.SetActive(false);
     }
 }

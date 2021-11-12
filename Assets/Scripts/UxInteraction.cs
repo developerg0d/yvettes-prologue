@@ -15,7 +15,9 @@ public class UxInteraction : MonoBehaviour
     public GameObject golemHand;
 
     public Image indicator;
+    public GameObject deathScreen;
     public GameObject endScreen;
+    public GameObject golemOverlay;
 
     [SerializeField] protected Camera mainCamera;
 
@@ -28,7 +30,7 @@ public class UxInteraction : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
-    
+
     public enum ArrowAngles
     {
         Deg0,
@@ -130,7 +132,7 @@ public class UxInteraction : MonoBehaviour
 
     void enableEndScreen()
     {
-        endScreen.SetActive(true);
+        deathScreen.SetActive(true);
     }
 
     public bool determineAngle(float currentAngle, float minAngle, float maxAngle)
