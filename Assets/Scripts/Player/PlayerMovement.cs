@@ -55,6 +55,20 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
     bool onSideLadder;
     public UxInteraction uxInteraction;
+    public GameObject playerSpawnEffect;
+
+    void Awake()
+    {
+        GameObject spawnEffect = Instantiate(playerSpawnEffect, transform.position, transform.rotation);
+        spawnEffect.transform.SetParent(transform);
+        StartCoroutine(nameof(playerSpawnEffectCoroutine), spawnEffect);
+    }
+
+    IEnumerator playerSpawnEffectCoroutine(GameObject spawnEffect)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(spawnEffect);
+    }
 
     void Start()
     {

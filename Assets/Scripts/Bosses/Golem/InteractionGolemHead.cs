@@ -19,6 +19,8 @@ public class InteractionGolemHead : MonoBehaviour
 
     private bool beenHitDelay;
 
+    [SerializeField] private BoxCollider2D headCollider;
+
     void Start()
     {
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
@@ -52,7 +54,7 @@ public class InteractionGolemHead : MonoBehaviour
             Destroy(col.gameObject);
         }
 
-        if (col.gameObject.CompareTag("Sword"))
+        if (col.gameObject.CompareTag("Sword") && col.IsTouching(headCollider))
         {
             swordHitGolem(col.gameObject);
         }
@@ -109,7 +111,7 @@ public class InteractionGolemHead : MonoBehaviour
     {
         Rigidbody2D rb = collider.GetComponentInParent<Rigidbody2D>();
 
-        rb.AddForce(Vector2.left * (recoilForce * 3.5f), ForceMode2D.Impulse);
-        rb.AddForce(Vector2.down * (recoilForce * 2), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.left * (recoilForce * 2.5f), ForceMode2D.Impulse);
+        rb.AddForce(Vector2.down * (recoilForce * 1.5f), ForceMode2D.Impulse);
     }
 }

@@ -956,7 +956,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70601903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.35, y: -4.28, z: -8.78}
+  m_LocalPosition: {x: -60.96, y: -4.28, z: -8.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129234868}
@@ -1018,6 +1018,7 @@ MonoBehaviour:
   playerVelocity: {x: 0, y: 0}
   canMove: 1
   uxInteraction: {fileID: 1529668537}
+  playerSpawnEffect: {fileID: 6224299265760237096, guid: ea521e105f1be184e8a257bed240b58b, type: 3}
 --- !u!50 &70601908
 Rigidbody2D:
   serializedVersion: 4
@@ -1856,8 +1857,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -112.3}
-  m_SizeDelta: {x: 2534.3, y: 100}
+  m_AnchoredPosition: {x: 0, y: -158}
+  m_SizeDelta: {x: 562.6, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &163652768
 MonoBehaviour:
@@ -4589,7 +4590,7 @@ GameObject:
   - component: {fileID: 453067205}
   m_Layer: 0
   m_Name: golem_golemHead
-  m_TagString: Ground
+  m_TagString: GolemHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6010,7 +6011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &556858438
 Transform:
   m_ObjectHideFlags: 0
@@ -7255,7 +7256,7 @@ GameObject:
   - component: {fileID: 638372799}
   m_Layer: 0
   m_Name: collider
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7268,7 +7269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638372797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1007499594}
@@ -8536,7 +8537,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715893120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.35, y: -1.2800002, z: -18.779999}
+  m_LocalPosition: {x: -60.96, y: -1.2800002, z: -18.779999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8784,7 +8785,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718511317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.35, y: -1.2800002, z: -18.779999}
+  m_LocalPosition: {x: -60.96, y: -1.2800002, z: -18.779999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 508791293}
@@ -8808,7 +8809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &731479809
 Transform:
   m_ObjectHideFlags: 0
@@ -8913,7 +8914,7 @@ GameObject:
   - component: {fileID: 740980179}
   - component: {fileID: 740980180}
   m_Layer: 5
-  m_Name: player
+  m_Name: uxPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22191,7 +22192,7 @@ GameObject:
   - component: {fileID: 1075001601}
   m_Layer: 0
   m_Name: collider
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22204,7 +22205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075001599}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1758447567}
@@ -23905,17 +23906,17 @@ MonoBehaviour:
 
 
     Parry
-    - Hold Right Click at the perfect frame
+    - Defend at the perfect frame, just before you collide with an enemy
 
 
-    Dash - Q/E
+    Dash
+    - Q/E
 
 
     Jump - Spacebar
 
 
-    Downstrike
-    - Attack + Hold S
+    Downstrike - Attack + Hold S
 
 '
 --- !u!222 &1253490105
@@ -25616,7 +25617,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  currentStage: 0
+  currentStage: 2
 --- !u!1 &1393069239
 GameObject:
   m_ObjectHideFlags: 0
@@ -25985,7 +25986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 140}
+  m_AnchoredPosition: {x: 0, y: 185}
   m_SizeDelta: {x: 101.06, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1422144675
@@ -26972,7 +26973,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499844858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.06, y: -0.13, z: 0}
+  m_LocalPosition: {x: -1.51, y: 0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453067204}
@@ -33300,7 +33301,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129234867}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0062503815, y: -0.0012497902, z: 0}
+  m_LocalPosition: {x: -0.0087509155, y: -0.0012497902, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 608582757}

@@ -28,7 +28,7 @@ public class UxInteraction : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
-
+    
     public enum ArrowAngles
     {
         Deg0,
