@@ -15,10 +15,11 @@ public class lazerBall : MonoBehaviour
     public bool isLightBall = false;
 
     public GameObject floatingEye;
+    private GameObject player;
 
     void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         transform.SetParent(player.transform.parent);
         StartCoroutine("flying");
     }
@@ -27,9 +28,11 @@ public class lazerBall : MonoBehaviour
     {
         while (enabled)
         {
+            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+            lazerBallSpeed = Mathf.Clamp(lazerBallSpeed + lazerBallSpeed * (distanceToPlayer / 100), 8, 20);
             timer += Time.deltaTime;
             transform.Translate(Vector3.right * lazerBallSpeed * Time.deltaTime);
-            if (timer >= 10)
+            if (timer >= 100)
             {
                 StopCoroutine(nameof(flying));
                 Destroy(gameObject);
@@ -60,12 +63,12 @@ public class lazerBall : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (col.CompareTag("Ground"))
+        if (col.CompareTag("Ground") && !col.GetComponent<Collider2D>().isTrigger)
         {
             float randomFloat = Random.Range(0, 10);
             if (randomFloat == 0)
             {
-                Instantiate(floatingEye, transform.position, transform.rotation);
+                Instantiate(floatingEye, transform.position, floatingEye.transform.rotation);
             }
 
             Destroy(gameObject);

@@ -127,8 +127,8 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator raiseHandCoroutine()
     {
+        StartCoroutine(nameof(stage1FireBalls));
         leftHand.GetComponent<InteractionGolemHand>().groundExit();
-        Debug.Log("Raising Hand");
         while (enabled)
         {
             raiseHand();
@@ -148,9 +148,31 @@ public class GolemAttackController : MonoBehaviour
                 }
 
                 StopCoroutine(nameof(raiseHandCoroutine));
+                StopCoroutine(nameof(stage1FireBalls));
             }
 
             yield return new WaitForFixedUpdate();
+        }
+    }
+
+    IEnumerator stage1FireBalls()
+    {
+        while (enabled)
+        {
+            aimAtPlayer();
+            int rand = Random.Range(0, 4);
+
+            if (rand == 0)
+            {
+                fireLazerBall(0, 8f);
+            }
+            else
+            {
+                fireLazerBall(2, 8f);
+                fireLazerBall(-2, 8f);
+            }
+
+            yield return new WaitForSeconds(3f);
         }
     }
 
@@ -292,7 +314,7 @@ public class GolemAttackController : MonoBehaviour
         Transform[] spawnPositions = floatingEyeSpawners.GetComponentsInChildren<Transform>();
         foreach (var spawnPosition in spawnPositions)
         {
-            Instantiate(floatingEye, spawnPosition.position, spawnPosition.rotation);
+            Instantiate(floatingEye, spawnPosition.position, floatingEye.transform.rotation);
         }
     }
 
@@ -349,6 +371,7 @@ public class GolemAttackController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine("lazerEyesTrackPlayer");
     }
+
 
     IEnumerator lazerEyesTrackPlayer()
     {

@@ -38,6 +38,19 @@ public class UxInteraction : MonoBehaviour
         playerStats = player.GetComponent<PlayerStats>();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            quitGame();
+        }
+
+        if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.LeftShift))
+        {
+            restartGame();
+        }
+    }
+
     public enum ArrowAngles
     {
         Deg0,
@@ -63,8 +76,14 @@ public class UxInteraction : MonoBehaviour
         bossStateManager.StartBossStages();
     }
 
+    public void quitGame()
+    {
+        Application.Quit();
+    }
+
     public void restartGame()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
 
@@ -77,6 +96,16 @@ public class UxInteraction : MonoBehaviour
 
         playerHpBar.fillAmount = (float) 1 / playerStats.MaxHp * currentHp;
         playerHpText.text = currentHp + "/" + playerStats.MaxHp;
+    }
+
+    public void disableScreen(GameObject screenToDisable)
+    {
+        screenToDisable.SetActive(false);
+    }
+
+    public void enableScreen(GameObject screenToEnable)
+    {
+        screenToEnable.SetActive(true);
     }
 
     public void updateBossHpBar(int currentHp)

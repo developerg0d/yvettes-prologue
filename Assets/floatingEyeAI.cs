@@ -104,6 +104,7 @@ public class floatingEyeAI : MonoBehaviour
 
         if (col.gameObject.CompareTag("FloatingEye"))
         {
+                        
             rigidbody2D.velocity = Vector2.zero;
         }
     }
