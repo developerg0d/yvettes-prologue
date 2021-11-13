@@ -93,8 +93,9 @@ public class BossInteractionTheGolem : MonoBehaviour
     {
         if (col.gameObject.tag == "Shockwave")
         {
-            if (col.gameObject.GetComponentInParent<ShockwaveInteraction>().beenParried)
+            if (col.gameObject.GetComponentInParent<ShockwaveInteraction>().beenParried && !hasBeenParried)
             {
+                hasBeenParried = true;
                 Destroy(col.GetComponentInChildren<BoxCollider2D>());
                 StartCoroutine(nameof(shockwaveDispel), col.gameObject);
                 golemAttackController.beenParried();
@@ -105,6 +106,7 @@ public class BossInteractionTheGolem : MonoBehaviour
     IEnumerator shockwaveDispel(GameObject shockwave)
     {
         yield return new WaitForSeconds(1f);
+        hasBeenParried = false;
         Destroy(shockwave);
     }
 

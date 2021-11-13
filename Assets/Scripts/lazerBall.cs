@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class lazerBall : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class lazerBall : MonoBehaviour
     public bool beenParried;
 
     public bool isLightBall = false;
+
+    public GameObject floatingEye;
 
     void Start()
     {
@@ -58,6 +62,12 @@ public class lazerBall : MonoBehaviour
 
         if (col.CompareTag("Ground"))
         {
+            float randomFloat = Random.Range(0, 10);
+            if (randomFloat == 0)
+            {
+                Instantiate(floatingEye, transform.position, transform.rotation);
+            }
+
             Destroy(gameObject);
         }
     }

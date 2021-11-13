@@ -118,7 +118,7 @@ public class floatingEyeAI : MonoBehaviour
 
         if (col.CompareTag("Sword") && !beenHit)
         {
-            if (col.IsTouching(mainCollider))
+            if (mainCollider && col.IsTouching(mainCollider))
             {
                 StartCoroutine(nameof(changeMaterial));
                 beenHit = true;

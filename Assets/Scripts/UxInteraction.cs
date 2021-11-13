@@ -65,7 +65,6 @@ public class UxInteraction : MonoBehaviour
 
     public void restartGame()
     {
-        endScreen.SetActive(true);
         SceneManager.LoadScene(0);
     }
 

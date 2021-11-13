@@ -19,6 +19,7 @@ public class GolemAttackController : MonoBehaviour
 
     private Rigidbody2D leftHandRb;
 
+    public GameObject floatingEyeSpawners;
     private Vector3 initialHandPosition;
 
     [SerializeField] private GameObject player;
@@ -277,6 +278,22 @@ public class GolemAttackController : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
         golemAnimator.SetBool("fallenOver", true);
         StopCoroutine("bouncingAttackCoroutine");
+        StartCoroutine(nameof(spawnFloatingEyesCoroutine));
+    }
+
+    IEnumerator spawnFloatingEyesCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        spawnFloatingEyes();
+    }
+
+    void spawnFloatingEyes()
+    {
+        Transform[] spawnPositions = floatingEyeSpawners.GetComponentsInChildren<Transform>();
+        foreach (var spawnPosition in spawnPositions)
+        {
+            Instantiate(floatingEye, spawnPosition.position, spawnPosition.rotation);
+        }
     }
 
     public void getUp()

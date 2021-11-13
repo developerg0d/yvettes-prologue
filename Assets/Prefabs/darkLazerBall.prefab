@@ -50,6 +50,8 @@ MonoBehaviour:
   lazerBallSpeed: 10
   bounceCounter: 0
   beenParried: 0
+  isLightBall: 0
+  floatingEye: {fileID: 6673014064190334745, guid: 4ff9d121c5077d444b1b480b085920f0, type: 3}
 --- !u!50 &5746251731608527739
 Rigidbody2D:
   serializedVersion: 4
