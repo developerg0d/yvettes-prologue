@@ -40,10 +40,10 @@ public class UxInteraction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            quitGame();
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     quitGame();
+        // }
 
         if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.LeftShift))
         {

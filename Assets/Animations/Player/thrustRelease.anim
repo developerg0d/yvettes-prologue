@@ -153,46 +153,10 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2
+        value: 3
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.033333335
-        value: 2
-        inSlope: Infinity
-        outSlope: 0
-        tangentMode: 71
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.083333336
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.13333334
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.25
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -277,6 +241,21 @@ AnimationClip:
     path: renderer/sword/swordRenderer
     classID: 212
     script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: -4859747975381306887, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - time: 0.033333335
+      value: {fileID: -4859747975381306887, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - time: 0.05
+      value: {fileID: -2501134345237581356, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - time: 0.1
+      value: {fileID: -3176571998510150100, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - time: 0.15
+      value: {fileID: -9023560398646250274, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    attribute: m_Sprite
+    path: renderer/armour
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -320,6 +299,13 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
+      path: 2588093851
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
       path: 1013320488
       attribute: 4
       script: {fileID: 0}
@@ -340,6 +326,11 @@ AnimationClip:
     - {fileID: 1324554861070464549, guid: 6ebd1314554bbdb48a3633be71054e3e, type: 3}
     - {fileID: 1324554861070464549, guid: 6ebd1314554bbdb48a3633be71054e3e, type: 3}
     - {fileID: 1324554861070464549, guid: 6ebd1314554bbdb48a3633be71054e3e, type: 3}
+    - {fileID: -4859747975381306887, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - {fileID: -4859747975381306887, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - {fileID: -2501134345237581356, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - {fileID: -3176571998510150100, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
+    - {fileID: -9023560398646250274, guid: 1e406110ccf0d9c4c89197a409a053b7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -366,46 +357,10 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2
+        value: 3
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.033333335
-        value: 2
-        inSlope: Infinity
-        outSlope: 0
-        tangentMode: 71
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.083333336
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.13333334
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.25
-        value: 2
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
         weightedMode: 0
         inWeight: 0
         outWeight: 0

@@ -135,6 +135,7 @@ public class GolemAttackController : MonoBehaviour
 
             if (leftHand.transform.position.y >= initialHandPosition.y)
             {
+                StopCoroutine(nameof(stage1FireBalls));
                 Debug.Log("Raised Hand");
                 yield return new WaitForSeconds(2f);
                 if (bossInteractionTheGolem.onFist)
@@ -148,7 +149,6 @@ public class GolemAttackController : MonoBehaviour
                 }
 
                 StopCoroutine(nameof(raiseHandCoroutine));
-                StopCoroutine(nameof(stage1FireBalls));
             }
 
             yield return new WaitForFixedUpdate();
