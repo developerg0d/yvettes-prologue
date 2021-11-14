@@ -1,6 +1,7 @@
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionGolemHand : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class InteractionGolemHand : MonoBehaviour
 
     private bool isSlamming;
 
+    public Sprite fullCrystal;
+    public Sprite emptyCrystal;
+    public GameObject[] uxHp;
     public GameObject fistCrater;
     private Vector3 bottomOfFist;
 
@@ -202,6 +206,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     private void leftSideHit()
     {
+        updateHandHpUx(leftSideHp, true);
         if (leftSideHp <= 0)
         {
             return;
@@ -215,8 +220,16 @@ public class InteractionGolemHand : MonoBehaviour
         }
     }
 
+    private void updateHandHpUx(int currentHp, bool isLeft)
+    {
+        GameObject handSideHpUx = uxHp[isLeft ? 0 : 1];
+        Image[] uxImages = handSideHpUx.GetComponentsInChildren<Image>();
+        uxImages[currentHp].sprite = emptyCrystal;
+    }
+
     private void rightSideHit()
     {
+        updateHandHpUx(leftSideHp, true);
         if (rightSideHp <= 0)
         {
             return;
