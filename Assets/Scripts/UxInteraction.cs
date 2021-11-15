@@ -24,6 +24,9 @@ public class UxInteraction : MonoBehaviour
     [SerializeField] private Text playerHpText;
 
     public Sprite[] arrowSprites;
+    public Sprite emptyCrystal;
+    public Sprite fullCrystal;
+    public GameObject staminaCrystalContainer;
 
     public GameObject startScreen;
 
@@ -86,6 +89,23 @@ public class UxInteraction : MonoBehaviour
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
+
+    public void updatePlayerStamina(int currentStamina)
+    {
+        Image[] uxImages = staminaCrystalContainer.GetComponentsInChildren<Image>();
+        for (var i = 0; i < uxImages.Length; i++)
+        {
+            if (currentStamina <= i)
+            {
+                uxImages[i].sprite = emptyCrystal;
+            }
+            else
+            {
+                uxImages[i].sprite = fullCrystal;
+            }
+        }
+    }
+
 
     public void updatePlayerHpBar(int currentHp)
     {

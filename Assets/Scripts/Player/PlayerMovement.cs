@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public bool grounded;
     private Rigidbody2D rb;
 
+    private float dashTimer;
     private bool canHit = true;
     private bool canTurn;
     private bool canDash = true;
@@ -207,15 +208,34 @@ public class PlayerMovement : MonoBehaviour
     {
         canDash = false;
         playerAnimator.SetTrigger("dashed");
-        Vector2 dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
+        var dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
-        StartCoroutine("dashTimer");
+        StartCoroutine(nameof(dashTimerCoroutine));
     }
 
-    IEnumerator dashTimer()
+    IEnumerator dashTimerCoroutine()
     {
-        yield return new WaitForSeconds(dashDelay);
-        canDash = true;
+        dashTimer = 0;
+        uxInteraction.updatePlayerStamina(0);
+        var dashInterval = 1;
+        while (enabled)
+        {
+            dashTimer += Time.deltaTime;
+
+            if (dashTimer >= dashInterval)
+            {
+                uxInteraction.updatePlayerStamina(dashInterval);
+                dashInterval++;
+            }
+
+            if (dashTimer >= dashDelay)
+            {
+                canDash = true;
+                StopCoroutine(nameof(dashTimerCoroutine));
+            }
+
+            yield return null;
+        }
     }
 
     void swordUpThrust()
