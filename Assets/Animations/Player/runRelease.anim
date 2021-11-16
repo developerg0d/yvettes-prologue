@@ -109,9 +109,9 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.5
         value: 3
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -385,9 +385,9 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.5
         value: 3
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
         weightedMode: 0
         inWeight: 0
         outWeight: 0

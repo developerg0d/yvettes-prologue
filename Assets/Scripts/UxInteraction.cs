@@ -18,7 +18,8 @@ public class UxInteraction : MonoBehaviour
     public GameObject deathScreen;
     public GameObject endScreen;
     public GameObject golemOverlay;
-
+    public GameObject uxArmour;
+    public GameObject gameArmour;
     [SerializeField] protected Camera mainCamera;
 
     [SerializeField] private Text playerHpText;
@@ -27,7 +28,7 @@ public class UxInteraction : MonoBehaviour
     public Sprite emptyCrystal;
     public Sprite fullCrystal;
     public GameObject staminaCrystalContainer;
-
+    public bool wearingArmour;
     public GameObject startScreen;
 
     [SerializeField] private BossStateManager bossStateManager;
@@ -39,6 +40,7 @@ public class UxInteraction : MonoBehaviour
     private void Start()
     {
         playerStats = player.GetComponent<PlayerStats>();
+        updatePlayerHpBar(playerStats.MaxHp);
     }
 
     void Update()
@@ -104,6 +106,30 @@ public class UxInteraction : MonoBehaviour
                 uxImages[i].sprite = fullCrystal;
             }
         }
+    }
+
+
+    public void toggleArmour()
+    {
+        if (wearingArmour)
+        {
+            playerStats.MaxHp = 5;
+            wearingArmour = false;
+        }
+        else
+        {
+            playerStats.MaxHp = 10;
+            wearingArmour = true;
+        }
+
+        updatePlayerHpBar(playerStats.MaxHp);
+        setArmourVisibility(wearingArmour);
+    }
+
+    void setArmourVisibility(bool isVisible)
+    {
+        uxArmour.SetActive(isVisible);
+        gameArmour.SetActive(isVisible);
     }
 
 

@@ -51,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumpingUpLadder;
 
     public Vector2 playerVelocity;
-
     private bool isClimbing;
     public bool canMove = true;
     bool onSideLadder;

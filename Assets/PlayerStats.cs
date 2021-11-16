@@ -20,17 +20,18 @@ public class PlayerStats : MonoBehaviour
     [Tooltip(
         "Max health points that the player starts off with.")]
     [SerializeField]
-    private int maxHp = 3;
+    private int maxHp = 10;
 
     public int MaxHp
     {
         get => maxHp;
+        set => maxHp = value;
     }
 
     [Tooltip(
         "Current health points that the player has during the game.")]
     [SerializeField]
-    private int currentHp = 3;
+    private int currentHp = 10;
 
     public int CurrentHp
     {
@@ -47,5 +48,10 @@ public class PlayerStats : MonoBehaviour
     {
         get => hitMultiplier;
         set => hitMultiplier = value;
+    }
+
+    void Start()
+    {
+        currentHp = maxHp;
     }
 }

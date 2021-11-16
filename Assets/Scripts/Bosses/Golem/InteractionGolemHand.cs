@@ -20,7 +20,7 @@ public class InteractionGolemHand : MonoBehaviour
     public GameObject[] uxHp;
     public GameObject fistCrater;
     private Vector3 bottomOfFist;
-
+    public Material[] materials;
     public GameObject floatingEye;
 
     public bool IsSlamming
@@ -179,7 +179,6 @@ public class InteractionGolemHand : MonoBehaviour
             canBeHit = false;
             var currentPosition = transform.position;
             var playerPosition = col.transform.parent.transform.position;
-
             if (playerPosition.x > currentPosition.x)
             {
                 fistGotHit(false);
@@ -195,6 +194,7 @@ public class InteractionGolemHand : MonoBehaviour
     {
         cameraShake.shakeCamera(0.1f, 0.1f);
         golemAttackController.retractHandInstantly();
+        StartCoroutine(nameof(changeMaterial));
         if (hitFromTheLeft)
         {
             leftSideHit();
@@ -203,6 +203,16 @@ public class InteractionGolemHand : MonoBehaviour
 
         rightSideHit();
     }
+
+    IEnumerator changeMaterial()
+    {
+        leftSideRenderer.material = materials[1];
+        rightSideRenderer.material = materials[1];
+        yield return new WaitForSeconds(0.1f);
+        leftSideRenderer.material = materials[0];
+        rightSideRenderer.material = materials[0];
+    }
+
 
     private void leftSideHit()
     {
