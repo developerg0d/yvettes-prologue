@@ -1206,7 +1206,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0d7b9dd54e761cb42baf616e76728eba, type: 2}
   - {fileID: 2100000, guid: 001aff64eec540b40a8c4f3864a95a90, type: 2}
   grounded: 0
-  dashDelay: 5
+  dashDelay: 3
   world: {fileID: 1161261808}
   canClimb: 0
   cameraShake: {fileID: 715893125}
@@ -4157,7 +4157,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -254, y: -69}
-  m_SizeDelta: {x: 462.21, y: 200.41}
+  m_SizeDelta: {x: 542.27, y: 200.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &307387522
 MonoBehaviour:

@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canHit = true;
     private bool canTurn;
     private bool canDash = true;
-    [SerializeField] float dashDelay = 5.0f;
+    [SerializeField] float dashDelay = 3.0f;
 
     public GameObject world;
 
