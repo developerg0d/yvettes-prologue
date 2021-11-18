@@ -30,10 +30,11 @@ public class floatingEyeAI : MonoBehaviour
     [SerializeField] private Material[] materials;
     private bool canSeePlayer;
 
-    public SoundManager soundManager;
+    private SoundManager soundManager;
 
     private void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<SoundManager>();
         cameraShake = Camera.current.GetComponent<CameraShake>();
         renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -122,6 +123,11 @@ public class floatingEyeAI : MonoBehaviour
         {
             if (mainCollider && col.IsTouching(mainCollider))
             {
+                if (soundManager.fxOn)
+                {
+                    soundManager.playLilHitSound();
+                }
+
                 hasBeenHit();
             }
         }

@@ -11,6 +11,10 @@ public class SoundManager : MonoBehaviour
     private AudioSource audioSource;
 
     public AudioClip beenHitSound;
+    public AudioClip bigHitSound;
+    public AudioClip massiveHitSound;
+    public AudioClip lilHitSound;
+    public AudioClip hitSound;
     public AudioClip crashSound;
 
     public Text fxToggleText;
@@ -52,8 +56,23 @@ public class SoundManager : MonoBehaviour
         audioSource.PlayOneShot(crashSound);
     }
 
-    public void playBeenHitSound()
+    public void playBigHitSound()
     {
-        audioSource.PlayOneShot(beenHitSound);
+        audioSource.PlayOneShot(bigHitSound);
+    }
+
+    public void playLilHitSound()
+    {
+        audioSource.PlayOneShot(lilHitSound);
+    }
+
+    public void playMassiveHitSound()
+    {
+        audioSource.PlayOneShot(massiveHitSound);
+    }
+
+    public void playHitSound()
+    {
+        audioSource.PlayOneShot(hitSound);
     }
 }

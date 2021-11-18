@@ -1206,9 +1206,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0d7b9dd54e761cb42baf616e76728eba, type: 2}
   - {fileID: 2100000, guid: 001aff64eec540b40a8c4f3864a95a90, type: 2}
   grounded: 0
+  canHit: 1
   dashDelay: 3
   world: {fileID: 1161261808}
   canClimb: 0
+  isInvulnerable: 0
   cameraShake: {fileID: 715893125}
   isLeft: 0
   playerVelocity: {x: 0, y: 0}
@@ -8196,7 +8198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608582756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.034, y: -0.002, z: 0}
+  m_LocalPosition: {x: 0.04949951, y: -0.017499924, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61192967}
@@ -8210,7 +8212,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608582756}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 361624b72949ac64692fe4b8583682ca, type: 3}
   m_Name: 
@@ -8401,7 +8403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &619556682
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18208,7 +18210,6 @@ MonoBehaviour:
   virtualCamera: {fileID: 0}
   leftSideHp: 3
   rightSideHp: 3
-  uxInteraction: {fileID: 0}
   canBeHit: 0
 --- !u!1 &984281254
 GameObject:
@@ -24747,7 +24748,6 @@ MonoBehaviour:
   virtualCamera: {fileID: 718511319}
   leftSideHp: 2
   rightSideHp: 2
-  uxInteraction: {fileID: 0}
   canBeHit: 0
 --- !u!1 &1088460992
 GameObject:
@@ -28193,7 +28193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1390091564
 Transform:
   m_ObjectHideFlags: 0

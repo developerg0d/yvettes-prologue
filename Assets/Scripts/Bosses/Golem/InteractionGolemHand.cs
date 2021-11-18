@@ -51,7 +51,7 @@ public class InteractionGolemHand : MonoBehaviour
     private bool hitPlayer;
     public bool canBeHit = true;
 
-    public SoundManager soundManager;
+    private SoundManager soundManager;
 
     void Start()
     {
@@ -125,7 +125,7 @@ public class InteractionGolemHand : MonoBehaviour
 
             if (soundManager.fxOn)
             {
-                soundManager.playCrashSound();
+                soundManager.playMassiveHitSound();
             }
 
             rb.velocity = Vector2.zero;
@@ -140,7 +140,7 @@ public class InteractionGolemHand : MonoBehaviour
         {
             if (soundManager.fxOn)
             {
-                soundManager.playCrashSound();
+                soundManager.playMassiveHitSound();
             }
 
             StartCoroutine(nameof(slowTimeCoroutine));
@@ -218,7 +218,7 @@ public class InteractionGolemHand : MonoBehaviour
         cameraShake.shakeCamera(0.1f, 0.1f);
         if (soundManager.fxOn)
         {
-            soundManager.playBeenHitSound();
+            soundManager.playBigHitSound();
         }
 
         golemAttackController.retractHandInstantly();

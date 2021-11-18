@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private float dashTimer;
-    private bool canHit = true;
+    public bool canHit = true;
     private bool canTurn;
     private bool canDash = true;
     [SerializeField] float dashDelay = 3.0f;
@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool upThrustReady;
 
     private bool isScalingWall;
+    public bool isInvulnerable;
 
     private PlayerStats playerStats;
     public CameraShake cameraShake;
@@ -292,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(nameof(changeMaterial));
         if (soundManager.fxOn)
         {
-            soundManager.playBeenHitSound();
+            soundManager.playHitSound();
         }
 
         cameraShake.shakeCamera(0.3f, 0.2f);

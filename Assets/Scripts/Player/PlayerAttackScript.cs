@@ -70,10 +70,29 @@ public class PlayerAttackScript : MonoBehaviour
             isStabbing = false;
             animator.SetBool("downThrust", false);
             Debug.Log(chargingTimer);
+            boostPlayer();
             chargingTimer = 0;
+            swordAnimator.speed = 1;
             StopCoroutine(nameof(charging));
             swordAnimator.SetBool("isCharging", false);
             animator.SetBool("swordPulledBack", false);
+        }
+    }
+
+    private void boostPlayer()
+    {
+        if (playerMovement.isLeft)
+        {
+            rb.AddForce(Vector2.left * (chargingTimer * 4), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(Vector2.right * (chargingTimer * 4), ForceMode2D.Impulse);
+        }
+
+        if (playerMovement.canHit)
+        {
+            StartCoroutine(nameof(invulnerableDelay));
         }
     }
 
@@ -83,11 +102,19 @@ public class PlayerAttackScript : MonoBehaviour
         {
             if (Mathf.RoundToInt(chargingTimer) != 10)
             {
+                swordAnimator.speed = 1 + (chargingTimer / 5);
                 Mathf.RoundToInt(chargingTimer += Time.deltaTime);
             }
 
             yield return null;
         }
+    }
+
+    private IEnumerator invulnerableDelay()
+    {
+        playerMovement.canHit = false;
+        yield return new WaitForSeconds(chargingTimer / 5);
+        playerMovement.canHit = true;
     }
 
     public void playerDied()
