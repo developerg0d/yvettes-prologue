@@ -30,14 +30,10 @@ public class floatingEyeAI : MonoBehaviour
     [SerializeField] private Material[] materials;
     private bool canSeePlayer;
 
-    private AudioSource audioSource;
-
-    public AudioClip beenHitAudio;
+    public SoundManager soundManager;
 
     private void Start()
     {
-        audioSource = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>();
-
         cameraShake = Camera.current.GetComponent<CameraShake>();
         renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -134,7 +130,10 @@ public class floatingEyeAI : MonoBehaviour
     private void hasBeenHit()
     {
         StartCoroutine(nameof(changeMaterial));
-        audioSource.PlayOneShot(beenHitAudio);
+        if (soundManager.fxOn)
+        {
+        }
+
         beenHit = true;
         cameraShake.shakeCamera(0.1f, 0.1f);
         StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);

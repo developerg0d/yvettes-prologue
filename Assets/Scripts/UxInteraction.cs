@@ -12,8 +12,8 @@ public class UxInteraction : MonoBehaviour
     public Image bossHpBar;
     public Image playerHpBar;
 
-    public GameObject golemHand;
-
+    public bool fxOn = true;
+    public bool musicOn = true;
     public Image indicator;
     public GameObject deathScreen;
     public GameObject endScreen;
@@ -37,9 +37,11 @@ public class UxInteraction : MonoBehaviour
     [SerializeField] private GameObject player;
 
     private PlayerStats playerStats;
+    private SoundManager soundManager;
 
     private void Start()
     {
+        soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         playerStats = player.GetComponent<PlayerStats>();
         updatePlayerHpBar(playerStats.MaxHp);
     }
@@ -69,9 +71,14 @@ public class UxInteraction : MonoBehaviour
         Deg315,
     }
 
+
     public void startGame()
     {
-        music.Play();
+        if (soundManager.musicOn)
+        {
+            music.Play();
+        }
+
         StartCoroutine(nameof(startGameCoroutine));
     }
 

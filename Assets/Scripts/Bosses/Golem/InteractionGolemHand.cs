@@ -23,8 +23,6 @@ public class InteractionGolemHand : MonoBehaviour
     public Material[] materials;
     public GameObject floatingEye;
 
-    public AudioSource audioSource;
-
     public bool IsSlamming
     {
         get => isSlamming;
@@ -50,14 +48,15 @@ public class InteractionGolemHand : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     [SerializeField] private int leftSideHp = 2;
     [SerializeField] private int rightSideHp = 2;
-
-    public AudioClip crashSound;
     private bool hitPlayer;
     public bool canBeHit = true;
-    public AudioClip beenHitAudio;
+
+    public SoundManager soundManager;
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<SoundManager>();
+
         golemAttackController = GetComponentInParent<GolemAttackController>();
         rb = GetComponent<Rigidbody2D>();
         fistAnimator = GetComponent<Animator>();
@@ -124,7 +123,11 @@ public class InteractionGolemHand : MonoBehaviour
                 cameraShake.shakeCamera(0.3f, 0.1f);
             }
 
-            audioSource.PlayOneShot(crashSound);
+            if (soundManager.fxOn)
+            {
+                soundManager.playCrashSound();
+            }
+
             rb.velocity = Vector2.zero;
             canBeHit = true;
             fistAnimator.SetBool("fistInGround", true);
@@ -135,7 +138,11 @@ public class InteractionGolemHand : MonoBehaviour
 
         if (col.gameObject.CompareTag("Player") && isSlamming)
         {
-            audioSource.PlayOneShot(crashSound);
+            if (soundManager.fxOn)
+            {
+                soundManager.playCrashSound();
+            }
+
             StartCoroutine(nameof(slowTimeCoroutine));
             col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             IsSlamming = false;
@@ -206,11 +213,14 @@ public class InteractionGolemHand : MonoBehaviour
         rightSideLadder.SetActive(false);
     }
 
-
     private void fistGotHit(bool hitFromTheLeft)
     {
         cameraShake.shakeCamera(0.1f, 0.1f);
-        audioSource.PlayOneShot(beenHitAudio);
+        if (soundManager.fxOn)
+        {
+            soundManager.playBeenHitSound();
+        }
+
         golemAttackController.retractHandInstantly();
         StartCoroutine(nameof(changeMaterial));
         if (hitFromTheLeft)

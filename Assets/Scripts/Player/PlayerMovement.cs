@@ -38,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private bool upThrustReady;
 
     private bool isScalingWall;
-    public AudioSource audioSource;
 
     private PlayerStats playerStats;
     public CameraShake cameraShake;
@@ -60,9 +59,11 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioClip beenHitAudio;
 
+    private SoundManager soundManager;
+
     void Awake()
     {
-        audioSource = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>();
+        soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         GameObject spawnEffect = Instantiate(playerSpawnEffect, transform.position, transform.rotation);
         spawnEffect.transform.SetParent(transform);
         StartCoroutine(nameof(playerSpawnEffectCoroutine), spawnEffect);
@@ -289,7 +290,11 @@ public class PlayerMovement : MonoBehaviour
     private void playerHit(int damageHit = 1)
     {
         StartCoroutine(nameof(changeMaterial));
-        audioSource.PlayOneShot(beenHitAudio);
+        if (soundManager.fxOn)
+        {
+            soundManager.playBeenHitSound();
+        }
+
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
         playerStats.CurrentHp -= damageHit;
