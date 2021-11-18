@@ -16,9 +16,11 @@ public class PlayerAttackScript : MonoBehaviour
 
     public bool playerAction;
 
+    private float chargingTimer;
     private Rigidbody2D rb;
 
     public GameObject deflectParry;
+    public Animator swordAnimator;
 
     [SerializeField] private float swordDownThrustPower = 50f;
 
@@ -45,6 +47,9 @@ public class PlayerAttackScript : MonoBehaviour
         {
             isStabbing = true;
 
+
+            StartCoroutine(nameof(charging));
+            swordAnimator.SetBool("isCharging", true);
             animator.SetBool("swordPulledBack", true);
         }
 
@@ -64,7 +69,24 @@ public class PlayerAttackScript : MonoBehaviour
         {
             isStabbing = false;
             animator.SetBool("downThrust", false);
+            Debug.Log(chargingTimer);
+            chargingTimer = 0;
+            StopCoroutine(nameof(charging));
+            swordAnimator.SetBool("isCharging", false);
             animator.SetBool("swordPulledBack", false);
+        }
+    }
+
+    private IEnumerator charging()
+    {
+        while (enabled)
+        {
+            if (Mathf.RoundToInt(chargingTimer) != 10)
+            {
+                Mathf.RoundToInt(chargingTimer += Time.deltaTime);
+            }
+
+            yield return null;
         }
     }
 

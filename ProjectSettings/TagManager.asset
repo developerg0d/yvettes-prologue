@@ -18,6 +18,8 @@ TagManager:
   - SideLadder
   - FloatingEye
   - Sight
+  - ClimbingSection
+  - AudioSource
   layers:
   - Default
   - TransparentFX

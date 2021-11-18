@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool upThrustReady;
 
     private bool isScalingWall;
+    public AudioSource audioSource;
 
     private PlayerStats playerStats;
     public CameraShake cameraShake;
@@ -57,8 +58,11 @@ public class PlayerMovement : MonoBehaviour
     public UxInteraction uxInteraction;
     public GameObject playerSpawnEffect;
 
+    public AudioClip beenHitAudio;
+
     void Awake()
     {
+        audioSource = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>();
         GameObject spawnEffect = Instantiate(playerSpawnEffect, transform.position, transform.rotation);
         spawnEffect.transform.SetParent(transform);
         StartCoroutine(nameof(playerSpawnEffectCoroutine), spawnEffect);
@@ -285,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
     private void playerHit(int damageHit = 1)
     {
         StartCoroutine(nameof(changeMaterial));
+        audioSource.PlayOneShot(beenHitAudio);
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
         playerStats.CurrentHp -= damageHit;
@@ -331,6 +336,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
             playerHit();
+        }
+
+        if (col.CompareTag("ClimbingSection"))
+        {
+            bool facingRight = rb.velocity.x > 0 ? true : false;
+            uxInteraction.enableClimbingIndicator(facingRight);
         }
 
         if (col.tag == "LadderEnd")
@@ -403,6 +414,11 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
+        if (col.CompareTag("ClimbingSection"))
+        {
+            uxInteraction.disableClimbingIndicator();
+        }
+
         if (col.tag == "ScalingWall")
         {
             rb.gravityScale = 1.0f;

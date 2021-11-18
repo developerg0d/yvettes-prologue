@@ -30,8 +30,14 @@ public class floatingEyeAI : MonoBehaviour
     [SerializeField] private Material[] materials;
     private bool canSeePlayer;
 
+    private AudioSource audioSource;
+
+    public AudioClip beenHitAudio;
+
     private void Start()
     {
+        audioSource = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>();
+
         cameraShake = Camera.current.GetComponent<CameraShake>();
         renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -104,7 +110,6 @@ public class floatingEyeAI : MonoBehaviour
 
         if (col.gameObject.CompareTag("FloatingEye"))
         {
-                        
             rigidbody2D.velocity = Vector2.zero;
         }
     }
@@ -121,12 +126,18 @@ public class floatingEyeAI : MonoBehaviour
         {
             if (mainCollider && col.IsTouching(mainCollider))
             {
-                StartCoroutine(nameof(changeMaterial));
-                beenHit = true;
-                cameraShake.shakeCamera(0.1f, 0.1f);
-                StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
+                hasBeenHit();
             }
         }
+    }
+
+    private void hasBeenHit()
+    {
+        StartCoroutine(nameof(changeMaterial));
+        audioSource.PlayOneShot(beenHitAudio);
+        beenHit = true;
+        cameraShake.shakeCamera(0.1f, 0.1f);
+        StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
     }
 
     private void OnTriggerExit2D(Collider2D col)

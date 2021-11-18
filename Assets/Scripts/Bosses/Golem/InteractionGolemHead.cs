@@ -17,12 +17,16 @@ public class InteractionGolemHead : MonoBehaviour
     public CameraShake cameraShake;
     public BossStateManager bossStateManager;
 
+    private AudioSource audioSource;
+
+    public AudioClip bigHit;
     private bool beenHitDelay;
 
     [SerializeField] private BoxCollider2D headCollider;
 
     void Start()
     {
+        audioSource = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>();
         mainInteractionScript = GetComponentInParent<BossInteractionTheGolem>();
         attackControllerTheGolem = GetComponentInParent<GolemAttackController>();
     }
@@ -62,6 +66,7 @@ public class InteractionGolemHead : MonoBehaviour
 
     void swordHitGolem(GameObject player)
     {
+        audioSource.PlayOneShot(bigHit);
         StartCoroutine(nameof(hitDelay));
         switch (bossStateManager.currentStage)
         {

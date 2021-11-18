@@ -87,6 +87,11 @@ public class GolemAttackController : MonoBehaviour
         StartCoroutine(nameof(startFirstStageCoroutine));
     }
 
+    public void stopFirstStage()
+    {
+        // StopCoroutine(rai);
+    }
+
     IEnumerator startFirstStageCoroutine()
     {
         yield return new WaitForSeconds(2F);
@@ -127,7 +132,10 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator raiseHandCoroutine()
     {
-        StartCoroutine(nameof(stage1FireBalls));
+        if (bossInteractionTheGolem.firstStageCounter == 1)
+        {
+            StartCoroutine(nameof(stage1FireBalls));
+        }
         leftHand.GetComponent<InteractionGolemHand>().groundExit();
         while (enabled)
         {

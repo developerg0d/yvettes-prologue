@@ -22,6 +22,7 @@ public class UxInteraction : MonoBehaviour
     public GameObject gameArmour;
     [SerializeField] protected Camera mainCamera;
 
+    public AudioSource music;
     [SerializeField] private Text playerHpText;
 
     public Sprite[] arrowSprites;
@@ -30,7 +31,7 @@ public class UxInteraction : MonoBehaviour
     public GameObject staminaCrystalContainer;
     public bool wearingArmour;
     public GameObject startScreen;
-
+    public GameObject climbingIndicator;
     [SerializeField] private BossStateManager bossStateManager;
 
     [SerializeField] private GameObject player;
@@ -70,6 +71,7 @@ public class UxInteraction : MonoBehaviour
 
     public void startGame()
     {
+        music.Play();
         StartCoroutine(nameof(startGameCoroutine));
     }
 
@@ -158,6 +160,24 @@ public class UxInteraction : MonoBehaviour
     {
         float convertedHp = currentHp * 0.001f;
         bossHpBar.fillAmount = convertedHp;
+    }
+
+    public void disableClimbingIndicator()
+    {
+        climbingIndicator.SetActive(false);
+    }
+
+    public void enableClimbingIndicator(bool facingRight)
+    {
+        climbingIndicator.SetActive(true);
+        if (facingRight)
+        {
+            climbingIndicator.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            climbingIndicator.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     public void updateGolemFistIndicatorPosition(Vector3 golemHandPosition, Vector3 playerPosition,

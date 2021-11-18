@@ -23,6 +23,8 @@ public class InteractionGolemHand : MonoBehaviour
     public Material[] materials;
     public GameObject floatingEye;
 
+    public AudioSource audioSource;
+
     public bool IsSlamming
     {
         get => isSlamming;
@@ -49,8 +51,10 @@ public class InteractionGolemHand : MonoBehaviour
     [SerializeField] private int leftSideHp = 2;
     [SerializeField] private int rightSideHp = 2;
 
+    public AudioClip crashSound;
     private bool hitPlayer;
     public bool canBeHit = true;
+    public AudioClip beenHitAudio;
 
     void Start()
     {
@@ -120,7 +124,7 @@ public class InteractionGolemHand : MonoBehaviour
                 cameraShake.shakeCamera(0.3f, 0.1f);
             }
 
-            hitPlayer = true;
+            audioSource.PlayOneShot(crashSound);
             rb.velocity = Vector2.zero;
             canBeHit = true;
             fistAnimator.SetBool("fistInGround", true);
@@ -131,6 +135,7 @@ public class InteractionGolemHand : MonoBehaviour
 
         if (col.gameObject.CompareTag("Player") && isSlamming)
         {
+            audioSource.PlayOneShot(crashSound);
             StartCoroutine(nameof(slowTimeCoroutine));
             col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             IsSlamming = false;
@@ -190,9 +195,22 @@ public class InteractionGolemHand : MonoBehaviour
         }
     }
 
+    public void recoverAllHp()
+    {
+        leftSideHp = 2;
+        rightSideHp = 2;
+        restoreHandHpUx();
+        leftSideRenderer.sprite = leftSideSprites[0];
+        rightSideRenderer.sprite = rightSideSprites[0];
+        leftSideLadder.SetActive(false);
+        rightSideLadder.SetActive(false);
+    }
+
+
     private void fistGotHit(bool hitFromTheLeft)
     {
         cameraShake.shakeCamera(0.1f, 0.1f);
+        audioSource.PlayOneShot(beenHitAudio);
         golemAttackController.retractHandInstantly();
         StartCoroutine(nameof(changeMaterial));
         if (hitFromTheLeft)
@@ -216,12 +234,12 @@ public class InteractionGolemHand : MonoBehaviour
 
     private void leftSideHit()
     {
-        updateHandHpUx(leftSideHp, true);
         if (leftSideHp <= 0)
         {
             return;
         }
 
+        updateHandHpUx(leftSideHp, true);
         leftSideHp -= 1;
         leftSideRenderer.sprite = leftSideSprites[leftSideHp];
         if (leftSideHp == 0)
@@ -230,20 +248,34 @@ public class InteractionGolemHand : MonoBehaviour
         }
     }
 
+    private void restoreHandHpUx()
+    {
+        GameObject parentHpUx = uxHp[0].transform.parent.gameObject;
+        Image[] uxHpImages = parentHpUx.GetComponentsInChildren<Image>();
+        foreach (var uxImage in uxHpImages)
+        {
+            if (uxImage.sprite == emptyCrystal)
+            {
+                uxImage.sprite = fullCrystal;
+            }
+        }
+    }
+
     private void updateHandHpUx(int currentHp, bool isLeft)
     {
         GameObject handSideHpUx = uxHp[isLeft ? 0 : 1];
         Image[] uxImages = handSideHpUx.GetComponentsInChildren<Image>();
-        uxImages[currentHp].sprite = emptyCrystal;
+        uxImages[currentHp - 1].sprite = emptyCrystal;
     }
 
     private void rightSideHit()
     {
-        updateHandHpUx(leftSideHp, true);
-        if (rightSideHp <= 0)
+        if (rightSideHp < 0)
         {
             return;
         }
+
+        updateHandHpUx(rightSideHp, false);
 
         rightSideHp -= 1;
         rightSideRenderer.sprite = rightSideSprites[rightSideHp];

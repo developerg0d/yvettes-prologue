@@ -52,6 +52,7 @@ public class BossInteractionTheGolem : MonoBehaviour
         bossStats.currentHp -= 200;
         uxInteraction.updateBossHpBar(bossStats.currentHp);
         firstStageCounter++;
+        golemAttackController.leftHand.GetComponent<InteractionGolemHand>().recoverAllHp();
         if (firstStageCounter == 2)
         {
             StartCoroutine(nameof(waitForNextBossStage), 10f);
@@ -83,10 +84,11 @@ public class BossInteractionTheGolem : MonoBehaviour
 
     IEnumerator playerExitDelay()
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(9f);
         Debug.Log("player exited");
         golemAttackController.startFirstStage();
         playerOnGolem = false;
+        StopCoroutine(nameof(playerExitDelay));
     }
 
     private void OnTriggerEnter2D(Collider2D col)

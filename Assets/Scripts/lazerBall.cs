@@ -68,7 +68,7 @@ public class lazerBall : MonoBehaviour
             float randomFloat = Random.Range(0, 10);
             if (randomFloat == 0)
             {
-                Instantiate(floatingEye, transform.position, floatingEye.transform.rotation);
+                // Instantiate(floatingEye, transform.position, floatingEye.transform.rotation);
             }
 
             Destroy(gameObject);
