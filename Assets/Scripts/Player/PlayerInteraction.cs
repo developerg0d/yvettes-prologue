@@ -2,6 +2,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool canHit;
     public bool onSideLadder;
 
+    public bool teleporting;
     private CameraShake cameraShake;
 
     public Material[] materials;
@@ -92,9 +94,12 @@ public class PlayerInteraction : MonoBehaviour
 
         if (col.CompareTag("Checkpoint"))
         {
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKey(KeyCode.S) && !teleporting)
             {
+                teleporting = true;
                 Debug.Log("Teleport");
+                Checkpoint checkpoint = col.GetComponent<Checkpoint>();
+                teleport(checkpoint);
             }
         }
 
@@ -210,6 +215,76 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
     }
+
+    private void teleport(Checkpoint checkpoint)
+    {
+        if (checkpoint.checkpoints.Length <= 1)
+        {
+            teleporting = false;
+            return;
+        }
+
+        uxInteraction.teleportationUx.SetActive(true);
+        disableControls();
+
+        uxInteraction.leftTeleport.onClick.AddListener(
+            delegate { leftTeleport(checkpoint); });
+
+        uxInteraction.rightTeleport.onClick.AddListener(
+            delegate { rightTeleport(checkpoint); });
+    }
+
+    void disableControls()
+    {
+        playerAttackScript.enabled = false;
+        playerMovement.enabled = false;
+    }
+
+    void leftTeleport(Checkpoint checkpoint)
+    {
+        int teleportIndex = checkpoint.currentIndex - 1;
+        Vector2 teleportPosition;
+        if (checkpoint.checkpoints[teleportIndex])
+        {
+            teleportPosition = checkpoint.checkpoints[teleportIndex].transform.position;
+        }
+        else
+        {
+            teleportPosition = checkpoint.checkpoints[checkpoint.checkpoints.Length - 1].transform.position;
+        }
+
+        transform.position = teleportPosition;
+        completeTeleportation();
+    }
+
+    void rightTeleport(Checkpoint checkpoint)
+    {
+        int teleportIndex = checkpoint.currentIndex + 1;
+        Vector2 teleportPosition;
+        if (checkpoint.checkpoints[teleportIndex])
+        {
+            teleportPosition = checkpoint.checkpoints[teleportIndex].transform.position;
+        }
+        else
+        {
+            teleportPosition = checkpoint.checkpoints[0].transform.position;
+        }
+
+        transform.position = teleportPosition;
+        completeTeleportation();
+    }
+
+    void completeTeleportation()
+    {
+        uxInteraction.rightTeleport.onClick.RemoveAllListeners();
+        uxInteraction.leftTeleport.onClick.RemoveAllListeners();
+        uxInteraction.teleportationUx.SetActive(false);
+        playerAttackScript.enabled = true;
+        playerMovement.enabled = true;
+        teleporting = false;
+        Debug.Log("cool2");
+    }
+
 
     bool isOnLadder()
     {

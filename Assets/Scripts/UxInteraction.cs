@@ -39,8 +39,13 @@ public class UxInteraction : MonoBehaviour
     private PlayerStats playerStats;
     private SoundManager soundManager;
 
+    public GameObject teleportationUx;
+    public Button leftTeleport;
+    public Button rightTeleport;
+
     private void Start()
     {
+        startScreen.SetActive(true);
         soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         playerStats = player.GetComponent<PlayerStats>();
         updatePlayerHpBar(playerStats.MaxHp);
