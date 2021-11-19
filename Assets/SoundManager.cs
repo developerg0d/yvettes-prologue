@@ -15,7 +15,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip massiveHitSound;
     public AudioClip lilHitSound;
     public AudioClip hitSound;
-    public AudioClip crashSound;
+    public AudioClip dashRenew;
+    public AudioClip stepSound;
 
     public Text fxToggleText;
     public Text musicToggleText;
@@ -51,9 +52,9 @@ public class SoundManager : MonoBehaviour
         musicOn = true;
     }
 
-    public void playCrashSound()
+    public void playDashRenewSound()
     {
-        audioSource.PlayOneShot(crashSound);
+        audioSource.PlayOneShot(dashRenew);
     }
 
     public void playBigHitSound()
@@ -74,5 +75,12 @@ public class SoundManager : MonoBehaviour
     public void playHitSound()
     {
         audioSource.PlayOneShot(hitSound);
+    }
+
+    public void playStepSound()
+    {
+        audioSource.volume = 0.25f;
+        audioSource.PlayOneShot(stepSound);
+        audioSource.volume = 0.5f;
     }
 }

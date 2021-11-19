@@ -13,7 +13,7 @@ public class PlayerAttackScript : MonoBehaviour
     public bool isParrying = false;
     private Animator animator;
     private PlayerMovement playerMovement;
-
+    private PlayerInteraction playerInteraction;
     public bool playerAction;
 
     private float chargingTimer;
@@ -30,6 +30,7 @@ public class PlayerAttackScript : MonoBehaviour
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        playerInteraction = GetComponent<PlayerInteraction>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
@@ -42,8 +43,7 @@ public class PlayerAttackScript : MonoBehaviour
             animator.SetBool("downThrust", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) &&
-            playerMovement.grounded)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             isStabbing = true;
 
@@ -53,19 +53,19 @@ public class PlayerAttackScript : MonoBehaviour
             animator.SetBool("swordPulledBack", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
         {
             isDefending = true;
             animator.SetBool("isDefending", true);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1) && playerMovement.grounded && !playerMovement.canClimb)
+        if (Input.GetKeyUp(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
         {
             isDefending = false;
             animator.SetBool("isDefending", false);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0) && playerMovement.grounded)
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             isStabbing = false;
             animator.SetBool("downThrust", false);
@@ -90,7 +90,7 @@ public class PlayerAttackScript : MonoBehaviour
             rb.AddForce(Vector2.right * (chargingTimer * 4), ForceMode2D.Impulse);
         }
 
-        if (playerMovement.canHit)
+        if (playerInteraction.canHit)
         {
             StartCoroutine(nameof(invulnerableDelay));
         }
@@ -100,8 +100,9 @@ public class PlayerAttackScript : MonoBehaviour
     {
         while (enabled)
         {
-            if (Mathf.RoundToInt(chargingTimer) != 10)
+            if (Mathf.RoundToInt(chargingTimer) != 6)
             {
+                swordAnimator.SetFloat("chargingTimer", chargingTimer);
                 swordAnimator.speed = 1 + (chargingTimer / 5);
                 Mathf.RoundToInt(chargingTimer += Time.deltaTime);
             }
@@ -112,9 +113,9 @@ public class PlayerAttackScript : MonoBehaviour
 
     private IEnumerator invulnerableDelay()
     {
-        playerMovement.canHit = false;
+        playerInteraction.canHit = false;
         yield return new WaitForSeconds(chargingTimer / 5);
-        playerMovement.canHit = true;
+        playerInteraction.canHit = true;
     }
 
     public void playerDied()
@@ -168,6 +169,23 @@ public class PlayerAttackScript : MonoBehaviour
     public void heavyCameraShake()
     {
         cameraShake.shakeCamera(0.4f, 0.4f);
+    }
+
+    public void playImpactAction()
+    {
+        StartCoroutine(nameof(impactAction));
+    }
+
+    IEnumerator impactAction()
+    {
+        Time.timeScale = 0.1f;
+        virtualCamera.m_Lens.OrthographicSize = 5;
+        virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 1.75f;
+        yield return new WaitForSeconds(0.01f);
+        cameraShake.shakeCamera(0.25f, 0.1f);
+        virtualCamera.m_Lens.OrthographicSize = 10;
+        virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 3f;
+        Time.timeScale = 1f;
     }
 
     IEnumerator majorImpactAction()

@@ -14,52 +14,36 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float jumpPower = 30f;
     private Animator playerAnimator;
-    private SpriteRenderer renderer;
     [SerializeField] private Transform playerSprite;
 
-    float horizontalMovement;
     private PlayerAttackScript playerAttackScript;
 
-    private bool moving;
-    public Material[] materials;
-    public bool grounded;
-    private Rigidbody2D rb;
+    public float horizontalMovement;
 
+    private PlayerInteraction playerInteraction;
+    public float stepDelay;
+    private bool moving;
+    private Rigidbody2D rb;
+    private bool isStepping;
     private float dashTimer;
-    public bool canHit = true;
     private bool canTurn;
     private bool canDash = true;
     [SerializeField] float dashDelay = 3.0f;
 
     public GameObject world;
 
-    public bool canClimb;
-
-    private bool upThrustReady;
-
-    private bool isScalingWall;
-    public bool isInvulnerable;
-
-    private PlayerStats playerStats;
-    public CameraShake cameraShake;
 
     public bool isLeft;
 
-    private bool onLadder;
-
+    private bool isClimbing;
     private float exitLadderTimer;
 
     private bool isJumpingUpLadder;
 
-    public Vector2 playerVelocity;
-    private bool isClimbing;
     public bool canMove = true;
     bool onSideLadder;
     public UxInteraction uxInteraction;
     public GameObject playerSpawnEffect;
-
-    public AudioClip beenHitAudio;
-
     private SoundManager soundManager;
 
     void Awake()
@@ -78,8 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        renderer = GetComponentInChildren<SpriteRenderer>();
-        playerStats = GetComponent<PlayerStats>();
+        playerInteraction = GetComponent<PlayerInteraction>();
         playerAttackScript = GetComponent<PlayerAttackScript>();
         playerAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -87,11 +70,11 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        playerAnimator.SetBool("isScalingWall", isScalingWall);
+        playerAnimator.SetBool("isScalingWall", playerInteraction.isScalingWall);
         playerAnimator.SetBool("onSideLadder", onSideLadder);
         playerAnimator.SetBool("isSideLadderClimbing", isClimbing);
         playerAnimator.SetBool("isMoving", moving);
-        playerAnimator.SetBool("onGround", grounded);
+        playerAnimator.SetBool("onGround", playerInteraction.grounded);
     }
 
     void Update()
@@ -102,18 +85,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool isOnLadder()
-    {
-        return onLadder || onSideLadder;
-    }
-
     void MovementControls()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !grounded && upThrustReady)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !playerInteraction.grounded &&
+            playerInteraction.upThrustReady)
         {
-            upThrustReady = false;
+            playerInteraction.upThrustReady = false;
             playerAnimator.SetBool("upthrust", true);
             swordUpThrust();
+        }
+
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            StopCoroutine(nameof(stepping));
+            isStepping = false;
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -134,20 +119,21 @@ public class PlayerMovement : MonoBehaviour
             dashPlayer(1);
         }
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) && canClimb)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) && playerInteraction.canClimb)
         {
             isClimbing = true;
             playerAnimator.SetBool("isClimbing", true);
         }
 
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) && canClimb)
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) && playerInteraction.canClimb)
         {
             isClimbing = false;
             playerAnimator.SetBool("isClimbing", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && playerInteraction.grounded)
         {
+            StopCoroutine(nameof(stepping));
             jump();
         }
     }
@@ -165,26 +151,47 @@ public class PlayerMovement : MonoBehaviour
         horizontalMovement = Input.GetAxis("HorizontalMoving");
         isPlayerMoving(horizontalMovement);
         float verticalMovement = Input.GetAxis("VerticalMoving");
-        if (canClimb && verticalMovement != 0)
+        if (playerInteraction.canClimb && verticalMovement != 0)
         {
+            isStepping = false;
             climb(verticalMovement);
         }
 
         if (onSideLadder && horizontalMovement != 0)
         {
+            isStepping = false;
             movePlayerDiagonally(horizontalMovement);
             return;
         }
 
         if (horizontalMovement != 0)
         {
+            if (!isStepping)
+            {
+                // StartCoroutine(nameof(stepping));
+            }
+
             movePlayerHorizontally(horizontalMovement);
+        }
+    }
+
+    IEnumerator stepping()
+    {
+        isStepping = true;
+        while (isStepping)
+        {
+            soundManager.playStepSound();
+            yield return new WaitForSeconds(stepDelay);
         }
     }
 
     void isPlayerMoving(float horizontalMovement)
     {
         moving = horizontalMovement != 0;
+        if (!moving)
+        {
+            isStepping = false;
+        }
     }
 
     void movePlayerDiagonally(float horizontalMovement)
@@ -199,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
         updatePlayerDirection(horizontalMovement);
         Vector2 horizontalDirection =
             horizontalMovement <= 0 ? Vector2.left : Vector2.right;
-        if (grounded)
+        if (playerInteraction.grounded)
         {
             rb.AddForce(horizontalDirection * horizontalSpeed);
         }
@@ -212,6 +219,8 @@ public class PlayerMovement : MonoBehaviour
     void dashPlayer(int dashingDirection)
     {
         canDash = false;
+        isStepping = false;
+        StopCoroutine(nameof(stepping));
         playerAnimator.SetTrigger("dashed");
         var dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);
@@ -268,277 +277,5 @@ public class PlayerMovement : MonoBehaviour
             horizontalMovement >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
 
         isLeft = horizontalMovement >= 0 ? false : true;
-    }
-
-    IEnumerator exitLadderCoroutine(Vector3 endPosition)
-    {
-        while (enabled)
-        {
-            if (transform.position.y < endPosition.y)
-            {
-                rb.velocity = new Vector3(isLeft == true ? -1 : 1, 2f, 0) * 3f;
-            }
-            else
-            {
-                StopCoroutine("exitLadderCoroutine");
-                canMove = true;
-            }
-
-            yield return null;
-        }
-    }
-
-    private void playerHit(int damageHit = 1)
-    {
-        StartCoroutine(nameof(changeMaterial));
-        if (soundManager.fxOn)
-        {
-            soundManager.playHitSound();
-        }
-
-        cameraShake.shakeCamera(0.3f, 0.2f);
-        rb.AddForce(Vector2.left * 100);
-        playerStats.CurrentHp -= damageHit;
-        if (playerStats.CurrentHp > 0)
-        {
-            uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
-        }
-
-        if (playerStats.CurrentHp == 0)
-        {
-            playerCrushed();
-        }
-
-        StartCoroutine(nameof(hitDelay));
-        Debug.Log("Hit");
-    }
-
-    IEnumerator hitDelay()
-    {
-        canHit = false;
-        yield return new WaitForSeconds(1f);
-        canHit = true;
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag("LazerBall"))
-        {
-            if (col.GetComponent<lazerBall>().isLightBall)
-            {
-                if (playerAttackScript.isDefending)
-                {
-                    rb.AddForce(Vector2.left * 50);
-                    playerAttackScript.playerDefended(0);
-                    return;
-                }
-            }
-
-            if (playerAttackScript.isParrying)
-            {
-                rb.AddForce(Vector2.left * 25);
-                playerAttackScript.playerParried();
-                return;
-            }
-
-            playerHit();
-        }
-
-        if (col.CompareTag("ClimbingSection"))
-        {
-            bool facingRight = rb.velocity.x > 0 ? true : false;
-            uxInteraction.enableClimbingIndicator(facingRight);
-        }
-
-        if (col.tag == "LadderEnd")
-        {
-            Debug.Log("Can Climb Jump");
-        }
-
-        if (col.tag == "Ladder")
-        {
-            Debug.Log("Can Climb Ladder");
-        }
-    }
-
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.tag == "LadderEnd" && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
-        {
-            Debug.Log("Ladder Jump");
-
-            playerAnimator.SetBool("isClimbing", false);
-            canClimb = false;
-            canMove = false;
-            Vector3 endPosition = transform.position;
-            endPosition.y += 2;
-            playerAnimator.SetTrigger("climbJump");
-            StartCoroutine("exitLadderCoroutine", endPosition);
-        }
-
-        if (col.tag == "ScalingWall")
-        {
-            rb.gravityScale = 0.7f;
-            isScalingWall = true;
-        }
-
-        if (col.tag == "SideLadder")
-        {
-            if (horizontalMovement > 0f)
-            {
-                onSideLadder = true;
-                isClimbing = true;
-            }
-            else
-            {
-                isClimbing = false;
-            }
-
-            if (horizontalMovement < 0)
-            {
-                onSideLadder = false;
-            }
-        }
-
-        if (col.tag == "Ladder")
-        {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            {
-                onLadder = true;
-                playerAnimator.SetBool("onLadder", true);
-            }
-
-            if (rb.gravityScale != 0)
-            {
-                rb.gravityScale = 0;
-            }
-
-            canClimb = true;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.CompareTag("ClimbingSection"))
-        {
-            uxInteraction.disableClimbingIndicator();
-        }
-
-        if (col.tag == "ScalingWall")
-        {
-            rb.gravityScale = 1.0f;
-            isScalingWall = false;
-        }
-
-        if (col.tag == "SideLadder")
-        {
-            onSideLadder = false;
-            rb.gravityScale = 1;
-            playerAnimator.SetBool("onSideLadder", false);
-        }
-
-        if (col.tag == "Ladder")
-        {
-            onLadder = false;
-            playerAnimator.SetBool("onLadder", false);
-            rb.gravityScale = 1;
-            canClimb = false;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D col)
-    {
-        if ((col.gameObject.CompareTag("Ground") || col.otherCollider.CompareTag("Ground")) && !isOnLadder() &&
-            !isScalingWall)
-        {
-            rb.gravityScale = 1f;
-            upThrustReady = true;
-            grounded = true;
-        }
-    }
-
-    public void playerCrushed()
-    {
-        playerAnimator.SetTrigger("crushed");
-        enabled = false;
-        uxInteraction.disableUiOnDeath();
-        playerStats.CurrentHp = 0;
-        uxInteraction.updatePlayerHpBar(0);
-        Debug.Log("Player Dead");
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("FloatingEye") && canHit)
-        {
-            playerHit();
-        }
-
-        if (col.collider.CompareTag("GolemHand"))
-        {
-            InteractionGolemHand golemHandScript = col.gameObject.GetComponent<InteractionGolemHand>();
-
-            if (golemHandScript.IsSlamming && playerStats.CanDie)
-            {
-                playerCrushed();
-            }
-        }
-
-        if (col.gameObject.CompareTag("Golem") &&
-            col.gameObject.GetComponent<GolemAttackController>().isFalling)
-        {
-            rb.AddForce(Vector2.left * 200);
-            playerAttackScript.mediumCameraShake();
-            playerCrushed();
-        }
-
-        if (col.collider.tag == "ScalingWall")
-        {
-            rb.velocity = rb.velocity / 4;
-        }
-
-        if (col.gameObject.CompareTag("Ground") || col.otherCollider.CompareTag("Ground") && !isOnLadder() &&
-            !isScalingWall)
-        {
-            Debug.Log(playerVelocity);
-            StopCoroutine(nameof(inAirCoroutine));
-            if (!playerStats.CanDie)
-            {
-                return;
-            }
-
-            if (playerVelocity.y < -8.5f)
-            {
-                playerCrushed();
-                Debug.Log("Death by Fall Damage");
-            }
-        }
-    }
-
-    IEnumerator changeMaterial()
-    {
-        renderer.material = materials[1];
-        yield return new WaitForSeconds(0.2f);
-        renderer.material = materials[0];
-    }
-
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Ground" ||
-            col.otherCollider.CompareTag("Ground"))
-        {
-            grounded = false;
-            StartCoroutine(nameof(inAirCoroutine));
-        }
-    }
-
-    IEnumerator inAirCoroutine()
-    {
-        while (!grounded)
-        {
-            playerVelocity = rb.velocity;
-            yield return new WaitForFixedUpdate();
-        }
     }
 }

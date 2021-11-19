@@ -101,6 +101,10 @@ public class GolemAttackController : MonoBehaviour
     IEnumerator startFistSlamCoroutine()
     {
         Debug.Log("Slam Fist");
+        if (player.transform.position.x < initialHandPosition.x)
+        {
+            leftHand.transform.position = new Vector3(player.transform.position.x, leftHand.transform.position.y, 0);
+        }
 
         uxInteraction.updateGolemFistIndicatorPosition(leftHand.transform.position, player.transform.position);
         yield return new WaitForSeconds(indicatorTimeout);
@@ -136,6 +140,7 @@ public class GolemAttackController : MonoBehaviour
         {
             StartCoroutine(nameof(stage1FireBalls));
         }
+
         leftHand.GetComponent<InteractionGolemHand>().groundExit();
         while (enabled)
         {
