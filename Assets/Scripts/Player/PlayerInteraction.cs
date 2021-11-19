@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -73,22 +74,11 @@ public class PlayerInteraction : MonoBehaviour
             bool facingRight = rb.velocity.x > 0 ? true : false;
             uxInteraction.enableClimbingIndicator(facingRight);
         }
-
-        if (col.tag == "LadderEnd")
-        {
-            Debug.Log("Can Climb Jump");
-        }
-
-        if (col.tag == "Ladder")
-        {
-            Debug.Log("Can Climb Ladder");
-        }
     }
-
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "LadderEnd" && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
+        if (col.CompareTag("LadderEnd") && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
         {
             Debug.Log("Ladder Jump");
 
@@ -97,16 +87,24 @@ public class PlayerInteraction : MonoBehaviour
             Vector3 endPosition = transform.position;
             endPosition.y += 2;
             playerAnimator.SetTrigger("climbJump");
-            StartCoroutine("exitLadderCoroutine", endPosition);
+            StartCoroutine(nameof(exitLadderCoroutine), endPosition);
         }
 
-        if (col.tag == "ScalingWall")
+        if (col.CompareTag("Checkpoint"))
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log("Teleport");
+            }
+        }
+
+        if (col.CompareTag("ScalingWall"))
         {
             rb.gravityScale = 0.7f;
             isScalingWall = true;
         }
 
-        if (col.tag == "SideLadder")
+        if (col.CompareTag("SideLadder"))
         {
             if (playerMovement.horizontalMovement > 0f)
             {
@@ -119,7 +117,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if (col.tag == "Ladder")
+        if (col.CompareTag("Ladder"))
         {
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
@@ -143,7 +141,7 @@ public class PlayerInteraction : MonoBehaviour
             uxInteraction.disableClimbingIndicator();
         }
 
-        if (col.tag == "ScalingWall")
+        if (col.CompareTag("ScalingWall"))
         {
             rb.gravityScale = 1.0f;
             isScalingWall = false;
@@ -156,7 +154,7 @@ public class PlayerInteraction : MonoBehaviour
             playerAnimator.SetBool("onSideLadder", false);
         }
 
-        if (col.tag == "Ladder")
+        if (col.CompareTag("Ladder"))
         {
             onLadder = false;
             playerAnimator.SetBool("onLadder", false);
@@ -164,7 +162,6 @@ public class PlayerInteraction : MonoBehaviour
             canClimb = false;
         }
     }
-
 
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -191,7 +188,7 @@ public class PlayerInteraction : MonoBehaviour
             playerCrushed();
         }
 
-        if (col.collider.tag == "ScalingWall")
+        if (col.gameObject.CompareTag("ScalingWall"))
         {
             rb.velocity = rb.velocity / 4;
         }
@@ -206,7 +203,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            if (playerVelocity.y < -8.5f)
+            if (playerVelocity.y < -7.5f)
             {
                 playerCrushed();
                 Debug.Log("Death by Fall Damage");
@@ -219,17 +216,15 @@ public class PlayerInteraction : MonoBehaviour
         return onLadder || onSideLadder;
     }
 
-
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" ||
+        if (col.gameObject.CompareTag("Ground") ||
             col.otherCollider.CompareTag("Ground"))
         {
             grounded = false;
             StartCoroutine(nameof(inAirCoroutine));
         }
     }
-
 
     IEnumerator exitLadderCoroutine(Vector3 endPosition)
     {
@@ -241,7 +236,7 @@ public class PlayerInteraction : MonoBehaviour
             }
             else
             {
-                StopCoroutine("exitLadderCoroutine");
+                StopCoroutine(nameof(exitLadderCoroutine));
             }
 
             yield return null;
@@ -267,7 +262,6 @@ public class PlayerInteraction : MonoBehaviour
             grounded = true;
         }
     }
-
 
     private void playerHit(int damageHit = 1)
     {
@@ -301,7 +295,6 @@ public class PlayerInteraction : MonoBehaviour
         canHit = true;
     }
 
-
     public void playerCrushed()
     {
         playerAnimator.SetTrigger("crushed");
@@ -311,7 +304,6 @@ public class PlayerInteraction : MonoBehaviour
         uxInteraction.updatePlayerHpBar(0);
         Debug.Log("Player Dead");
     }
-
 
     IEnumerator changeMaterial()
     {
