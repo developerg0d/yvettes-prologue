@@ -11,7 +11,7 @@ public class Checkpoint : MonoBehaviour
     public Sprite activatedSprite;
     public GameObject[] checkpoints;
     public int currentIndex;
-
+    
     void Start()
     {
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");

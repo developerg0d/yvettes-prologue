@@ -22,6 +22,7 @@ TagManager:
   - AudioSource
   - Ux
   - Checkpoint
+  - Dead
   layers:
   - Default
   - TransparentFX

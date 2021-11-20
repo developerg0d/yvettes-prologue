@@ -39,6 +39,8 @@ public class UxInteraction : MonoBehaviour
     private PlayerStats playerStats;
     private SoundManager soundManager;
 
+    public GameObject bossOverlay;
+
     public GameObject teleportationUx;
     public Button leftTeleport;
     public Button rightTeleport;
@@ -76,7 +78,6 @@ public class UxInteraction : MonoBehaviour
         Deg315,
     }
 
-
     public void startGame()
     {
         if (soundManager.musicOn)
@@ -84,6 +85,8 @@ public class UxInteraction : MonoBehaviour
             music.Play();
         }
 
+        player.GetComponent<PlayerInteraction>().lastCheckpoint.activated = false;
+        bossOverlay.SetActive(true);
         StartCoroutine(nameof(startGameCoroutine));
     }
 

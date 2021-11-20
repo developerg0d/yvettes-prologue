@@ -49,6 +49,11 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
+        spawnEffect();
+    }
+
+    public void spawnEffect()
+    {
         GameObject spawnEffect = Instantiate(playerSpawnEffect, transform.position, transform.rotation);
         spawnEffect.transform.SetParent(transform);
         StartCoroutine(nameof(playerSpawnEffectCoroutine), spawnEffect);

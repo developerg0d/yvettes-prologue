@@ -28,8 +28,12 @@ public class PlayerInteraction : MonoBehaviour
     private CameraShake cameraShake;
 
     public Material[] materials;
-
+    public bool spawnedBoss;
     private PlayerMovement playerMovement;
+
+    public BossStateManager bossStateManager;
+
+    public Checkpoint lastCheckpoint;
 
     private void Start()
     {
@@ -47,8 +51,19 @@ public class PlayerInteraction : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void respawn()
+    {
+        Debug.Log("Respawn");
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.CompareTag("Golem") && !spawnedBoss)
+        {
+            spawnedBoss = true;
+            bossStateManager.StartBossStages();
+        }
+
         if (col.CompareTag("LazerBall"))
         {
             if (col.GetComponent<lazerBall>().isLightBall)
@@ -99,7 +114,10 @@ public class PlayerInteraction : MonoBehaviour
                 teleporting = true;
                 Debug.Log("Teleport");
                 Checkpoint checkpoint = col.GetComponent<Checkpoint>();
-                teleport(checkpoint);
+                if (checkpoint.activated)
+                {
+                    teleport(checkpoint);
+                }
             }
         }
 
@@ -170,6 +188,16 @@ public class PlayerInteraction : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.CompareTag("Checkpoint"))
+        {
+            lastCheckpoint = col.gameObject.GetComponent<Checkpoint>();
+        }
+
+        if (col.gameObject.CompareTag("Dead") && enabled)
+        {
+            playerCrushed();
+        }
+
         if (col.gameObject.CompareTag("FloatingEye") && canHit)
         {
             playerHit();
@@ -255,13 +283,14 @@ public class PlayerInteraction : MonoBehaviour
 
         transform.position = teleportPosition;
         completeTeleportation();
+        playerMovement.spawnEffect();
     }
 
     void rightTeleport(Checkpoint checkpoint)
     {
         int teleportIndex = checkpoint.currentIndex + 1;
         Vector2 teleportPosition;
-        if (checkpoint.checkpoints[teleportIndex])
+        if (checkpoint.checkpoints.Length > teleportIndex)
         {
             teleportPosition = checkpoint.checkpoints[teleportIndex].transform.position;
         }
@@ -375,6 +404,7 @@ public class PlayerInteraction : MonoBehaviour
         playerAnimator.SetTrigger("crushed");
         enabled = false;
         uxInteraction.disableUiOnDeath();
+        disableControls();
         playerStats.CurrentHp = 0;
         uxInteraction.updatePlayerHpBar(0);
         Debug.Log("Player Dead");
