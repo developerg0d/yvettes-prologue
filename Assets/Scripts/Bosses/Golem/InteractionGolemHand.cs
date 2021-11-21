@@ -115,7 +115,7 @@ public class InteractionGolemHand : MonoBehaviour
             col.gameObject.transform.SetParent(gameObject.transform);
         }
 
-        if (col.gameObject.CompareTag("Ground") &&
+        if ((col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Checkpoint")) &&
             IsSlamming)
         {
             if (!hitPlayer)

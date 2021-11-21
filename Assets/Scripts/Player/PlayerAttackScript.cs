@@ -9,7 +9,7 @@ public class PlayerAttackScript : MonoBehaviour
 {
     public bool isStabbing = false;
     public bool isDefending = false;
-
+    public bool canAttack;
     public bool isParrying = false;
     private Animator animator;
     private PlayerMovement playerMovement;
@@ -37,35 +37,33 @@ public class PlayerAttackScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.S))
+        if (canAttack && Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.S))
         {
             rb.AddForce(Vector2.down * swordDownThrustPower, ForceMode2D.Impulse);
             animator.SetBool("downThrust", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        if (canAttack && Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             isStabbing = true;
-
-
             StartCoroutine(nameof(charging));
             swordAnimator.SetBool("isCharging", true);
             animator.SetBool("swordPulledBack", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
+        if (canAttack && Input.GetKeyDown(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
         {
             isDefending = true;
             animator.SetBool("isDefending", true);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
+        if (canAttack && Input.GetKeyUp(KeyCode.Mouse1) && playerInteraction.grounded && !playerInteraction.canClimb)
         {
             isDefending = false;
             animator.SetBool("isDefending", false);
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (canAttack && Input.GetKeyUp(KeyCode.Mouse0))
         {
             isStabbing = false;
             animator.SetBool("downThrust", false);

@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip hitSound;
     public AudioClip dashRenew;
     public AudioClip stepSound;
-
+    public AudioClip mainTheme;
     public Text fxToggleText;
     public Text musicToggleText;
 

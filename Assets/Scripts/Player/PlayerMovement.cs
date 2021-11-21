@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        StartCoroutine(nameof(stepping));
         soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         spawnEffect();
     }
@@ -92,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MovementControls()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !playerInteraction.grounded &&
+        if (canMove && Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.W) && !playerInteraction.grounded &&
             playerInteraction.upThrustReady)
         {
             playerInteraction.upThrustReady = false;
@@ -100,45 +101,38 @@ public class PlayerMovement : MonoBehaviour
             swordUpThrust();
         }
 
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        {
-            StopCoroutine(nameof(stepping));
-            isStepping = false;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (canMove && Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnimator.SetBool("upthrust", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && !playerAttackScript.isDefending && canDash)
+        if (canMove && Input.GetKeyDown(KeyCode.Q) && !playerAttackScript.isDefending && canDash)
         {
             float dashingAnimationDirection = isLeft == true ? 1 : 0;
             playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(0);
         }
-        else if (Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending && canDash)
+        else if (canMove && Input.GetKeyDown(KeyCode.E) && !playerAttackScript.isDefending && canDash)
         {
             float dashingAnimationDirection = isLeft == true ? 0 : 1;
             playerAnimator.SetFloat("dashDirection", dashingAnimationDirection);
             dashPlayer(1);
         }
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) && playerInteraction.canClimb)
+        if ((canMove && Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) && playerInteraction.canClimb)
         {
             isClimbing = true;
             playerAnimator.SetBool("isClimbing", true);
         }
 
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) && playerInteraction.canClimb)
+        if (canMove && Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) && playerInteraction.canClimb)
         {
             isClimbing = false;
             playerAnimator.SetBool("isClimbing", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && playerInteraction.grounded)
+        if (canMove && Input.GetKeyDown(KeyCode.Space) && playerInteraction.grounded)
         {
-            StopCoroutine(nameof(stepping));
             jump();
         }
     }
@@ -158,45 +152,38 @@ public class PlayerMovement : MonoBehaviour
         float verticalMovement = Input.GetAxis("VerticalMoving");
         if (playerInteraction.canClimb && verticalMovement != 0)
         {
-            isStepping = false;
             climb(verticalMovement);
         }
 
         if (onSideLadder && horizontalMovement != 0)
         {
-            isStepping = false;
             movePlayerDiagonally(horizontalMovement);
             return;
         }
 
         if (horizontalMovement != 0)
         {
-            if (!isStepping)
-            {
-                // StartCoroutine(nameof(stepping));
-            }
-
             movePlayerHorizontally(horizontalMovement);
         }
     }
 
     IEnumerator stepping()
     {
-        isStepping = true;
-        while (isStepping)
+        while (enabled)
         {
-            soundManager.playStepSound();
-            yield return new WaitForSeconds(stepDelay);
+            if (moving && playerInteraction.grounded && canMove)
+            {
+                soundManager.playStepSound();
+                yield return new WaitForSeconds(stepDelay);
+            }
+
+            yield return null;
         }
     }
 
     void isPlayerMoving(float horizontalMovement)
     {
         moving = horizontalMovement != 0;
-        if (!moving)
-        {
-            isStepping = false;
-        }
     }
 
     void movePlayerDiagonally(float horizontalMovement)
@@ -224,8 +211,6 @@ public class PlayerMovement : MonoBehaviour
     void dashPlayer(int dashingDirection)
     {
         canDash = false;
-        isStepping = false;
-        StopCoroutine(nameof(stepping));
         playerAnimator.SetTrigger("dashed");
         var dashingPosition = dashingDirection == 0 ? Vector2.left : Vector2.right;
         rb.AddForce(dashSpeed * dashingPosition, ForceMode2D.Impulse);

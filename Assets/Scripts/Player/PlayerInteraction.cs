@@ -42,6 +42,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void assignVariables()
     {
+        soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         cameraShake = FindObjectOfType<CameraShake>();
         uxInteraction = FindObjectOfType<UxInteraction>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -264,8 +265,8 @@ public class PlayerInteraction : MonoBehaviour
 
     void disableControls()
     {
-        playerAttackScript.enabled = false;
-        playerMovement.enabled = false;
+        playerAttackScript.canAttack = false;
+        playerMovement.canMove = false;
     }
 
     void leftTeleport(Checkpoint checkpoint)
@@ -308,12 +309,10 @@ public class PlayerInteraction : MonoBehaviour
         uxInteraction.rightTeleport.onClick.RemoveAllListeners();
         uxInteraction.leftTeleport.onClick.RemoveAllListeners();
         uxInteraction.teleportationUx.SetActive(false);
-        playerAttackScript.enabled = true;
-        playerMovement.enabled = true;
+        playerAttackScript.canAttack = true;
+        playerMovement.canMove = true;
         teleporting = false;
-        Debug.Log("cool2");
     }
-
 
     bool isOnLadder()
     {
@@ -406,6 +405,7 @@ public class PlayerInteraction : MonoBehaviour
         uxInteraction.disableUiOnDeath();
         disableControls();
         playerStats.CurrentHp = 0;
+        soundManager.playBigHitSound();
         uxInteraction.updatePlayerHpBar(0);
         Debug.Log("Player Dead");
     }
