@@ -1789,6 +1789,7 @@ MonoBehaviour:
   spawnedBoss: 0
   bossStateManager: {fileID: 1390091571}
   lastCheckpoint: {fileID: 0}
+  golemAttackController: {fileID: 1390091565}
 --- !u!1 &71430517
 GameObject:
   m_ObjectHideFlags: 0
@@ -10458,7 +10459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &452302540
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13025,7 +13026,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556858437}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.28, y: -1.3, z: 0}
+  m_LocalPosition: {x: -1.115, y: -1.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 571519671}
@@ -27699,7 +27700,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947782654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.02, y: -0.053, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 609493991}
@@ -42758,6 +42759,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isFightingBoss: 0
   currentStage: 0
 --- !u!1 &1393069239
 GameObject:
@@ -45945,6 +45947,7 @@ MonoBehaviour:
   teleportationUx: {fileID: 1483913303}
   leftTeleport: {fileID: 2015578204}
   rightTeleport: {fileID: 1255935811}
+  bossTrigger: {fileID: 756278002}
 --- !u!114 &1529668538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51030,6 +51033,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1529668537}
         m_TargetAssemblyTypeName: UxInteraction, Assembly-CSharp
         m_MethodName: resetPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1390091565}
+        m_TargetAssemblyTypeName: GolemAttackController, Assembly-CSharp
+        m_MethodName: resetBoss
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (moving && playerInteraction.grounded && canMove)
             {
-                if (!soundManager.fxOn)
+                if (soundManager.fxOn)
                 {
                     soundManager.playStepSound();
                 }

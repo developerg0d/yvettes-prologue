@@ -34,6 +34,8 @@ public class PlayerInteraction : MonoBehaviour
     public BossStateManager bossStateManager;
 
     public Checkpoint lastCheckpoint;
+    public GolemAttackController golemAttackController;
+    private bool dead;
 
     private void Start()
     {
@@ -189,7 +191,7 @@ public class PlayerInteraction : MonoBehaviour
             lastCheckpoint = col.gameObject.GetComponent<Checkpoint>();
         }
 
-        if (col.gameObject.CompareTag("Dead") && enabled)
+        if (col.gameObject.CompareTag("Dead") && !dead)
         {
             playerCrushed();
         }
@@ -399,11 +401,13 @@ public class PlayerInteraction : MonoBehaviour
 
     public void playerRespawn()
     {
-        playerAnimator.SetBool("dead", false);
+        playerAnimator.SetTrigger("respawned");
+        dead = false;
         playerMovement.canMove = true;
         playerAttackScript.canAttack = true;
         transform.position = lastCheckpoint.transform.position;
         playerStats.CurrentHp = playerStats.MaxHp;
+        uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
     }
 
     public void playerCrushed()
@@ -413,7 +417,13 @@ public class PlayerInteraction : MonoBehaviour
             soundManager.playBigHitSound();
         }
 
-        playerAnimator.SetBool("dead", true);
+        if (bossStateManager.isFightingBoss)
+        {
+            golemAttackController.StopAllCoroutines();
+        }
+
+        dead = true;
+        playerAnimator.SetTrigger("dead");
         enabled = false;
         uxInteraction.disableUiOnDeath();
         disableControls();

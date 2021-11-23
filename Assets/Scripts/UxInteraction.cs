@@ -45,6 +45,7 @@ public class UxInteraction : MonoBehaviour
     public Button leftTeleport;
     public Button rightTeleport;
 
+    public GameObject bossTrigger;
 
     private void Start()
     {
@@ -56,11 +57,6 @@ public class UxInteraction : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Escape))
-        // {
-        //     quitGame();
-        // }
-
         if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.LeftShift))
         {
             restartGame();

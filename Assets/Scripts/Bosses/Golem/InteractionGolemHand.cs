@@ -142,7 +142,6 @@ public class InteractionGolemHand : MonoBehaviour
             {
                 soundManager.playMassiveHitSound();
             }
-
             StartCoroutine(nameof(slowTimeCoroutine));
             col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             IsSlamming = false;

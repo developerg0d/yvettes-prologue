@@ -23,6 +23,7 @@ TagManager:
   - Ux
   - Checkpoint
   - Dead
+  - Crater
   layers:
   - Default
   - TransparentFX

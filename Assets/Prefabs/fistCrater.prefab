@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 501624421524381635}
   m_Layer: 0
   m_Name: fistCrater
-  m_TagString: Ground
+  m_TagString: Crater
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

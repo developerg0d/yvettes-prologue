@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -60,6 +61,8 @@ public class GolemAttackController : MonoBehaviour
 
     public bool isFalling;
 
+    private Vector3 initialPosition;
+
     public enum BossStages
     {
         FirstStage,
@@ -74,6 +77,7 @@ public class GolemAttackController : MonoBehaviour
 
     void assignVariables()
     {
+        initialPosition = transform.position;
         bossStateManager = GetComponent<BossStateManager>();
         golemAnimator = GetComponent<Animator>();
         bossInteractionTheGolem = GetComponent<BossInteractionTheGolem>();
@@ -87,9 +91,24 @@ public class GolemAttackController : MonoBehaviour
         StartCoroutine(nameof(startFirstStageCoroutine));
     }
 
-    public void stopFirstStage()
+
+    public void resetBoss()
     {
-        // StopCoroutine(rai);
+        bossStateManager.currentStage = 0;
+        isFalling = false;
+        isBouncing = false;
+        transform.position = initialPosition;
+        leftHand.transform.position = initialHandPosition;
+        uxInteraction.bossTrigger.SetActive(true);
+        foreach (var o in GameObject.FindGameObjectsWithTag("FloatingEye"))
+        {
+            Destroy(o);
+        }
+
+        foreach (var o in GameObject.FindGameObjectsWithTag("Crater"))
+        {
+            Destroy(o);
+        }
     }
 
     IEnumerator startFirstStageCoroutine()

@@ -13,10 +13,12 @@ public class BossStateManager : MonoBehaviour
         "This script allows you to set an array of Boss Stage Events.This will allow you to customize the Boss Event Lifecycle for each boss how you please.")]
     public UnityEvent[] bossStageEvents;
 
+    public bool isFightingBoss;
     public int currentStage;
 
     public void StartBossStages()
     {
+        isFightingBoss = true;
         UpdateBossStage();
     }
 
