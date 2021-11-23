@@ -45,6 +45,7 @@ public class UxInteraction : MonoBehaviour
     public Button leftTeleport;
     public Button rightTeleport;
 
+
     private void Start()
     {
         startScreen.SetActive(true);
@@ -66,6 +67,12 @@ public class UxInteraction : MonoBehaviour
         }
     }
 
+    public void resetPlayer()
+    {
+        deathScreen.SetActive(false);
+        player.GetComponent<PlayerInteraction>().playerRespawn();
+    }
+
     public enum ArrowAngles
     {
         Deg0,
@@ -80,11 +87,7 @@ public class UxInteraction : MonoBehaviour
 
     public void startGame()
     {
-        if (soundManager.musicOn)
-        {
-            music.Play();
-        }
-
+        soundManager.playBossTheme();
         player.GetComponent<PlayerInteraction>().lastCheckpoint.activated = false;
         bossOverlay.SetActive(true);
         StartCoroutine(nameof(startGameCoroutine));

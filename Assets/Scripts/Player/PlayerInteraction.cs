@@ -52,11 +52,6 @@ public class PlayerInteraction : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void respawn()
-    {
-        Debug.Log("Respawn");
-    }
-
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Golem") && !spawnedBoss)
@@ -369,10 +364,7 @@ public class PlayerInteraction : MonoBehaviour
     private void playerHit(int damageHit = 1)
     {
         StartCoroutine(nameof(changeMaterial));
-        if (soundManager.fxOn)
-        {
-            soundManager.playHitSound();
-        }
+
 
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
@@ -386,6 +378,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             playerCrushed();
         }
+        else
+        {
+            if (soundManager.fxOn)
+            {
+                soundManager.playHitSound();
+            }
+        }
 
         StartCoroutine(nameof(hitDelay));
         Debug.Log("Hit");
@@ -398,14 +397,27 @@ public class PlayerInteraction : MonoBehaviour
         canHit = true;
     }
 
+    public void playerRespawn()
+    {
+        playerAnimator.SetBool("dead", false);
+        playerMovement.canMove = true;
+        playerAttackScript.canAttack = true;
+        transform.position = lastCheckpoint.transform.position;
+        playerStats.CurrentHp = playerStats.MaxHp;
+    }
+
     public void playerCrushed()
     {
-        playerAnimator.SetTrigger("crushed");
+        if (soundManager.fxOn)
+        {
+            soundManager.playBigHitSound();
+        }
+
+        playerAnimator.SetBool("dead", true);
         enabled = false;
         uxInteraction.disableUiOnDeath();
         disableControls();
         playerStats.CurrentHp = 0;
-        soundManager.playBigHitSound();
         uxInteraction.updatePlayerHpBar(0);
         Debug.Log("Player Dead");
     }

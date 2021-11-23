@@ -18,38 +18,82 @@ public class SoundManager : MonoBehaviour
     public AudioClip dashRenew;
     public AudioClip stepSound;
     public AudioClip mainTheme;
+    public AudioClip bossTheme;
     public Text fxToggleText;
     public Text musicToggleText;
+    private SaveSystem saveSystem;
 
     void Start()
     {
+        saveSystem = FindObjectOfType<SaveSystem>().GetComponent<SaveSystem>();
         audioSource = GetComponent<AudioSource>();
+        musicOn = saveSystem.MusicOn;
+        fxOn = saveSystem.FxOn;
+        playMainTheme();
+        updateFxText();
+        updateMusicText();
+    }
+
+    void playMainTheme()
+    {
+        if (musicOn)
+        {
+            audioSource.clip = mainTheme;
+            audioSource.Play();
+        }
+    }
+
+    public void playBossTheme()
+    {
+        if (musicOn)
+        {
+            audioSource.clip = bossTheme;
+            audioSource.Play();
+        }
+    }
+
+    void updateFxText()
+    {
+        fxToggleText.text = fxOn ? "Fx On" : "Fx Off";
     }
 
     public void toggleFx()
     {
-        if (fxOn)
+        if (saveSystem.FxOn)
         {
-            fxToggleText.text = "Fx Off";
-            fxOn = false;
-            return;
+            saveSystem.FxOn = false;
+        }
+        else
+        {
+            saveSystem.FxOn = true;
         }
 
-        fxToggleText.text = "Fx On";
-        fxOn = true;
+        saveSystem.saveBool("fxOn", saveSystem.FxOn);
+        fxOn = saveSystem.FxOn;
+        updateFxText();
+    }
+
+    void updateMusicText()
+    {
+        musicToggleText.text = musicOn ? "Music On" : "Music Off";
     }
 
     public void toggleMusic()
     {
         if (musicOn)
         {
-            musicToggleText.text = "Music Off";
-            musicOn = false;
-            return;
+            audioSource.Stop();
+            saveSystem.MusicOn = false;
+        }
+        else
+        {
+            audioSource.Play();
+            saveSystem.MusicOn = true;
         }
 
-        musicToggleText.text = "Music On";
-        musicOn = true;
+        saveSystem.saveBool("musicOn", saveSystem.MusicOn);
+        musicOn = saveSystem.MusicOn;
+        updateMusicText();
     }
 
     public void playDashRenewSound()

@@ -9,9 +9,10 @@ public class Checkpoint : MonoBehaviour
     public bool activated;
 
     public Sprite activatedSprite;
+    public Sprite unactivatedSprite;
     public GameObject[] checkpoints;
     public int currentIndex;
-    
+
     void Start()
     {
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
@@ -22,6 +23,13 @@ public class Checkpoint : MonoBehaviour
                 currentIndex = i;
             }
         }
+    }
+
+    public void deactivateCheckpoint()
+    {
+        GetComponent<SpriteRenderer>().sprite = unactivatedSprite;
+        GetComponent<BoxCollider2D>().enabled = false;
+        activated = false;
     }
 
     private void OnCollisionEnter2D(Collision2D col)

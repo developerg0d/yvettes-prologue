@@ -173,7 +173,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (moving && playerInteraction.grounded && canMove)
             {
-                soundManager.playStepSound();
+                if (!soundManager.fxOn)
+                {
+                    soundManager.playStepSound();
+                }
+
                 yield return new WaitForSeconds(stepDelay);
             }
 
