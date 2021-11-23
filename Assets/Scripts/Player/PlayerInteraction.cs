@@ -24,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool canHit;
     public bool onSideLadder;
 
+    private SpriteRenderer playerRenderer;
     public bool teleporting;
     private CameraShake cameraShake;
 
@@ -44,6 +45,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void assignVariables()
     {
+        playerRenderer = GetComponentInChildren<SpriteRenderer>();
         soundManager = GameObject.FindWithTag("AudioSource").GetComponent<AudioSource>().GetComponent<SoundManager>();
         cameraShake = FindObjectOfType<CameraShake>();
         uxInteraction = FindObjectOfType<UxInteraction>();
@@ -434,8 +436,8 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator changeMaterial()
     {
-        GetComponent<Renderer>().material = materials[1];
+        playerRenderer.material = materials[1];
         yield return new WaitForSeconds(0.2f);
-        GetComponent<Renderer>().material = materials[0];
+        playerRenderer.material = materials[0];
     }
 }

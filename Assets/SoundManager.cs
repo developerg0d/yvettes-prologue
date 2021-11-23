@@ -87,6 +87,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
+            audioSource.clip = mainTheme;
             audioSource.Play();
             saveSystem.MusicOn = true;
         }

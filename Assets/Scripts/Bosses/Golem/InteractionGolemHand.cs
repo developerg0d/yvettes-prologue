@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
@@ -17,11 +18,14 @@ public class InteractionGolemHand : MonoBehaviour
 
     public Sprite fullCrystal;
     public Sprite emptyCrystal;
-    public GameObject[] uxHp;
     public GameObject fistCrater;
     private Vector3 bottomOfFist;
     public Material[] materials;
     public GameObject floatingEye;
+
+    public GameObject hpUx;
+    public Camera mainCamera;
+    public Image bossHandHpUx;
 
     public bool IsSlamming
     {
@@ -37,19 +41,18 @@ public class InteractionGolemHand : MonoBehaviour
 
     private Animator fistAnimator;
 
-    public Sprite[] leftSideSprites;
-    public Sprite[] rightSideSprites;
+    public Sprite[] sprites;
 
     public GameObject leftSideLadder;
     public GameObject rightSideLadder;
     private GolemAttackController golemAttackController;
-    public SpriteRenderer leftSideRenderer;
-    public SpriteRenderer rightSideRenderer;
+    public SpriteRenderer spriteRenderer;
     public CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private int leftSideHp = 2;
-    [SerializeField] private int rightSideHp = 2;
+    [SerializeField] private int golemHandHp = 300;
     private bool hitPlayer;
     public bool canBeHit = true;
+
+    private int hitLevel;
 
     private SoundManager soundManager;
 
@@ -118,22 +121,7 @@ public class InteractionGolemHand : MonoBehaviour
         if ((col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Checkpoint")) &&
             IsSlamming)
         {
-            if (!hitPlayer)
-            {
-                cameraShake.shakeCamera(0.3f, 0.1f);
-            }
-
-            if (soundManager.fxOn)
-            {
-                soundManager.playMassiveHitSound();
-            }
-
-            rb.velocity = Vector2.zero;
-            canBeHit = true;
-            fistAnimator.SetBool("fistInGround", true);
-            climbingHolds.SetActive(true);
-            spawnCrater();
-            IsSlamming = false;
+            hitGround();
         }
 
         if (col.gameObject.CompareTag("Player") && isSlamming)
@@ -142,11 +130,43 @@ public class InteractionGolemHand : MonoBehaviour
             {
                 soundManager.playMassiveHitSound();
             }
+
             StartCoroutine(nameof(slowTimeCoroutine));
             col.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             IsSlamming = false;
             hitPlayer = true;
         }
+    }
+
+    private void OnGUI()
+    {
+        if (hpUx.gameObject.activeSelf)
+        {
+            Vector3 uxLocation = new Vector3(transform.position.x, transform.position.y + 5);
+
+            hpUx.transform.position = mainCamera.WorldToScreenPoint(uxLocation);
+        }
+    }
+
+    private void hitGround()
+    {
+        if (!hitPlayer)
+        {
+            cameraShake.shakeCamera(0.3f, 0.1f);
+        }
+
+        if (soundManager.fxOn)
+        {
+            soundManager.playMassiveHitSound();
+        }
+
+        hpUx.SetActive(true);
+        rb.velocity = Vector2.zero;
+        canBeHit = true;
+        fistAnimator.SetBool("fistInGround", true);
+        climbingHolds.SetActive(true);
+        spawnCrater();
+        IsSlamming = false;
     }
 
     IEnumerator slowTimeCoroutine()
@@ -170,7 +190,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.CompareTag("Player"))
         {
             Debug.Log("off fist");
             mainInteractionScript.onFist = false;
@@ -188,109 +208,91 @@ public class InteractionGolemHand : MonoBehaviour
         if (col.CompareTag("Sword") && canBeHit)
         {
             canBeHit = false;
-            var currentPosition = transform.position;
-            var playerPosition = col.transform.parent.transform.position;
-            if (playerPosition.x > currentPosition.x)
-            {
-                fistGotHit(false);
-            }
-            else
-            {
-                fistGotHit(true);
-            }
+            StartCoroutine(nameof(hitDelay));
+            fistGotHit(30);
         }
+    }
+
+    IEnumerator hitDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        canBeHit = true;
     }
 
     public void recoverAllHp()
     {
-        leftSideHp = 2;
-        rightSideHp = 2;
-        restoreHandHpUx();
-        leftSideRenderer.sprite = leftSideSprites[0];
-        rightSideRenderer.sprite = rightSideSprites[0];
+        spriteRenderer.sprite = sprites[0];
         leftSideLadder.SetActive(false);
         rightSideLadder.SetActive(false);
     }
 
-    private void fistGotHit(bool hitFromTheLeft)
+    private void fistGotHit(int damage)
     {
         cameraShake.shakeCamera(0.1f, 0.1f);
+
+        StartCoroutine(nameof(changeMaterial));
+        sideHit(damage);
+    }
+
+    IEnumerator changeMaterial()
+    {
+        spriteRenderer.material = materials[1];
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.material = materials[0];
+    }
+
+    private void sideHit(int damage)
+    {
+        if (golemHandHp > 0)
+        {
+            golemHandHp -= damage;
+            updateGolemHandHp(golemHandHp);
+        }
+
+        if (IsBetween(golemHandHp, 201, 300) && hitLevel != 1)
+        {
+            hitLevel = 1;
+            majorHit(1);
+        }
+        else if (IsBetween(golemHandHp, 101, 200) && hitLevel != 2)
+        {
+            hitLevel = 2;
+            majorHit(2);
+        }
+        else if (golemHandHp <= 0 && hitLevel != 3)
+        {
+            hitLevel = 3;
+            majorHit(3);
+            leftSideLadder.SetActive(true);
+        }
+        else
+        {
+            if (soundManager.fxOn)
+            {
+                soundManager.playHitSound();
+            }
+        }
+    }
+
+    void updateGolemHandHp(int currentHp)
+    {
+        float convertedHp = currentHp / 400f;
+        bossHandHpUx.fillAmount = convertedHp;
+    }
+
+    void majorHit(int spriteIndex)
+    {
+        golemAttackController.retractHandInstantly();
         if (soundManager.fxOn)
         {
             soundManager.playBigHitSound();
         }
 
-        golemAttackController.retractHandInstantly();
-        StartCoroutine(nameof(changeMaterial));
-        if (hitFromTheLeft)
-        {
-            leftSideHit();
-            return;
-        }
-
-        rightSideHit();
+        spriteRenderer.sprite = sprites[spriteIndex];
     }
 
-    IEnumerator changeMaterial()
+    public bool IsBetween(double testValue, double bound1, double bound2)
     {
-        leftSideRenderer.material = materials[1];
-        rightSideRenderer.material = materials[1];
-        yield return new WaitForSeconds(0.1f);
-        leftSideRenderer.material = materials[0];
-        rightSideRenderer.material = materials[0];
-    }
-
-
-    private void leftSideHit()
-    {
-        if (leftSideHp <= 0)
-        {
-            return;
-        }
-
-        updateHandHpUx(leftSideHp, true);
-        leftSideHp -= 1;
-        leftSideRenderer.sprite = leftSideSprites[leftSideHp];
-        if (leftSideHp == 0)
-        {
-            leftSideLadder.SetActive(true);
-        }
-    }
-
-    private void restoreHandHpUx()
-    {
-        GameObject parentHpUx = uxHp[0].transform.parent.gameObject;
-        Image[] uxHpImages = parentHpUx.GetComponentsInChildren<Image>();
-        foreach (var uxImage in uxHpImages)
-        {
-            if (uxImage.sprite == emptyCrystal)
-            {
-                uxImage.sprite = fullCrystal;
-            }
-        }
-    }
-
-    private void updateHandHpUx(int currentHp, bool isLeft)
-    {
-        GameObject handSideHpUx = uxHp[isLeft ? 0 : 1];
-        Image[] uxImages = handSideHpUx.GetComponentsInChildren<Image>();
-        uxImages[currentHp - 1].sprite = emptyCrystal;
-    }
-
-    private void rightSideHit()
-    {
-        if (rightSideHp < 0)
-        {
-            return;
-        }
-
-        updateHandHpUx(rightSideHp, false);
-
-        rightSideHp -= 1;
-        rightSideRenderer.sprite = rightSideSprites[rightSideHp];
-        if (rightSideHp == 0)
-        {
-            rightSideLadder.SetActive(true);
-        }
+        return (testValue >= Math.Min(bound1, bound2) && testValue <= Math.Max(bound1, bound2));
     }
 }

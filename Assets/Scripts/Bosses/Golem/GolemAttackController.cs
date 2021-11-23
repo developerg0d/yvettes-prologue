@@ -155,6 +155,8 @@ public class GolemAttackController : MonoBehaviour
 
     IEnumerator raiseHandCoroutine()
     {
+        leftHand.GetComponent<InteractionGolemHand>().hpUx.SetActive(false);
+
         if (bossInteractionTheGolem.firstStageCounter == 1)
         {
             StartCoroutine(nameof(stage1FireBalls));
