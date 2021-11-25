@@ -88,11 +88,17 @@ public class PlayerInteraction : MonoBehaviour
             playerHit();
         }
 
+
         if (col.CompareTag("ClimbingSection"))
         {
-            bool facingRight = rb.velocity.x > 0 ? true : false;
+            bool facingRight = rb.velocity.x > 0;
             uxInteraction.enableClimbingIndicator(facingRight);
         }
+    }
+
+    private void LateUpdate()
+    {
+        playerAnimator.SetBool("onSideLadder", onSideLadder);
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -133,12 +139,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (playerMovement.horizontalMovement > 0f)
             {
+                rb.gravityScale = 0.3f;
                 onSideLadder = true;
             }
 
-            if (playerMovement.horizontalMovement < 0)
+            if (playerMovement.horizontalMovement <= 0)
             {
-                onSideLadder = false;
+                rb.gravityScale = 1f;
             }
         }
 
@@ -176,7 +183,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             onSideLadder = false;
             rb.gravityScale = 1;
-            playerAnimator.SetBool("onSideLadder", false);
         }
 
         if (col.CompareTag("Ladder"))
@@ -322,8 +328,8 @@ public class PlayerInteraction : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Ground") ||
-            col.otherCollider.CompareTag("Ground"))
+        if ((col.gameObject.CompareTag("Ground") ||
+             col.otherCollider.CompareTag("Ground")) && !isOnLadder())
         {
             grounded = false;
             StartCoroutine(nameof(inAirCoroutine));
@@ -370,8 +376,6 @@ public class PlayerInteraction : MonoBehaviour
     private void playerHit(int damageHit = 1)
     {
         StartCoroutine(nameof(changeMaterial));
-
-
         cameraShake.shakeCamera(0.3f, 0.2f);
         rb.AddForce(Vector2.left * 100);
         playerStats.CurrentHp -= damageHit;

@@ -77,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
     void LateUpdate()
     {
         playerAnimator.SetBool("isScalingWall", playerInteraction.isScalingWall);
-        playerAnimator.SetBool("onSideLadder", onSideLadder);
         playerAnimator.SetBool("isSideLadderClimbing", isClimbing);
         playerAnimator.SetBool("isMoving", moving);
         playerAnimator.SetBool("onGround", playerInteraction.grounded);
@@ -193,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
     void movePlayerDiagonally(float horizontalMovement)
     {
         Vector2 horizontalDirection =
-            horizontalMovement <= 0 ? new Vector2(0, 0.5f) : new Vector2(1, 0.5f);
+            horizontalMovement <= 0 ? new Vector2(0, 0.75f) : new Vector2(1, 0.75f);
         rb.velocity = horizontalDirection * (horizontalSpeed * 0.1f);
     }
 

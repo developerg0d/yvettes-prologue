@@ -224,8 +224,7 @@ public class InteractionGolemHand : MonoBehaviour
     public void recoverAllHp()
     {
         spriteRenderer.sprite = sprites[0];
-        leftSideLadder.SetActive(false);
-        rightSideLadder.SetActive(false);
+        climbingHolds.SetActive(false);
         golemHandHp = 300;
         hitLevel = 0;
         updateGolemHandHp(golemHandHp);

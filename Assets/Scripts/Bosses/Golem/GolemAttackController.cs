@@ -98,10 +98,12 @@ public class GolemAttackController : MonoBehaviour
         isFalling = false;
         isBouncing = false;
         transform.position = initialPosition;
+        leftHand.gameObject.SetActive(true);
         leftHand.transform.position = initialHandPosition;
         leftHand.GetComponent<InteractionGolemHand>().resetGolemHand();
-
+        bossInteractionTheGolem.firstStageCounter = 0;
         uxInteraction.bossTrigger.SetActive(true);
+
         foreach (var o in GameObject.FindGameObjectsWithTag("FloatingEye"))
         {
             Destroy(o);
