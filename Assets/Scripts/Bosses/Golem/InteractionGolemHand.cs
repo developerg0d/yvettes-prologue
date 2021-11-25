@@ -12,12 +12,9 @@ public class InteractionGolemHand : MonoBehaviour
 
     public GameObject world;
     public GameObject climbingHolds;
-    public bool isMoving;
 
     private bool isSlamming;
 
-    public Sprite fullCrystal;
-    public Sprite emptyCrystal;
     public GameObject fistCrater;
     private Vector3 bottomOfFist;
     public Material[] materials;
@@ -85,7 +82,6 @@ public class InteractionGolemHand : MonoBehaviour
 
         fistAnimator.SetBool("fistInGround", false);
         canBeHit = false;
-        climbingHolds.SetActive(false);
     }
 
     void spawnLeftMob(Bounds fistColliderBounds)
@@ -118,7 +114,8 @@ public class InteractionGolemHand : MonoBehaviour
             col.gameObject.transform.SetParent(gameObject.transform);
         }
 
-        if ((col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Checkpoint")) &&
+        if ((col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Checkpoint") ||
+             col.gameObject.CompareTag("Crater")) &&
             IsSlamming)
         {
             hitGround();
@@ -136,6 +133,12 @@ public class InteractionGolemHand : MonoBehaviour
             IsSlamming = false;
             hitPlayer = true;
         }
+    }
+
+
+    public void resetGolemHand()
+    {
+        recoverAllHp();
     }
 
     private void OnGUI()
@@ -164,7 +167,6 @@ public class InteractionGolemHand : MonoBehaviour
         rb.velocity = Vector2.zero;
         canBeHit = true;
         fistAnimator.SetBool("fistInGround", true);
-        climbingHolds.SetActive(true);
         spawnCrater();
         IsSlamming = false;
     }
@@ -224,6 +226,9 @@ public class InteractionGolemHand : MonoBehaviour
         spriteRenderer.sprite = sprites[0];
         leftSideLadder.SetActive(false);
         rightSideLadder.SetActive(false);
+        golemHandHp = 300;
+        hitLevel = 0;
+        updateGolemHandHp(golemHandHp);
     }
 
     private void fistGotHit(int damage)
@@ -249,12 +254,12 @@ public class InteractionGolemHand : MonoBehaviour
             updateGolemHandHp(golemHandHp);
         }
 
-        if (IsBetween(golemHandHp, 201, 300) && hitLevel != 1)
+        if (IsBetween(golemHandHp, 101, 200) && hitLevel != 1)
         {
             hitLevel = 1;
             majorHit(1);
         }
-        else if (IsBetween(golemHandHp, 101, 200) && hitLevel != 2)
+        else if (IsBetween(golemHandHp, 1, 100) && hitLevel != 2)
         {
             hitLevel = 2;
             majorHit(2);
@@ -263,7 +268,7 @@ public class InteractionGolemHand : MonoBehaviour
         {
             hitLevel = 3;
             majorHit(3);
-            leftSideLadder.SetActive(true);
+            climbingHolds.SetActive(true);
         }
         else
         {
@@ -276,7 +281,7 @@ public class InteractionGolemHand : MonoBehaviour
 
     void updateGolemHandHp(int currentHp)
     {
-        float convertedHp = currentHp / 400f;
+        float convertedHp = currentHp / 300f;
         bossHandHpUx.fillAmount = convertedHp;
     }
 

@@ -14,8 +14,6 @@ public class floatingEyeAI : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float lookingUpdateTime;
 
-    public CameraShake cameraShake;
-
     private bool beenHit;
 
     private Rigidbody2D rigidbody2D;
@@ -35,7 +33,6 @@ public class floatingEyeAI : MonoBehaviour
     private void Start()
     {
         soundManager = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<SoundManager>();
-        cameraShake = Camera.current.GetComponent<CameraShake>();
         renderer = GetComponentInChildren<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         floatingEyeAnimator = GetComponent<Animator>();
@@ -141,7 +138,6 @@ public class floatingEyeAI : MonoBehaviour
         }
 
         beenHit = true;
-        cameraShake.shakeCamera(0.1f, 0.1f);
         StartCoroutine(nameof(dying), player.GetComponent<PlayerMovement>().isLeft);
     }
 

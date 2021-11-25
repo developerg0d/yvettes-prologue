@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool canClimb;
     public bool canHit;
     public bool onSideLadder;
+    public CinemachineVirtualCamera virtualCamera;
 
     private SpriteRenderer playerRenderer;
     public bool teleporting;
@@ -408,6 +410,9 @@ public class PlayerInteraction : MonoBehaviour
         playerMovement.canMove = true;
         playerAttackScript.canAttack = true;
         transform.position = lastCheckpoint.transform.position;
+        soundManager.playMainTheme();
+        virtualCamera.m_Lens.OrthographicSize = 10;
+        virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y = 3f;
         playerStats.CurrentHp = playerStats.MaxHp;
         uxInteraction.updatePlayerHpBar(playerStats.CurrentHp);
     }

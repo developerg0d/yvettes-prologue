@@ -34,7 +34,7 @@ public class SoundManager : MonoBehaviour
         updateMusicText();
     }
 
-    void playMainTheme()
+    public void playMainTheme()
     {
         if (musicOn)
         {
