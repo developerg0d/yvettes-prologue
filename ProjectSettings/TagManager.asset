@@ -3,7 +3,27 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Sword
+  - Ladder
+  - ScalingWall
+  - GolemHand
+  - GolemHead
+  - Golem
+  - Shockwave
+  - LazerBall
+  - FistAvoid
+  - LadderEnd
+  - SideLadder
+  - FloatingEye
+  - Sight
+  - ClimbingSection
+  - AudioSource
+  - Ux
+  - Checkpoint
+  - Dead
+  - Crater
   layers:
   - Default
   - TransparentFX
@@ -40,4 +60,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3888358207
+    locked: 0
+  - name: MidGround
+    uniqueID: 773179911
+    locked: 0
+  - name: Foreground
+    uniqueID: 1381478119
     locked: 0
